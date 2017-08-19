@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/content_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#131313"
+        android:layout_weight="1">
+    </FrameLayout>
+
+
+    <!-- todo -->
+    <android.support.design.widget.TabLayout
+        android:id="@+id/main_bottom_tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="fixed"
+        android:background="#131313">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/main_bottom_tabitem_home" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/main_bottom_tabitem_make"/>
+
+        <android.support.design.widget.TabItem
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:icon="@drawable/main_bottom_tabitem_profile" />
+
+    </android.support.design.widget.TabLayout>
+
+
+</LinearLayout>

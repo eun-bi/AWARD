@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:padding="18dp">
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="24dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/imgBadge" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"
+        android:gravity="center_vertical"
+>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="6dp"
+            android:text="뱃지 이름"
+            android:textSize="14sp"
+            android:textColor="@drawable/selector_field_text"
+            android:id="@+id/txtBadge" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="뱃지 설명"
+            android:textSize="10sp"
+            android:textColor="@drawable/selector_field_tag_text"
+            android:id="@+id/txtBadge_explain" />
+    </LinearLayout>
+
+    <CheckBox
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_weight="0"
+        android:layout_gravity="center_vertical"
+        android:focusable="false"
+        android:clickable="false"
+        android:background="@drawable/chk_field_selector"
+        android:button="@android:color/transparent"
+        android:text=""
+        android:id="@+id/chkBadge" />
+
+</LinearLayout>

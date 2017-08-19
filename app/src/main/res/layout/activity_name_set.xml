@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#131313"
+    tools:context="com.example.user.myapplication.NameSetActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/back"
+            android:onClick="onBtnMenu" />
+
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="#00000000"
+            android:onClick="onBtnMenu"
+            android:text="확인"
+            android:textColor="#FFFFFFFF"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:paddingTop="30dp"
+            android:paddingLeft="16dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="25sp"
+                    android:text="  "
+                    android:textColor="#ffffff"
+                    android:id="@+id/txtName" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:text="님," />
+
+            </LinearLayout>
+
+            <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#ffffff"
+                        android:text="안녕하세요!" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:padding="20dp">
+
+            <ImageView
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#00000000"
+                        android:id="@+id/img_Profile" />
+
+            <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:textColor="#40ffffff"
+                        android:text="사진 설정하기"
+                        android:textSize="12sp"
+                        android:id="@+id/btnImgSet" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#0d0d0d">
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:padding="16dp"
+                    android:inputType="textNoSuggestions"
+                    android:textColor="#b7b7b7"
+                    android:hint="닉네임을 입력해주세요"
+                    android:textColorHint="#40ffffff"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:id="@+id/editName" />
+
+            <Button
+                    android:layout_width="53dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="16dp"
+                    android:enabled="false"
+                    android:background="@drawable/chk_name_deact"
+                    android:id="@+id/btnChk" />
+        </LinearLayout>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text=" "
+                android:textSize="10sp"
+                android:textColor="#db9a7a"
+                android:id="@+id/txtChk" />
+
+    </LinearLayout>
+</LinearLayout>

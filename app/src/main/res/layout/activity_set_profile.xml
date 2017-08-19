@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0d0d0d"
+    tools:context=".Setting.setProfileActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:background="#0d0d0d"
+            android:shadowColor="#ff464646"
+            android:shadowDx="1.0"
+            android:shadowDy="1.0"
+            android:shadowRadius="1.0"
+            android:gravity="center"
+            android:text="프로필 관리"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/back" />
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="#00000000"
+            android:onClick="onBtnMenu"
+            android:text="확인"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_weight="5"
+        android:layout_height="0dp">
+
+        <ImageView
+            android:layout_width="94dp"
+            android:layout_height="94dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="30dp"
+            android:background="#111111"
+            android:id="@+id/img_Profile" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:textColor="#80ffffff"
+            android:text="사진 설정하기"
+            android:id="@+id/btn_pic"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="닉네임"
+            android:textSize="10sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="12dp"
+            android:textColor="#80ffffff"
+            android:id="@+id/txtName"/>
+     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#0d0d0d">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="입력해주세요"
+                android:layout_weight="8"
+                android:padding="16dp"
+                android:textColorHint="#80ffffff"
+                android:textColor="#ffffff"
+                android:background="@null"
+                android:inputType="textNoSuggestions"
+                android:textSize="14sp"
+                android:id="@+id/editName" />
+
+            <Button
+                android:layout_width="53dp"
+                android:layout_height="20dp"
+
+                android:layout_marginRight="16dp"
+                android:enabled="false"
+                android:background="@drawable/chk_name_deact"
+                android:id="@+id/btnChk" />
+
+        </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text=" "
+            android:textSize="10sp"
+            android:textColor="#db9a7a"
+            android:id="@+id/txtChk" />
+
+
+
+</LinearLayout>

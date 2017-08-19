@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="field">
+        <item>영화</item>
+        <item>애니메이션</item>
+        <item>드라마</item>
+        <item>웹툰</item>
+        <item>만화</item>
+        <item>소설</item>
+        <item>음악</item>
+        <item>연극</item>
+        <item>뮤지컬</item>
+    </string-array>
+</resources>

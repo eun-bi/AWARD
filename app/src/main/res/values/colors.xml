@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="scrollBar">#3b3b3b</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
+    <color name="white_40">#3dffffff</color>
+    <color name="press">#050505</color>
+    <color name="basic">#131313</color>
+    <color name="black_alpha_40">#66000000</color>
+
+</resources>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0d0d0d"
+    tools:context=".MyField.MyFieldActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/back"
+            android:onClick="onBtnMenu"
+            android:textColor="#FFFFFFFF" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:background="#0d0d0d"
+            android:shadowColor="#ff464646"
+            android:shadowDx="1.0"
+            android:shadowDy="1.0"
+            android:shadowRadius="1.0"
+            android:gravity="center"
+            android:text="내 관심분야"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="#00000000"
+            android:onClick="onBtnMenu"
+            android:text="확인"
+            android:textColor="#ffffffff"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="131dp"
+        android:paddingLeft="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:text="관심 분야를 설정해 주세요!" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp">
+
+            <ToggleButton
+                android:layout_width="62dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="11dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/movie_deact"
+                android:id="@+id/btnMovie" />
+
+            <ToggleButton
+                android:layout_width="96dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="11dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/ani_deact"
+                android:id="@+id/btnAni" />
+
+            <ToggleButton
+                android:layout_width="72dp"
+                android:layout_height="30dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/drama_deact"
+                android:id="@+id/btnDrama" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp">
+
+            <ToggleButton
+                android:layout_width="62dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="11dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/fiction_deact"
+                android:id="@+id/btnNovel" />
+
+            <ToggleButton
+                android:layout_width="72dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="11dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/musical_deact"
+                android:id="@+id/btnMusical" />
+
+            <ToggleButton
+                android:layout_width="62dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="11dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/play_deact"
+                android:id="@+id/btnPlay" />
+
+            <ToggleButton
+                android:layout_width="62dp"
+                android:layout_height="30dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/toon_deact"
+                android:id="@+id/btnComic" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ToggleButton
+                android:layout_width="62dp"
+                android:layout_height="30dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/webtoon_deact"
+                android:id="@+id/btnWebtoon" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
