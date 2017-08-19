@@ -47,7 +47,6 @@ import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,7 +137,8 @@ public class LoginActivity extends AppCompatActivity {
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
 //        Session.getCurrentSession().checkAndImplicitOpen();
-        Session.getCurrentSession().open(AuthType.KAKAO_TALK_EXCLUDE_NATIVE_LOGIN,LoginActivity.this);
+        Session.getCurrentSession().open(AuthType.KAKAO_TALK,LoginActivity.this);
+//        Session.getCurrentSession().open(AuthType.KAKAO_TALK_EXCLUDE_NATIVE_LOGIN,LoginActivity.this);
 
     }
 
@@ -418,22 +418,22 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
 
             // sharedpreferences 로그인 정보 저장
-            SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(LoginActivity.this);
-            prefereneUtil.putSharedPreferences("user_id", user_id);
-            prefereneUtil.putLoginchk("login_chk", true);
+//            SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(LoginActivity.this);
+//            prefereneUtil.putSharedPreferences("user_id", user_id);
+//            prefereneUtil.putLoginchk("login_chk", true);
 
-            if(!TextUtils.isEmpty(prefereneUtil.getSharedPreferences("user_id",user_id))){
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-            else{
+//            if(!TextUtils.isEmpty(prefereneUtil.getSharedPreferences("user_id",user_id))){
+//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                startActivity(intent);
+//            }
+//            else{
                 Intent intent = new Intent(LoginActivity.this,NameSetActivity.class);
                 intent.putExtra("user_id",user_id);
                 intent.putExtra("user_img_path",user_img_path);
                 intent.putExtra("user_name_a", user_name_a);
                 startActivity(intent);
-            }
-
+//            }
+//
 
             LoginActivity.this.finish();
         }

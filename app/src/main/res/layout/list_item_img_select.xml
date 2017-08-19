@@ -4,22 +4,26 @@
     android:layout_height="match_parent"
     android:padding="1dp">
 
-        <ImageView
-            android:id="@+id/img_select"
-            android:scaleType="centerCrop"
-            android:elevation="2dp"
-            android:layout_width="120dp"
-            android:layout_height="120dp" />
+    <ImageView
+        android:id="@+id/img_select"
+        android:scaleType="centerCrop"
+        android:elevation="2dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp" />
 
-        <CheckBox
-                android:id="@+id/img_checkbox"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="start"
-                android:background="@drawable/chk_field_selector"
-                android:button="@android:color/transparent"
-                android:clickable="false"
-                android:focusable="false"
-                android:text=""/>
+    <CheckBox
+        android:id="@+id/img_checkbox"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="start"
+        android:background="@drawable/chk_field_selector"
+        android:button="@android:color/transparent"
+        android:clickable="false"
+        android:focusable="false"
+        android:visibility="visible"
+        android:text=""/>
+
+
+
 
     </FrameLayout>

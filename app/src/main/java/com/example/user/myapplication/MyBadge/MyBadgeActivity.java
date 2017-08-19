@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,8 +43,7 @@ public class MyBadgeActivity extends AppCompatActivity {
 
     public ArrayList<String> parentList, parentList2;
     public ArrayList<ArrayList<String>> childList, childList2;
-    private ArrayList<String> childContent;
-
+    private ArrayList<String> childContent1,childContent2;
 
     private String field;
     private String badges;
@@ -52,6 +52,9 @@ public class MyBadgeActivity extends AppCompatActivity {
 
     private JSONObject myawards_json;
     private String interested_list, uninterested_list;
+
+    private ArrayList<Group> groups = null;
+    private ArrayList<Group> ungroups = null;
 
 
 
@@ -72,20 +75,6 @@ public class MyBadgeActivity extends AppCompatActivity {
         SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
         user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
 
-
-        // interest
-        parentList = new ArrayList<String>(); // 어워드 목록
-        childList = new ArrayList<ArrayList<String>>(); // 어워드에 맞는 뱃지 목록
-
-        mlikeExpListViewAdapter = new LikeExpandableListViewAdapter(getApplicationContext(),parentList,childList);
-        badge_interested_expandableList.setAdapter(mlikeExpListViewAdapter);
-
-        // notinterest
-        parentList2 = new ArrayList<String>();
-        childList = new ArrayList<ArrayList<String>>();
-
-        unlikeExpandableListViewAdapter = new unlikeExpandableListViewAdapter(getApplicationContext(),parentList2,childList2);
-        badge_uninterested_expandableList.setAdapter(unlikeExpandableListViewAdapter);
 
         try {
 
@@ -109,7 +98,6 @@ public class MyBadgeActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     class loadList extends AsyncTask<String,String,JSONObject>{
@@ -120,70 +108,170 @@ public class MyBadgeActivity extends AppCompatActivity {
 
             try {
 
+                groups = new ArrayList<Group>();
+                ArrayList<Child> children = null;
+
                 Log.d("loadList", "func : " + interested_list);
                 JSONArray interested_array = new JSONArray(interested_list);
 
                 for (int i = 0; i < interested_array.length(); i++) {
 
-                    childContent = new ArrayList<String>();
+//                    parentList = new ArrayList<String>(); // 어워드 목록
+//                    childContent1 = new ArrayList<String>();
+//                    childList = new ArrayList<ArrayList<String>>(); // 어워드에 맞는 뱃지 목록
 
+                    Group group = new Group();
                     JSONObject jo = interested_array.getJSONObject(i);
                     field = jo.getString("field");
-                    parentList.add(i, field);
+
+                    if(field.equalsIgnoreCase("movie")){
+                        field = "영화";
+                    }
+                    else if(field.equalsIgnoreCase("animation")){
+                        field = "애니메이션";
+                    }
+                    else if(field.equalsIgnoreCase("drama")){
+                        field = "드라마";
+                    }
+                    else if(field.equalsIgnoreCase("novel")){
+                        field = "소설";
+                    }
+                    else if(field.equalsIgnoreCase("comic")){
+                        field = "만화";
+                    }
+                    else if(field.equalsIgnoreCase("novel")){
+                        field = "소설";
+                    }
+                    else if(field.equalsIgnoreCase("webtoon")){
+                        field = "웹툰";
+                    }
+                    else if(field.equalsIgnoreCase("act")){
+                        field = "연극";
+                    }
+                    else if(field.equalsIgnoreCase("musical")){
+                        field = "뮤지컬";
+                    }
+                    else if(field.equalsIgnoreCase("music")){
+                        field = "음악";
+                    }
                     Log.d("field",field);
+                    group.setField(field);
 
-//                    int index = parentList.indexOf(field);
-//                    Log.i("index", String.valueOf(index));
-
+                    children = new ArrayList<Child>();
                     badges = jo.getString("badges");
                     JSONArray ja2 = new JSONArray(badges); // 뱃지 배열
 
                     for (int j = 0; j < ja2.length(); j++) {
 
+                        Child child = new Child();
                         JSONObject jo1 = ja2.getJSONObject(j);
                         badge_name = jo1.getString("badge_name");
                         Log.i("뱃지 이름:  ", badge_name);
 
-                        childContent.add(j, badge_name);
-                        childList.add(i, childContent);
+                        child.setBadge_name(badge_name);
+                        children.add(child);
+//                        if(TextUtils.isEmpty(badge_name)){
+//                            badge_name = " ";
+//                        }
+//                        childContent1.add(j, badge_name);
+
 //                        childList.get(i).add(badge_name);
                        // childContent.add(j,badge_name);
                     }
-
-                    Log.i("content", childList.toString());
+                    group.setItems(children);
+                    groups.add(group);
+//                    childList.add(i, childContent1);
+//                    Log.i("content", childList.toString());
                 }
 
-                Log.i("parent", parentList.toString());
-                Log.i("child" , childList.toString());
+//                Log.i("parent", parentList.toString());
+//                Log.i("child" , childList.toString());
+
+
+                ///////////////////////* uninterested *//////////////////////////
 
                 Log.d("loadList_uninterested", "func : " + uninterested_list);
                 JSONArray uninterested_array = new JSONArray(uninterested_list);
+//                parentList2 = new ArrayList<String>();
+                ungroups = new ArrayList<Group>();
+                ArrayList<Child> unchildren = null;
 
                 for(int i=0; i<uninterested_array.length(); i++){
 
-                    childContent = new ArrayList<String>();
+                    // notinterest
+//
+//                    childList2 = new ArrayList<ArrayList<String>>();
+//                    childContent2 = new ArrayList<String>();
 
+                    Group ungroup = new Group();
                     JSONObject jo1 = uninterested_array.getJSONObject(i);
 
                     field = jo1.getString("field");
-                    parentList2.add(i, field);
-                    Log.d("field", field);
 
+                    if(field.equalsIgnoreCase("movie")){
+                        field = "영화";
+                    }
+                    else if(field.equalsIgnoreCase("animation")){
+                        field = "애니메이션";
+                    }
+                    else if(field.equalsIgnoreCase("drama")){
+                        field = "드라마";
+                    }
+                    else if(field.equalsIgnoreCase("novel")){
+                        field = "소설";
+                    }
+                    else if(field.equalsIgnoreCase("comic")){
+                        field = "만화";
+                    }
+                    else if(field.equalsIgnoreCase("novel")){
+                        field = "소설";
+                    }
+                    else if(field.equalsIgnoreCase("webtoon")){
+                        field = "웹툰";
+                    }
+                    else if(field.equalsIgnoreCase("act")){
+                        field = "연극";
+                    }
+                    else if(field.equalsIgnoreCase("musical")){
+                        field = "뮤지컬";
+                    }
+                    else if(field.equalsIgnoreCase("music")){
+                        field = "음악";
+                    }
+
+                    Log.d("field", field);
+                    ungroup.setField(field);
+
+                    unchildren = new ArrayList<Child>();
                     badges = jo1.getString("badges");
                     JSONArray ja2 = new JSONArray(badges); // 뱃지 배열
 
                     for (int j = 0; j < ja2.length(); j++) {
 
+                        Child unchild = new Child();
                         JSONObject jsonObject = ja2.getJSONObject(j);
                         badge_name = jsonObject.getString("badge_name");
-                        Log.i("뱃지 이름:  ", badge_name);
 
-                        childContent.add(j,badge_name);
-                        childList2.add(i, childContent);
+//                        if(TextUtils.isEmpty(badge_name)){
+//                            badge_name = "뱃지가 없습니다.";
+//                        }
+
+                        Log.i("뱃지 이름:  ", badge_name);
+                        unchild.setBadge_name(badge_name);
+                        unchildren.add(unchild);
+//                        childContent2.add(j,badge_name);
+//                        Log.i("content", childContent2.toString());
 
                     }
 
-                    Log.i("content", childList2.toString());
+                    ungroup.setItems(unchildren);
+                    ungroups.add(ungroup);
+
+//                    childList2.add(i, childContent2);
+//                    Log.i("content", childList2.toString());
+//
+//                    Log.i("parent", parentList2.toString());
+//                    Log.i("child" , childList2.toString());
 
                 }
 
@@ -195,6 +283,12 @@ public class MyBadgeActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(JSONObject jObj) {
+
+            mlikeExpListViewAdapter = new LikeExpandableListViewAdapter(getApplicationContext(),groups);
+            badge_interested_expandableList.setAdapter(mlikeExpListViewAdapter);
+
+            unlikeExpandableListViewAdapter = new unlikeExpandableListViewAdapter(getApplicationContext(),ungroups);
+            badge_uninterested_expandableList.setAdapter(unlikeExpandableListViewAdapter);
 
             mlikeExpListViewAdapter.notifyDataSetChanged();
             unlikeExpandableListViewAdapter.notifyDataSetChanged();
@@ -220,40 +314,18 @@ public class MyBadgeActivity extends AppCompatActivity {
             }
         });
 
-        badge_interested_expandableList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                Toast.makeText(getApplicationContext(), "Group Clicked " + parentList.get(groupPosition), Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
-        badge_interested_expandableList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(), parentList.get(groupPosition) + " Expanded", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Listview Group collasped listener
-        badge_interested_expandableList.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getApplicationContext(), parentList.get(groupPosition) + " Collapsed", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         // Listview on child click listener
         badge_interested_expandableList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                String badge_name = (String)parent.getExpandableListAdapter().getChild(groupPosition,childPosition);
+//                String badge_name = (String)parent.getExpandableListAdapter().getChild(groupPosition,childPosition);
+
+                Child child_badge = (Child)parent.getExpandableListAdapter().getChild(groupPosition,childPosition);
 
                 Intent intent = new Intent(MyBadgeActivity.this, BadgeDetailActivity.class);
-                intent.putExtra("badge_name", badge_name);
+                intent.putExtra("badge_name", child_badge.getBadge_name());
                 startActivity(intent);
                 MyBadgeActivity.this.finish();
 
@@ -273,10 +345,9 @@ public class MyBadgeActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                String badge_name = (String)parent.getExpandableListAdapter().getChild(groupPosition,childPosition);
-
+                Child child_badge = (Child)parent.getExpandableListAdapter().getChild(groupPosition,childPosition);
                 Intent intent = new Intent(MyBadgeActivity.this, BadgeDetailActivity.class);
-                intent.putExtra("badge_name", badge_name);
+                intent.putExtra("badge_name", child_badge.getBadge_name());
                 startActivity(intent);
                 MyBadgeActivity.this.finish();
 

@@ -30,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
@@ -45,6 +46,7 @@ public class NominateActivity extends AppCompatActivity {
     private TextView txtNominate_tag;
 
     private String field;
+    private String nominate;
 
     NominateListAdapter nominateListAdapter;
 
@@ -53,6 +55,7 @@ public class NominateActivity extends AppCompatActivity {
 
     private String nominate_name;
 
+    private ArrayList<String> nominate_title_list;
     String nomi_description;
 
     private static final String URL_ = Award.AWARD_URL + "Award_server/Award/nominate.jsp";
@@ -81,6 +84,7 @@ public class NominateActivity extends AppCompatActivity {
 
     private void makeList() {
 
+
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(),R.layout.item_spinner, fields);
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinner_nominate.setAdapter(adapter);
@@ -106,7 +110,9 @@ public class NominateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(NominateActivity.this, MakeAwardActivity1.class);
                 intent.putExtra("Award_field", field);
-                intent.putExtra("nominate", nominate_name);
+                intent.putExtra("nominate", nominate);
+                Log.d("nominate", nominate);
+                Log.d("nominate",field);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
@@ -179,6 +185,17 @@ public class NominateActivity extends AppCompatActivity {
                 btn_sisang.setEnabled(true);
                 btn_sisang.setBackgroundResource(R.drawable.btn_sisang_act);
                 nominateListAdapter.notifyDataSetChanged();
+
+                nominate = nominateListAdapter.getTitle(position);
+//                nominate = nominate_title_list.get(position);
+//                // todo test
+//                // 시상하기로 바로 넘어갈 경우
+//                Intent intent = new Intent(NominateActivity.this, MakeAwardActivity1.class);
+//                intent.putExtra("nominate", nominate);
+//                intent.putExtra("Award_field",field);
+//                Log.d("nominate_test_name", nominate);
+//                Log.d("nominate_test_field",field);
+//                startActivity(intent);
             }
         });
 
@@ -212,10 +229,12 @@ public class NominateActivity extends AppCompatActivity {
             JSONArray ja2 = new JSONArray(nomi_title_array);
 
             for(int j=0; j<ja2.length(); j++){
+//                nominate_title_list = new ArrayList<>();
                 String nomi_title = ja2.getString(j);
                 Log.i("노미네이션 이름:  ", nomi_title);
 
                 nominateListAdapter.addItem(nomi_title);
+//                nominate_title_list.add(nomi_title);
                 nominate_name = nomi_title;
 
             }

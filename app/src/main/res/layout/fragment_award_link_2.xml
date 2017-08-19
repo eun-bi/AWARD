@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#040404">
+    android:background="#0d0d0d">
 
     <ImageButton
         android:layout_width="33dp"

@@ -39,6 +39,7 @@ import android.widget.ScrollView;
 
 import com.bumptech.glide.Glide;
 import com.example.user.myapplication.Award;
+import com.example.user.myapplication.MakeAward.MakeAwardActivity3;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.SharedPrefereneUtil;
 import com.example.user.myapplication.network.JSONParser;
@@ -68,8 +69,6 @@ public class AwardImageFragment2 extends Fragment {
 
     private Uri mImageUri;
 
-    private ArrayList<String> imagesPathList = null;
-
     private String absolutePath;
 
     private Bitmap yourbitmap;
@@ -95,8 +94,6 @@ public class AwardImageFragment2 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-      imagesPathList = new ArrayList<String>();
 
         SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getContext());
         user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
@@ -296,9 +293,16 @@ public class AwardImageFragment2 extends Fragment {
     /* 앨범에서 이미지 */
     private void doTakeAlbumAction() {
 
-        Intent intent = new Intent(getActivity(), ImageSelectActivity.class);
-        intent.putExtra("award_id",award_id);
-        startActivity(intent);
+        /* 사진 다중 선택 */
+//        Intent intent = new Intent(getActivity(), ImageSelectActivity.class);
+//        intent.putExtra("award_id",award_id);
+//        startActivity(intent);
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, PICK_FROM_ALBUM);
+
         //intent.setType("image/*");
         //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true); // 이미지 여러장
         //intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -316,78 +320,90 @@ public class AwardImageFragment2 extends Fragment {
             return;
         }
 
-        else if(resultCode == Activity.RESULT_OK  && requestCode == PICK_FROM_ALBUM){
-                //  imagesPathList = new ArrayList<String>();
+//        else if(resultCode == Activity.RESULT_OK  && requestCode == PICK_FROM_ALBUM){
+//                //  imagesPathList = new ArrayList<String>();
+//
+//                Log.w("제대로","받았다");
+//                Log.w("data",data.getStringExtra("data"));
+//
+//                String[] imagesPath =  data.getStringExtra("data").split("\\|");
+//
+//                for (int i = 0; i < imagesPath.length; i++) {
+//
+//                    imagesPathList.add(imagesPath[i]);
+//                    Log.w("img_:album", "file://" + imagesPathList.get(i));
+//
+//                    absolutePath = "file://" + imagesPathList.get(i);
+//                    Log.w("absolutePath", absolutePath);
+//                }
+//        }
 
-                Log.w("제대로","받았다");
-                Log.w("data",data.getStringExtra("data"));
 
-                String[] imagesPath =  data.getStringExtra("data").split("\\|");
+        switch (requestCode) {
 
-                for (int i = 0; i < imagesPath.length; i++) {
+            case CROP_FROM_CAMERA :{
+                Log.w("state", "카메라");
 
-                    imagesPathList.add(imagesPath[i]);
-                    Log.w("img_:album", "file://" + imagesPathList.get(i));
-
-                    absolutePath = "file://" + imagesPathList.get(i);
-                    Log.w("absolutePath", absolutePath);
-                }
-        }
-
-        else if(requestCode == CROP_FROM_CAMERA){
-            Log.w("state", "카메라");
-
-            final Bundle extras = data.getExtras();
+                final Bundle extras = data.getExtras();
 //            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            if(extras != null){
+                if(extras != null){
 
-                mImageUri = data.getData();
-                Log.w("camera_img_path", mImageUri.toString());
+                    mImageUri = data.getData();
+                    Log.w("camera_img_path", mImageUri.toString());
 
-                try {
-                    Bitmap mlmageImg =  MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mImageUri);
-//                    subImageAdapter.addItem(1, "test", mlmageImg);
+                    //new UploadImg().execute(award_id);
+//
+//                    try {
+//                        Bitmap mlmageImg =  MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mImageUri);
+////                    subImageAdapter.addItem(1, "test", mlmageImg);
+//
+////                    Cursor c = getActivity().getContentResolver().query(Uri.parse(mImageUri.toString()), null, null, null, null);
+////                    c.moveToFirst();
+////                    absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+////                    Log.w("absolutePath", absolutePath);
+//
+//                        Cursor cursor = getActivity().getContentResolver().query(Uri.parse(mImageUri.toString()),null, null, null, null);
+//                        cursor.moveToNext();
+//
+////                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                        absolutePath = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
+//                        Log.w("camera", absolutePath);
+//
+//                    }
+//
+//                    catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
 
-//                    Cursor c = getActivity().getContentResolver().query(Uri.parse(mImageUri.toString()), null, null, null, null);
-//                    c.moveToFirst();
-//                    absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-//                    Log.w("absolutePath", absolutePath);
 
-                    Cursor cursor = getActivity().getContentResolver().query(Uri.parse(mImageUri.toString()),null, null, null, null);
-                    cursor.moveToNext();
 
-//                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    absolutePath = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
-                    Log.w("camera", absolutePath);
+                    //subImageAdapter.addItem(1, "test", absolutePath);
 
-                    imagesPathList.add(absolutePath);
                 }
 
-                 catch (IOException e) {
-                    e.printStackTrace();
+                // 임시 파일 삭제
+                File f = new File(mImageCaptureUri.getPath());
+                if (f.exists()) {
+                    f.delete();
                 }
 
-
-
-                //subImageAdapter.addItem(1, "test", absolutePath);
-
+                break;
             }
 
-            // 임시 파일 삭제
-            File f = new File(mImageCaptureUri.getPath());
-            if (f.exists()) {
-                f.delete();
+            case PICK_FROM_ALBUM:{
+                // 이후의 처리가 카메라와 같으므로 일단  break없이 진행합니다.
+                // 실제 코드에서는 좀더 합리적인 방법을 선택하시기 바랍니다.
+
+                mImageCaptureUri = data.getData();
             }
 
-        }
+            case PICK_FROM_CAMERA:{
+                // 이미지를 가져온 이후의 리사이즈할 이미지 크기를 결정합니다.
+                // 이후에 이미지 크롭 어플리케이션을 호출하게 됩니다.
 
-        else if(requestCode == PICK_FROM_CAMERA){
-            // 이미지를 가져온 이후의 리사이즈할 이미지 크기를 결정합니다.
-            // 이후에 이미지 크롭 어플리케이션을 호출하게 됩니다.
-
-            Intent intent = new Intent("com.android.camera.action.CROP");
-            intent.setDataAndType(mImageCaptureUri, "image/*");
+                Intent intent = new Intent("com.android.camera.action.CROP");
+                intent.setDataAndType(mImageCaptureUri, "image/*");
 
 /*                intent.putExtra("outputX", 90);
                 intent.putExtra("outputY", 90);
@@ -396,11 +412,12 @@ public class AwardImageFragment2 extends Fragment {
                 intent.putExtra("scale", true);
                 intent.putExtra("return-data", true);*/
 
-            intent.putExtra("scale", true);
-            intent.putExtra("return-data", true);
-            intent.putExtra("output", mImageCaptureUri);
-            startActivityForResult(intent, CROP_FROM_CAMERA);
+                intent.putExtra("scale", true);
+                intent.putExtra("return-data", true);
+                intent.putExtra("output", mImageCaptureUri);
+                startActivityForResult(intent, CROP_FROM_CAMERA);
 
+            }
         }
 
         subImageAdapter.notifyDataSetChanged();
@@ -613,6 +630,7 @@ public class AwardImageFragment2 extends Fragment {
     }
 
     public class AwardSubImageAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
 
         private final static String IMAGE_URL = Award.IMAGE_URL + "subImages/";
 

@@ -262,7 +262,7 @@ public class MyFeedAwardFragment extends Fragment implements View.OnTouchListene
                 Log.d("loadList", "func : 비었다");
 
                 // todo 작품등록 안 했을 시 default image 보여주는 fragment 연결
-
+                mSwipeRefreshLayout.setBackgroundResource(R.drawable.default_feed_img);
 
 //                ListView listView = (ListView) findViewById(R.id.list_myAward);
                 //listView.removeFooterView(listFooter);
@@ -273,6 +273,9 @@ public class MyFeedAwardFragment extends Fragment implements View.OnTouchListene
 //                loadingMore = false;
 //            }
             else {
+
+                mSwipeRefreshLayout.setBackgroundResource(R.drawable.default_img_result);
+
                 for(int i = 0; i < awardListObj.length(); i++) {
                     String awardInfo = awardListObj.getJSONObject(i).toString();
                     MyFeedAward myFeedAward = gson.fromJson(awardInfo, MyFeedAward.class);

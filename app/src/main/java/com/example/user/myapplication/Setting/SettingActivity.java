@@ -101,6 +101,7 @@ public class SettingActivity extends AppCompatActivity {
                                         @Override
                                         public void onCompleteLogout() {
                                             Log.d("kakao", " logout");
+
                                             // sharedpreferences
                                             SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(SettingActivity.this);
                                             prefereneUtil.removeSharedPreferences(user_id);

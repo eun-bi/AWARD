@@ -3,6 +3,7 @@ package com.example.user.myapplication.MyAward;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,7 @@ public class AwardDetailAdapter extends BaseAdapter {
         TextView txtAward_title = (TextView)convertView.findViewById(R.id.txtAward_title);
         TextView txtAward_date = (TextView)convertView.findViewById(R.id.txtAward_date);
 
-        AwardDetail awardDetail = awardDetaillist.get(position);
+        final AwardDetail awardDetail = awardDetaillist.get(position);
 
         Glide
                 .with(context)
@@ -81,7 +82,9 @@ public class AwardDetailAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AwardResultActivity.class);
-                intent.putExtra("award_id", awardDetaillist.get(position).getAward_id());
+                intent.putExtra("award_id", awardDetail.getAward_id());
+                intent.putExtra("award_next","0");
+                Log.d("award_id", awardDetaillist.get(position).getAward_id());
                 context.startActivity(intent);
             }
         });

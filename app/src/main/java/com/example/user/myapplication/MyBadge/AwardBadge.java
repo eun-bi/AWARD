@@ -10,6 +10,8 @@ public class AwardBadge {
     String badge_icon;
     String badge_tag;
 
+
+
     public String getBadge_tag() {
         return badge_tag;
     }

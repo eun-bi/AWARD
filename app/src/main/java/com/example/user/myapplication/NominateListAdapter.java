@@ -41,6 +41,10 @@ public class NominateListAdapter extends BaseAdapter {
 
     }
 
+    public String getTitle(int position){
+        return nominate.get(position).getNomi_title();
+    }
+
     public void update(){
         this.notifyDataSetChanged();
     }

@@ -66,7 +66,7 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 }
                 else{
-
+                    Toast.makeText(getApplicationContext(),"네트워크 연결을 확인해주세요.",Toast.LENGTH_LONG).show();
                 }
 
 

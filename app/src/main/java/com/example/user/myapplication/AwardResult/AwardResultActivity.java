@@ -38,6 +38,7 @@ import com.bumptech.glide.Glide;
 import com.example.user.myapplication.Award;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.SharedPrefereneUtil;
+import com.example.user.myapplication.Util;
 import com.example.user.myapplication.network.JSONParser;
 
 import org.json.JSONException;
@@ -50,7 +51,7 @@ public class AwardResultActivity extends AppCompatActivity {
 
     private final static String IMAGE_URL = Award.IMAGE_URL + "Image/";
     private static final String URL_ = Award.AWARD_URL + "Award_server/Award/delete_Award.jsp";
-    private static final String get_url = Award.AWARD_URL + "Award_server/Award/myAward_award.jsp";
+    private static final String get_url = Award.AWARD_URL + "Award_server/Award/mypage_award_detail.jsp";
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
@@ -85,58 +86,13 @@ public class AwardResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_award_result);
+        Util.setGlobalFont(this, getWindow().getDecorView()); // font 적용
 
         Intent intent = getIntent();
         awardResultBundle = intent.getBundleExtra("awardResultBundle");
 
-
         SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
         user_id = prefereneUtil.getSharedPreferences("user_id", user_id);
-
-//        // AwardsDetail 에서 넘어온 경우
-//
-//        award_id = intent.getStringExtra("award_id");
-//
-//        if(TextUtils.isEmpty("award_id")){
-//            Log.i("intent"," x");
-//            return;
-//        }else {
-//            // award_id로 요청했을 시 title, field, img_path 받아오기
-//
-//
-//            try {
-//                award_json = new GetAward().execute(user_id, award_id).get();
-//                award_title = award_json.getString("award_title");
-//                award_field = award_json.getString("award_field");
-//                award_img_path = award_json.getString("award_img_path");
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-
-//
-//            txtAward_result_title.setText(award_title);
-//            txtAward_result_field.setText(award_field);
-//
-//            if(TextUtils.isEmpty(award_img_path)){
-//                award_result_img.setImageResource(R.drawable.default_img_result);
-//            }
-//            Glide
-//                    .with(this)
-//                    .load(IMAGE_URL + award_img_path)
-//                    .fitCenter()
-//                    .crossFade()
-//                    .centerCrop()
-//                    .override(400,400)
-//                    .thumbnail(0.1f)
-//                    .into(award_result_img);
-//
-
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -163,7 +119,8 @@ public class AwardResultActivity extends AppCompatActivity {
 
     }
 
-    // 갱신 문제 해결 ?
+    //todo test
+    // 갱신 문제
     @Override
     protected void onResume() {
         super.onResume();
@@ -171,37 +128,85 @@ public class AwardResultActivity extends AppCompatActivity {
     }
 
     private void setView() {
-        /**
-         * Result의 contentScrim 부분에 대해 setting
-         * Feed에서 Bundle로 받아온 img_path, title 부분에 대한 setting
-         * */
 
-        resultImagePath_FromBundle = awardResultBundle.getString("award_img_path");
-        resultTitle_FromBundle = awardResultBundle.getString("award_title");
-        resultCaption_FromBundle = awardResultBundle.getString("award_caption");
-        resultField_FromBundle = awardResultBundle.getString("award_field");
-        resultAward_FromBundle = awardResultBundle.getString("award_id");
+        // AwardsDetail 에서 넘어온 경우
 
-        txtAward_result_field.setText(resultField_FromBundle);
-        txtAward_result_title.setText(resultTitle_FromBundle);
-        txtAward_result_title.setSelected(true);
+        Intent intent = getIntent();
+        String award_next = intent.getStringExtra("award_next");
+        award_id = intent.getStringExtra("award_id");
+
+        if(TextUtils.isEmpty(award_next)){
+            Log.i("intent"," x");
+
+            /**
+             * Result의 contentScrim 부분에 대해 setting
+             * Feed에서 Bundle로 받아온 img_path, title 부분에 대한 setting
+             * */
+
+            resultImagePath_FromBundle = awardResultBundle.getString("award_img_path");
+            resultTitle_FromBundle = awardResultBundle.getString("award_title");
+            resultCaption_FromBundle = awardResultBundle.getString("award_caption");
+            resultField_FromBundle = awardResultBundle.getString("award_field");
+            award_id = awardResultBundle.getString("award_id");
+
+            txtAward_result_field.setText(resultField_FromBundle);
+            txtAward_result_title.setText(resultTitle_FromBundle);
+            txtAward_result_title.setSelected(true);
 
 
-        if(TextUtils.isEmpty(resultImagePath_FromBundle)){
-            award_result_img.setImageResource(R.drawable.default_img_result);
+            if(TextUtils.isEmpty(resultImagePath_FromBundle)){
+                award_result_img.setImageResource(R.drawable.default_img_result);
+            }
+            else{
+                Glide
+                        .with(this)
+                        .load(IMAGE_URL + resultImagePath_FromBundle)
+                        .fitCenter()
+                        .crossFade()
+                        .centerCrop()
+                        .override(400,400)
+                        .thumbnail(0.1f)
+                        .into(award_result_img);
+            }
+
+            return;
+
         }
-        else{
+
+        /*  award detail 에서 넘어온 경우 */
+
+        else {
+            // award_id로 요청했을 시 title, field, img_path 받아오기
+
+            try {
+                award_json = new GetAward().execute(award_id).get();
+                award_title = award_json.getString("award_title");
+                award_field = award_json.getString("award_field");
+                award_img_path = award_json.getString("award_img_path");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            txtAward_result_title.setText(award_title);
+            txtAward_result_field.setText(award_field);
+
+            if (TextUtils.isEmpty(award_img_path)) {
+                award_result_img.setImageResource(R.drawable.default_img_result);
+            }
             Glide
                     .with(this)
-                    .load(IMAGE_URL + resultImagePath_FromBundle)
+                    .load(IMAGE_URL + award_img_path)
                     .fitCenter()
                     .crossFade()
                     .centerCrop()
-                    .override(400,400)
+                    .override(400, 400)
                     .thumbnail(0.1f)
                     .into(award_result_img);
         }
-
 
     }
 
@@ -361,10 +366,9 @@ public class AwardResultActivity extends AppCompatActivity {
             try {
 
                 HashMap<String, String> params = new HashMap<>();
-                params.put("user_id", args[0]);
+                params.put("award_id", args[0]);
                 Log.d("async_test", args[0]);
-                params.put("award_id", args[1]);
-                Log.d("async_test", args[1]);
+
 
 
                 result = jsonParser.makeHttpRequest(
@@ -429,7 +433,7 @@ public class AwardResultActivity extends AppCompatActivity {
                 result = jsonParser.makeHttpRequest(
                         URL_, "POST", params);
 
-                delete_chk = result.getString("_delete");
+                delete_chk = result.getString("award_delete");
 
                 if (result != null) {
                     Log.d("badge_test", "result : " + result);

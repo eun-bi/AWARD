@@ -285,6 +285,9 @@ public class AwardLinkFragment2 extends Fragment {
                 @Override
                 public void onClick(View v) {
                     new VideoDeleteTask().execute(link.getVideoId(),award_id,user_id);
+                    myLink_list_recycler.setAdapter(linkListAdapter);
+                    linkListAdapter.notifyDataSetChanged();
+
                 }
             });
 
@@ -382,9 +385,8 @@ public class AwardLinkFragment2 extends Fragment {
 
         protected void onPostExecute(JSONObject jsonObject) {
 
-            Toast.makeText(getActivity().getApplicationContext(), "링크 삭제 완료", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "링크가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
 
-            myLink_list_recycler.setAdapter(linkListAdapter);
 //            loadingDialog.dismiss();
             // Log.d("Test", "image byte is " + result);
 

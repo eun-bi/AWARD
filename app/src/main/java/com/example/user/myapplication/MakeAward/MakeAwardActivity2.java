@@ -129,9 +129,6 @@ public class MakeAwardActivity2 extends AppCompatActivity {
                     badgeList.add(badge_List);
                     adapter.add(badge_List);
 
-                    // 뱃지를 관리할 id
-                    badge_id = badge_List.getBadge_id();
-
                 }
 
             } catch (JSONException e) {
@@ -155,6 +152,7 @@ public class MakeAwardActivity2 extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 //                btnNext.setTextColor(Color.parseColor("#da9a7aC"));
+                badge_id = badgeList.get(position).getBadge_id();
                 adapter.notifyDataSetChanged();
 
             }
@@ -175,6 +173,7 @@ public class MakeAwardActivity2 extends AppCompatActivity {
                     intent.putExtra("Award_img",selPhotoUri);
                     intent.putExtra("Award_field", field);
                     intent.putExtra("Award_badge", badge_id);
+                    Log.d("badge_id", badge_id);
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);

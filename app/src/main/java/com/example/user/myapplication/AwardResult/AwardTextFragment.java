@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.user.myapplication.Award;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.SharedPrefereneUtil;
+import com.example.user.myapplication.Util;
 import com.example.user.myapplication.network.JSONParser;
 
 import org.json.JSONException;
@@ -53,7 +54,10 @@ public class AwardTextFragment extends Fragment {
         if (savedInstanceState != null)
             return super.onCreateView(inflater, container, savedInstanceState);
 
+
         View rootView = inflater.inflate(R.layout.fragment_award_text,container,false);
+        Util.setGlobalFont(getContext(), rootView); // font 적용
+
 
         initView(rootView);
         setView(rootView);

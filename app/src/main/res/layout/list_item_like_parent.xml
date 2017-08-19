@@ -19,7 +19,7 @@
         android:layout_height="16dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="0"
-        android:background="@drawable/more_gold"
+        android:src="@drawable/more_gold"
         android:id="@+id/img_chk_list" />
 
 </LinearLayout>

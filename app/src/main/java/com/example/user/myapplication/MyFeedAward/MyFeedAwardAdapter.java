@@ -24,6 +24,7 @@ import com.example.user.myapplication.AwardResult.AwardResultActivity;
 import com.example.user.myapplication.Nominate;
 import com.example.user.myapplication.NominateActivity;
 import com.example.user.myapplication.R;
+import com.example.user.myapplication.Util;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -86,6 +87,7 @@ public class MyFeedAwardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             final View view = LayoutInflater.from(mContext).inflate(R.layout.item_feed_myaward, parent, false);
+            Util.setGlobalFont(mContext, view); // font 적용
             return new MyAwardItemViewHolder(view);
         } else if (viewType == TYPE_HEADER) {
             final View view = LayoutInflater.from(mContext).inflate(R.layout.header_myaward, parent, false);
@@ -106,10 +108,10 @@ public class MyFeedAwardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     item_field = "영화 어워드";
                     break;
                 case 2 :
-                    item_field = "애니메이션 어워드";
+                    item_field = "드라마 어워드";
                     break;
                 case 3 :
-                    item_field = "드라마 어워드";
+                    item_field = "애니메이션 어워드";
                     break;
                 case 4 :
                     item_field = "웹툰 어워드";

@@ -25,6 +25,7 @@ import com.example.user.myapplication.MyField.MyFieldActivity;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.Setting.SettingActivity;
 import com.example.user.myapplication.SharedPrefereneUtil;
+import com.example.user.myapplication.Util;
 import com.example.user.myapplication.network.JSONParser;
 
 import org.json.JSONException;
@@ -56,32 +57,6 @@ public class MyPageFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(savedInstanceState == null) {
-            View view = inflater.inflate(R.layout.fragment_mypage, container, false);
-
-            initView(view);
-            Log.i("Fragment123", "New Profile");
-            return view;
-        }
-
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        adapter = new MenuAdapter();
-        listView_menu.setAdapter(adapter);
-        setProfile_Menu();
-        setView();
-        setEvent();
-    }
-
-    private void setView() {
 
         SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getContext());
         user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
@@ -99,6 +74,30 @@ public class MyPageFragment extends Fragment{
             e.printStackTrace();
         }
 
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if(savedInstanceState == null) {
+            View view = inflater.inflate(R.layout.fragment_mypage, container, false);
+            initView(view);
+            Log.i("Fragment123", "New Profile");
+            return view;
+        }
+
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Util.setGlobalFont(getContext(), getActivity().getWindow().getDecorView()); // font 적용
+
+        adapter = new MenuAdapter();
+        listView_menu.setAdapter(adapter);
+        setProfile_Menu();
+
         Glide
                 .with(this)
                 .load(IMAGE_URL + user_img_path)
@@ -109,8 +108,11 @@ public class MyPageFragment extends Fragment{
                 .override(200, 200)
                 .into(img_Profile);
 
-         txtAward_myname.setText(user_name);
+        txtAward_myname.setText(user_name);
+
+        setEvent();
     }
+
 
     private void setProfile_Menu() {
         adapter.addItem(getActivity().getDrawable(R.drawable.menu_like), "내 관심분야");

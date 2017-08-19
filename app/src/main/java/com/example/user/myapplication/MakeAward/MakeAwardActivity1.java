@@ -83,6 +83,7 @@ public class MakeAwardActivity1 extends AppCompatActivity {
             Log.i("intent test","x");
         }
         else{
+            Log.d("intent field", field);
             awardFieldAdapter.notifyDataSetChanged();
         }
 
@@ -113,7 +114,6 @@ public class MakeAwardActivity1 extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (TextUtils.isEmpty(edit_title.getText())) {
@@ -121,6 +121,7 @@ public class MakeAwardActivity1 extends AppCompatActivity {
                 }
                 else{
                     btnNext.setEnabled(true);
+                    //todo 버튼 색
                 }
             }
 

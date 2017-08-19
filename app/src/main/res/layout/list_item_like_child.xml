@@ -3,16 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="58dp"
-    android:paddingTop="20dp"
-    android:paddingLeft="16dp">
+    android:padding="20dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="애니메이션 이름"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:textColor="#3dffffff"
         android:id="@+id/like_child" />
-
 
 </LinearLayout>

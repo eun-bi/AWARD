@@ -83,6 +83,7 @@ public class BadgeListAdapter extends ArrayAdapter<AwardBadge> {
         viewHolder.txtBadge.setText(mybadge.getBadge_name());
         viewHolder.txtBadge_explain.setText(mybadge.getBadge_tag());
 
+
         chkBadge.setChecked(((ListView) parent).isItemChecked(position));
         chkBadge.setFocusable(false);
         chkBadge.setClickable(false);

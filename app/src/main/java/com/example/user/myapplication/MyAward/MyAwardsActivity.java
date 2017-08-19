@@ -208,6 +208,9 @@ public class MyAwardsActivity extends AppCompatActivity {
                     else if(field.equalsIgnoreCase("musical")){
                         field = "뮤지컬";
                     }
+                    else if(field.equalsIgnoreCase("music")){
+                        field = "음악";
+                    }
 
 
                     notMyAwardsAdapter.addItem(field , award_num);
