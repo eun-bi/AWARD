@@ -7,6 +7,13 @@
     android:fitsSystemWindows="true"
     android:background="#0d0d0d">
 
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/back" />
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -42,6 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
+                    app:layout_collapseMode="pin"
                     android:background="@drawable/gradient_shape" />
 
             </FrameLayout>
@@ -52,8 +60,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/award_result_content_scrim_height"
                 app:layout_collapseMode="pin">
-
             </android.support.v7.widget.Toolbar>
+
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -113,11 +122,26 @@
             <android.support.design.widget.TabLayout
                 android:id="@+id/award_result_content_tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="54dp"
                 android:background="#0d0d0d"
+                app:tabIndicatorHeight="0dp"
                 app:tabMode="fixed"
-                app:tabGravity="fill"
                 android:minHeight="?attr/actionBarSize">
+
+                <!--<android.support.design.widget.TabItem-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:icon="@drawable/main_bottom_tabitem_home" />-->
+
+                <!--<android.support.design.widget.TabItem-->
+                    <!--android:layout_width="48dp"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:icon="@drawable/result_tabitem_album" />-->
+
+                <!--<android.support.design.widget.TabItem-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:icon="@drawable/result_tabitem_link" />-->
 
 
             </android.support.design.widget.TabLayout>

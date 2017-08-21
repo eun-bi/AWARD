@@ -42,6 +42,11 @@
         android:id="@+id/txtPrivacy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:textColor="#ffffff"
+        android:scrollbars="vertical"
+        android:breakStrategy="high_quality"
+        android:textSize="12sp"
         android:text="개인정보 처리방침" />
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.user.myapplication.Setting;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -69,9 +70,8 @@ public class SettingActivity extends AppCompatActivity {
         ask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_EMAIL, "award.victorlee@gmail.com");
-                startActivity(intent);
+                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","award.victorlee@gmail.com",null));
+                startActivity(Intent.createChooser(intent,"send mail"));
             }
         });
 

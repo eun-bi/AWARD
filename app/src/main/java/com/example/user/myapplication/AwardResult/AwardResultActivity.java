@@ -1,6 +1,6 @@
 package com.example.user.myapplication.AwardResult;
 
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,6 +47,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
+
+import android.support.v4.app.FragmentTransaction;
 
 public class AwardResultActivity extends AppCompatActivity {
 
@@ -67,6 +70,7 @@ public class AwardResultActivity extends AppCompatActivity {
     ImageView award_result_img;
     TextView txtAward_result_field;
     TextView txtAward_result_title;
+    Button btnCancel;
 
     protected Bundle awardResultBundle = new Bundle();
 
@@ -81,6 +85,11 @@ public class AwardResultActivity extends AppCompatActivity {
 
     //private ImageView img_result;
 //    LinearLayout linearLayout;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +110,10 @@ public class AwardResultActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(" ");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initView();
         setView();
+        setEvent();
 
 
 
@@ -114,9 +123,18 @@ public class AwardResultActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.award_result_content_tabLayout);
         tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.WHITE));
-        tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
+//        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.WHITE));
+//        tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
 
+    }
+
+    private void setEvent() {
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AwardResultActivity.this.finish();
+            }
+        });
     }
 
     //todo test
@@ -215,6 +233,7 @@ public class AwardResultActivity extends AppCompatActivity {
         award_result_img = (ImageView)findViewById(R.id.award_result_img);
         txtAward_result_field = (TextView)findViewById(R.id.txtAward_result_field);
         txtAward_result_title = (TextView)findViewById(R.id.txtAward_result_title);
+        btnCancel = (Button)findViewById(R.id.btnCancel);
 
     }
 
@@ -232,11 +251,6 @@ public class AwardResultActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        if(id == R.id.home){
-            AwardResultActivity.this.finish();
-            return true;
-        }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_delete) {
@@ -325,11 +339,11 @@ public class AwardResultActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "시상평";
+                    return "";
                 case 1:
-                    return "앨범";
+                    return "";
                 case 2:
-                    return "링크";
+                    return "";
             }
             return null;
         }
