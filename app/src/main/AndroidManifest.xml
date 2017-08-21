@@ -48,14 +48,11 @@
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -108,7 +105,7 @@
         <activity
             android:name=".AwardResult.AwardResultActivity"
             android:label="@string/title_activity_award_result"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AwardResult.ImageSelectActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -123,11 +120,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".NominateActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Setting.InfoActivity"></activity>
     </application>
 
 </manifest>

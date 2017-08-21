@@ -31,10 +31,14 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     // facebook
     compile group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
     // kakao
+    //sugarORM
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
+    //glide transformations
+    
+
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'org.apache.httpcomponents:httpclient:4.5.2'
     compile 'com.android.support:design:23.2.1'
@@ -46,9 +50,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.github.satyan:sugar:1.4'
-    //sugarORM
-    compile files('libs/YouTubeAndroidPlayerApi.jar')
-    //glide transformations
     compile 'jp.wasabeef:glide-transformations:2.0.1'
-
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }
