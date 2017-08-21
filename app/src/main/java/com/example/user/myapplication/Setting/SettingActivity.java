@@ -69,7 +69,8 @@ public class SettingActivity extends AppCompatActivity {
         ask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_EMAIL, "award.victorlee@gmail.com");
                 startActivity(intent);
             }
         });

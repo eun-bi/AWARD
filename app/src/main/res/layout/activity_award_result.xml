@@ -46,6 +46,7 @@
 
             </FrameLayout>
 
+            <!-- Content Scrim -->
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -90,17 +91,6 @@
             </RelativeLayout>
             <!-- //Content Scrim -->
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/award_result_content_tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="#0d0d0d"
-                app:tabMode="fixed"
-                app:tabGravity="fill"
-                android:minHeight="?attr/actionBarSize">
-            </android.support.design.widget.TabLayout>
-
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -120,6 +110,17 @@
             android:orientation="vertical"
             android:background="#0d0d0d">
 
+            <android.support.design.widget.TabLayout
+                android:id="@+id/award_result_content_tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#0d0d0d"
+                app:tabMode="fixed"
+                app:tabGravity="fill"
+                android:minHeight="?attr/actionBarSize">
+
+
+            </android.support.design.widget.TabLayout>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
@@ -130,10 +131,10 @@
 
         </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <!--<include-->
-        <!--android:id="@+id/activity_result_include"-->
-        <!--layout="@layout/content_award_result" />-->
+    <!--android:id="@+id/activity_result_include"-->
+    <!--layout="@layout/content_award_result" />-->
 
 </android.support.design.widget.CoordinatorLayout>

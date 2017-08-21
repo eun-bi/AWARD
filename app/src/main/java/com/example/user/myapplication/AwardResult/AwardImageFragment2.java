@@ -39,7 +39,6 @@ import android.widget.ScrollView;
 
 import com.bumptech.glide.Glide;
 import com.example.user.myapplication.Award;
-import com.example.user.myapplication.MakeAward.MakeAwardActivity3;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.SharedPrefereneUtil;
 import com.example.user.myapplication.network.JSONParser;
@@ -69,6 +68,8 @@ public class AwardImageFragment2 extends Fragment {
 
     private Uri mImageUri;
 
+    private ArrayList<String> imagesPathList = null;
+
     private String absolutePath;
 
     private Bitmap yourbitmap;
@@ -94,6 +95,8 @@ public class AwardImageFragment2 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        imagesPathList = new ArrayList<String>();
 
         SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getContext());
         user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
@@ -129,7 +132,7 @@ public class AwardImageFragment2 extends Fragment {
 
             return rootView;
         }
-            return super.onCreateView(inflater, container, savedInstanceState);
+        return super.onCreateView(inflater, container, savedInstanceState);
 
     }
 
@@ -161,39 +164,39 @@ public class AwardImageFragment2 extends Fragment {
 
     private void loadList(String result) {
 
-            try {
+        try {
 
-                subImageAdapter = new AwardSubImageAdapter2();
-                gridLayoutManager = new GridLayoutManager(getContext(),3);
+            subImageAdapter = new AwardSubImageAdapter2();
+            gridLayoutManager = new GridLayoutManager(getContext(),3);
 
 //        myImg_list_recycler.setHasFixedSize(true);
-                myImg_list_recycler.setLayoutManager(gridLayoutManager);
-                myImg_list_recycler.setAdapter(subImageAdapter);
+            myImg_list_recycler.setLayoutManager(gridLayoutManager);
+            myImg_list_recycler.setAdapter(subImageAdapter);
 
-                Gson gson = new Gson();
+            Gson gson = new Gson();
 
-                Log.d("loadList", "func : " + img_list);
-                JSONArray ImgListObj = new JSONArray(img_list);
+            Log.d("loadList", "func : " + img_list);
+            JSONArray ImgListObj = new JSONArray(img_list);
 
-                if(ImgListObj.length() == 0){
-                    Log.d("loadList", "func : 비었다");
-                }else{
-                    for(int i = 0; i < ImgListObj.length(); i++) {
-                        String Img_url = ImgListObj.getString(i);
-                        Log.d("이미지 url :", Img_url);
+            if(ImgListObj.length() == 0){
+                Log.d("loadList", "func : 비었다");
+            }else{
+                for(int i = 0; i < ImgListObj.length(); i++) {
+                    String Img_url = ImgListObj.getString(i);
+                    Log.d("이미지 url :", Img_url);
 
-                      //  SubImageData img_list = gson.fromJson(Img_url,SubImageData.class);
+                    //  SubImageData img_list = gson.fromJson(Img_url,SubImageData.class);
 
-                        subImageAdapter.addItem(award_id, user_id, Img_url);
-                    }
+                    subImageAdapter.addItem(award_id, user_id, Img_url);
                 }
-
-                subImageAdapter.notifyDataSetChanged();
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+
+            subImageAdapter.notifyDataSetChanged();
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -293,16 +296,9 @@ public class AwardImageFragment2 extends Fragment {
     /* 앨범에서 이미지 */
     private void doTakeAlbumAction() {
 
-        /* 사진 다중 선택 */
-//        Intent intent = new Intent(getActivity(), ImageSelectActivity.class);
-//        intent.putExtra("award_id",award_id);
-//        startActivity(intent);
-
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, PICK_FROM_ALBUM);
-
+        Intent intent = new Intent(getActivity(), ImageSelectActivity.class);
+        intent.putExtra("award_id",award_id);
+        startActivity(intent);
         //intent.setType("image/*");
         //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true); // 이미지 여러장
         //intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -320,90 +316,78 @@ public class AwardImageFragment2 extends Fragment {
             return;
         }
 
-//        else if(resultCode == Activity.RESULT_OK  && requestCode == PICK_FROM_ALBUM){
-//                //  imagesPathList = new ArrayList<String>();
-//
-//                Log.w("제대로","받았다");
-//                Log.w("data",data.getStringExtra("data"));
-//
-//                String[] imagesPath =  data.getStringExtra("data").split("\\|");
-//
-//                for (int i = 0; i < imagesPath.length; i++) {
-//
-//                    imagesPathList.add(imagesPath[i]);
-//                    Log.w("img_:album", "file://" + imagesPathList.get(i));
-//
-//                    absolutePath = "file://" + imagesPathList.get(i);
-//                    Log.w("absolutePath", absolutePath);
-//                }
-//        }
+        else if(resultCode == Activity.RESULT_OK  && requestCode == PICK_FROM_ALBUM){
+            //  imagesPathList = new ArrayList<String>();
 
+            Log.e("제대로","받았다");
+            Log.e("data",data.getStringExtra("data"));
 
-        switch (requestCode) {
+            String[] imagesPath =  data.getStringExtra("data").split("\\|");
 
-            case CROP_FROM_CAMERA :{
-                Log.w("state", "카메라");
+            for (int i = 0; i < imagesPath.length; i++) {
 
-                final Bundle extras = data.getExtras();
+                imagesPathList.add(imagesPath[i]);
+                Log.w("img_:album", "file://" + imagesPathList.get(i));
+
+                absolutePath = "file://" + imagesPathList.get(i);
+                Log.w("absolutePath", absolutePath);
+            }
+        }
+
+        else if(requestCode == CROP_FROM_CAMERA){
+            Log.e("state", "카메라");
+
+            final Bundle extras = data.getExtras();
 //            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-                if(extras != null){
+            if(extras != null){
 
-                    mImageUri = data.getData();
-                    Log.w("camera_img_path", mImageUri.toString());
+                mImageUri = data.getData();
+                Log.e("camera_img_path", mImageUri.toString());
 
-                    //new UploadImg().execute(award_id);
-//
-//                    try {
-//                        Bitmap mlmageImg =  MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mImageUri);
-////                    subImageAdapter.addItem(1, "test", mlmageImg);
-//
-////                    Cursor c = getActivity().getContentResolver().query(Uri.parse(mImageUri.toString()), null, null, null, null);
-////                    c.moveToFirst();
-////                    absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-////                    Log.w("absolutePath", absolutePath);
-//
-//                        Cursor cursor = getActivity().getContentResolver().query(Uri.parse(mImageUri.toString()),null, null, null, null);
-//                        cursor.moveToNext();
-//
-////                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                        absolutePath = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
-//                        Log.w("camera", absolutePath);
-//
-//                    }
-//
-//                    catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
+                try {
+                    Bitmap mlmageImg =  MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mImageUri);
+//                    subImageAdapter.addItem(1, "test", mlmageImg);
 
+//                    Cursor c = getActivity().getContentResolver().query(Uri.parse(mImageUri.toString()), null, null, null, null);
+//                    c.moveToFirst();
+//                    absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+//                    Log.w("absolutePath", absolutePath);
 
+                    Cursor cursor = getActivity().getContentResolver().query(Uri.parse(mImageUri.toString()),null, null, null, null);
+                    cursor.moveToNext();
 
-                    //subImageAdapter.addItem(1, "test", absolutePath);
+//                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    absolutePath = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
+                    Log.w("camera", absolutePath);
 
+                    imagesPathList.add(absolutePath);
                 }
 
-                // 임시 파일 삭제
-                File f = new File(mImageCaptureUri.getPath());
-                if (f.exists()) {
-                    f.delete();
+                catch (IOException e) {
+                    e.printStackTrace();
                 }
 
-                break;
+
+
+                //subImageAdapter.addItem(1, "test", absolutePath);
+
             }
 
-            case PICK_FROM_ALBUM:{
-                // 이후의 처리가 카메라와 같으므로 일단  break없이 진행합니다.
-                // 실제 코드에서는 좀더 합리적인 방법을 선택하시기 바랍니다.
-
-                mImageCaptureUri = data.getData();
+            // 임시 파일 삭제
+            File f = new File(mImageCaptureUri.getPath());
+            if (f.exists()) {
+                f.delete();
             }
 
-            case PICK_FROM_CAMERA:{
-                // 이미지를 가져온 이후의 리사이즈할 이미지 크기를 결정합니다.
-                // 이후에 이미지 크롭 어플리케이션을 호출하게 됩니다.
+        }
 
-                Intent intent = new Intent("com.android.camera.action.CROP");
-                intent.setDataAndType(mImageCaptureUri, "image/*");
+        else if(requestCode == PICK_FROM_CAMERA){
+            // 이미지를 가져온 이후의 리사이즈할 이미지 크기를 결정합니다.
+            // 이후에 이미지 크롭 어플리케이션을 호출하게 됩니다.
+
+            Intent intent = new Intent("com.android.camera.action.CROP");
+            intent.setDataAndType(mImageCaptureUri, "image/*");
 
 /*                intent.putExtra("outputX", 90);
                 intent.putExtra("outputY", 90);
@@ -412,12 +396,11 @@ public class AwardImageFragment2 extends Fragment {
                 intent.putExtra("scale", true);
                 intent.putExtra("return-data", true);*/
 
-                intent.putExtra("scale", true);
-                intent.putExtra("return-data", true);
-                intent.putExtra("output", mImageCaptureUri);
-                startActivityForResult(intent, CROP_FROM_CAMERA);
+            intent.putExtra("scale", true);
+            intent.putExtra("return-data", true);
+            intent.putExtra("output", mImageCaptureUri);
+            startActivityForResult(intent, CROP_FROM_CAMERA);
 
-            }
         }
 
         subImageAdapter.notifyDataSetChanged();
@@ -631,7 +614,6 @@ public class AwardImageFragment2 extends Fragment {
 
     public class AwardSubImageAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
         private final static String IMAGE_URL = Award.IMAGE_URL + "subImages/";
 
         private ArrayList<SubImageData> subImageDataArrayList = new ArrayList<SubImageData>();
@@ -658,18 +640,18 @@ public class AwardImageFragment2 extends Fragment {
 
             ImgViewHolder vi = (ImgViewHolder) holder;
 
-                if(position==0){
-                    vi.sub_img.setImageResource(R.drawable.btn_plus_rectangle);
-                }else if(position>0){
-                    Glide
-                            .with(mContext)
-                            .load(IMAGE_URL + subImageData.getSub_img())
-                            .fitCenter()
-                            .centerCrop()
-                            .override(100,100)
-                            .thumbnail(0.1f)
-                            .into(vi.sub_img);
-                }
+            if(position==0){
+                vi.sub_img.setImageResource(R.drawable.btn_plus_rectangle);
+            }else if(position>0){
+                Glide
+                        .with(mContext)
+                        .load(IMAGE_URL + subImageData.getSub_img())
+                        .fitCenter()
+                        .centerCrop()
+                        .override(100,100)
+                        .thumbnail(0.1f)
+                        .into(vi.sub_img);
+            }
 
             vi.sub_img.setOnClickListener(new View.OnClickListener() {
                 @Override
