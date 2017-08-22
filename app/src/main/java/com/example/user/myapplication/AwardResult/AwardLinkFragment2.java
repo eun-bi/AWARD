@@ -47,7 +47,7 @@ public class AwardLinkFragment2 extends Fragment {
     private static final String Link_URL = Award.AWARD_URL + "Award_server/Award/myAward_Link.jsp";
 
     private static RecyclerView myLink_list_recycler;
-    private ImageButton btnLink;
+    private Button btnLink;
     private LinkListAdapter2 linkListAdapter;
 
     private ArrayList<AwardLink> awardLinks = null;
@@ -242,7 +242,7 @@ public class AwardLinkFragment2 extends Fragment {
     private void initView(View rootView) {
 
         myLink_list_recycler = (RecyclerView)rootView.findViewById(R.id.myLink_list_recycler);
-        btnLink = (ImageButton)rootView.findViewById(R.id.btnLink);
+        btnLink = (Button)rootView.findViewById(R.id.btnLink);
 
     }
 

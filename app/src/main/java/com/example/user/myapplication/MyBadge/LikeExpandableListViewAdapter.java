@@ -23,18 +23,7 @@ public class LikeExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
 
-    // todo 0815 수정
     private ArrayList<Group> groupArrayList;
-
-//    private ArrayList<String> mParentList;
-//    private ArrayList<ArrayList<String>> mChildList;
-
-//    // CustomExpandableListViewAdapter 생성자
-//    public LikeExpandableListViewAdapter(Context context, ArrayList<String> parentList, ArrayList<ArrayList<String>> childList){
-//        this.mContext = context;
-//        this.mParentList = parentList;
-//        this.mChildList = childList;
-
 
     public LikeExpandableListViewAdapter(Context context, ArrayList<Group> groupArrayList) {
         this.mContext = context;
@@ -53,7 +42,7 @@ public class LikeExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) { // groupPostion과 childPosition을 통해 childList의 원소를 얻어옴
-//        return this.mChildList.get(groupPosition).get(childPosition);
+
         ArrayList<Child> children = groupArrayList.get(groupPosition).getItems();
         return children.get(childPosition);
     }

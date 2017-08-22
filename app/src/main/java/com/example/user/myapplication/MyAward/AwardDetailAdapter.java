@@ -81,11 +81,11 @@ public class AwardDetailAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AwardResultActivity.class);
-                intent.putExtra("award_id", awardDetail.getAward_id());
-                intent.putExtra("award_next","0");
-                Log.d("award_id", awardDetaillist.get(position).getAward_id());
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, AwardResultActivity.class);
+//                intent.putExtra("award_id", awardDetail.getAward_id());
+//                intent.putExtra("award_next","0");
+//                Log.d("award_id", awardDetaillist.get(position).getAward_id());
+//                context.startActivity(intent);
             }
         });
 

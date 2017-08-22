@@ -24,14 +24,7 @@ public class unlikeExpandableListViewAdapter extends BaseExpandableListAdapter{
 
     private Context mContext;
     private ArrayList<Group> groupArrayList;
-//    private ArrayList<String> mParentList;
-//    private ArrayList<ArrayList<String>> mChildList;
 
-//    public unlikeExpandableListViewAdapter (Context context, ArrayList<String> parentList, ArrayList<ArrayList<String>> childList){
-//        this.mContext = context;
-//        this.mParentList = parentList;
-//        this.mChildList = childList;
-//    }
     public unlikeExpandableListViewAdapter(Context context, ArrayList<Group> groupArrayList) {
     this.mContext = context;
     this.groupArrayList = groupArrayList;

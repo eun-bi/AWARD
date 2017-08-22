@@ -93,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
         switch(position) {
             /* Change fragment  */
             case 0:
-                //transaction.hide(fragment_Profile);
-                //transaction.attach(fragment_MyFeedAward);
                 transaction.replace(R.id.content_fragment, fragment_MyFeedAward, "Feed");
                 transaction.commit();
                 break;
@@ -106,9 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case 2:
-                transaction.add(R.id.content_fragment, fragment_mypage, "Profile");
-                //transaction.detach(fragment_MyFeedAward);
-                //transaction.show(fragment_Profile);
+                transaction.replace(R.id.content_fragment, fragment_mypage, "Profile");
                 transaction.commit();
                 break;
         }
