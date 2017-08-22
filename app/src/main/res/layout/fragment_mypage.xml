@@ -24,8 +24,7 @@
                 android:layout_height="85dp"
                 android:layout_marginBottom="30dp"
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/img_Profile"
-                android:src="@drawable/ic_main"/>
+                android:id="@+id/img_Profile" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -102,23 +102,6 @@ public class setProfileActivity extends AppCompatActivity {
         user_name = prefereneUtil.getUser_name();
         user_img_path = prefereneUtil.getUser_img_path();
 
-//        try {
-//
-//            myprofile_json = new ShowMyProfile().execute(user_id).get();
-//
-//            user_img_path = myprofile_json.getString("user_img_path");
-//            Log.d("user_img_path ? : ", user_img_path);
-//            user_name = myprofile_json.getString("user_name");
-//            Log.d("user_name ? : ", user_name);
-//
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
         Glide
                 .with(setProfileActivity.this)
                 .load(IMAGE_URL + user_img_path)

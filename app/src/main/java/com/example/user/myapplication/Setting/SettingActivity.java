@@ -95,11 +95,6 @@ public class SettingActivity extends AppCompatActivity {
                                         @Override
                                         public void onCompleteLogout() {
                                             Log.d("kakao", " logout");
-
-                                            // sharedpreferences
-                                            SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(SettingActivity.this);
-                                            prefereneUtil.removeSharedPreferences(user_id);
-
                                             Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
                                             startActivity(intent);
                                         }
@@ -108,14 +103,9 @@ public class SettingActivity extends AppCompatActivity {
                                     // facebook Logout
                                     LoginManager.getInstance().logOut();
 
-//                                    // sharedpreferences
-//                                    SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(SettingActivity.this);
-//                                    prefereneUtil.removeSharedPreferences(Award.user_id);
-//                                    Log.d("로그아웃", "성공");
+                                    new SharedPrefereneUtil(getApplicationContext()).isUserLogout();
 
 
-                                    Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
-                                    startActivity(intent);
 
                                 } catch (Exception e) {
                                     Log.d("로그아웃", "실패");

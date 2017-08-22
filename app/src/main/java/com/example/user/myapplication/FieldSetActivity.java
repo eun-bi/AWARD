@@ -49,10 +49,12 @@ public class FieldSetActivity extends AppCompatActivity {
 
     private void setView() {
 
-        Intent intent = getIntent();
-        user_id = intent.getStringExtra("user_id");
-        user_img_path = intent.getStringExtra("user_img_path");
-        user_name = intent.getStringExtra("user_name");
+        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
+        user_name = prefereneUtil.getUser_name();
+        user_img_path = prefereneUtil.getUser_img_path();
+        user_id = prefereneUtil.getUser_id();
+
+        Log.d("imgpath",user_img_path);
     }
 
     private void setEvent() {

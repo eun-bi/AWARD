@@ -137,8 +137,8 @@ public class LoginActivity extends AppCompatActivity {
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
 //        Session.getCurrentSession().checkAndImplicitOpen();
-        Session.getCurrentSession().open(AuthType.KAKAO_TALK,LoginActivity.this);
-//        Session.getCurrentSession().open(AuthType.KAKAO_TALK_EXCLUDE_NATIVE_LOGIN,LoginActivity.this);
+//        Session.getCurrentSession().open(AuthType.KAKAO_TALK,LoginActivity.this);
+        Session.getCurrentSession().open(AuthType.KAKAO_TALK_EXCLUDE_NATIVE_LOGIN,LoginActivity.this);
 
     }
 
@@ -415,11 +415,19 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute (JSONObject jsonObject){
             loadingDialog.dismiss();
 
+            if(new SharedPrefereneUtil(getApplicationContext()).getLoginchk()){
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+
+            }else{
                 Intent intent = new Intent(LoginActivity.this,NameSetActivity.class);
                 intent.putExtra("user_id",user_id);
                 intent.putExtra("user_img_path",user_img_path);
                 intent.putExtra("user_name_a", user_name_a);
                 startActivity(intent);
+            }
+
 
             LoginActivity.this.finish();
         }

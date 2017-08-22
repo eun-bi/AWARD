@@ -73,9 +73,11 @@ public class MyAwardsActivity extends AppCompatActivity {
 
         list_awards.setAdapter(myAwardsAdapter);
         list_n_awards.setAdapter(notMyAwardsAdapter);
-        
+
         setListViewHeightBaedOnChild(list_awards);
         setListViewHeightBaedOnChild(list_n_awards);
+
+
 
         try {
 
@@ -225,7 +227,6 @@ public class MyAwardsActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(JSONObject jObj) {
-
             myAwardsAdapter.notifyDataSetChanged();
             notMyAwardsAdapter.notifyDataSetChanged();
         }

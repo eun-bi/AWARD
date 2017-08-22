@@ -59,6 +59,9 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class NameSetActivity extends AppCompatActivity {
 
+    InputStream is;
+    public FileInputStream mFileInputStream;
+
     TextView txtName, txtChk;
     EditText editName;
     Button btnChk, btn_register, btnImgSet, btnBack;
@@ -444,7 +447,13 @@ public class NameSetActivity extends AppCompatActivity {
 
                 try {
 
-                    FileInputStream mFileInputStream = new FileInputStream(user_img_path);
+//                    if(user_img_path.startsWith("http")){
+//                        is = new URL(user_img_path).openStream();
+//                    }else{ // 아닐 경우 비디오
+//                        mFileInputStream = new FileInputStream(user_img_path);
+//                    }
+
+                     FileInputStream mFileInputStream = new FileInputStream(user_img_path);
                     URL connectUrl = new URL(urlString1);
                     Log.d("Test", "mFileInputStream  is " + mFileInputStream);
 

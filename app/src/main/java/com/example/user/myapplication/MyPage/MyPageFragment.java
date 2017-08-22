@@ -32,6 +32,8 @@ import com.example.user.myapplication.network.JSONParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
@@ -43,7 +45,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MyPageFragment extends Fragment{
 
     private static final String PROFILE_URL = Award.AWARD_URL + "Award_server/Award/mypage.jsp";
-    private static final String IMAGE_URL = Award.IMAGE_URL + "profile/";
+    private static final String IMAGE_URL = Award.IMAGE_URL + "profile";
     private ImageView img_Profile;
     private TextView txtAward_myname;
     private ListView listView_menu;
@@ -65,18 +67,7 @@ public class MyPageFragment extends Fragment{
 
         Log.d("user_info",user_name + user_img_path);
 
-//        try {
-//            profile_json = new GetProfile().execute(user_id).get();
-//            user_name = profile_json.getString("user_name");
-//            user_img_path = profile_json.getString("user_img_path");
-//
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+
 
 
     }
@@ -102,7 +93,17 @@ public class MyPageFragment extends Fragment{
         adapter = new MenuAdapter();
         listView_menu.setAdapter(adapter);
         setProfile_Menu();
-
+        //        if(user_img_path.startsWith("http")){
+//            Glide
+//                    .with(this)
+//                    .load(user_img_path)
+//                    .fitCenter()
+//                    .centerCrop()
+//                    .crossFade() // 이미지 로딩 시 페이드 효과
+//                    .bitmapTransform(new CropCircleTransformation(getActivity()))  // image 원형
+//                    .override(200, 200)
+//                    .into(img_Profile);
+//        }else{
         Glide
                 .with(this)
                 .load(IMAGE_URL + user_img_path)
@@ -112,6 +113,7 @@ public class MyPageFragment extends Fragment{
                 .bitmapTransform(new CropCircleTransformation(getActivity()))  // image 원형
                 .override(200, 200)
                 .into(img_Profile);
+//        }
 
         txtAward_myname.setText(user_name);
 
@@ -169,39 +171,5 @@ public class MyPageFragment extends Fragment{
         listView_menu = (ListView)v.findViewById(R.id.listView_menu);
 
     }
-
-    private class GetProfile extends AsyncTask<String, String, JSONObject> {
-        JSONParser jsonParser = new JSONParser();
-
-        protected void onPreExecute() {
-
-        }
-
-        protected JSONObject doInBackground(String... args) {
-            try {
-                HashMap<String, String> params = new HashMap<>();
-                params.put("user_id", args[0]);
-
-                JSONObject result = jsonParser.makeHttpRequest(
-                        PROFILE_URL, "GET", params);
-
-                if (result != null) {
-                    Log.d("profile", "result : " + result);
-                    return result;
-                } else {
-                    Log.d("profile", "result : null, doInBackground");
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(JSONObject jObj) {
-            super.onPostExecute(jObj);
-        }
-    } /* Profile 통신을 위한 AsyncTask 끝 */
 
 }
