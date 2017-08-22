@@ -100,8 +100,8 @@ public class AwardResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         awardResultBundle = intent.getBundleExtra("awardResultBundle");
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id", user_id);
+        user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
+        Log.d("user_id",user_id);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -339,11 +339,11 @@ public class AwardResultActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "";
+                    return "시상평";
                 case 1:
-                    return "";
+                    return "앨범";
                 case 2:
-                    return "";
+                    return "링크";
             }
             return null;
         }

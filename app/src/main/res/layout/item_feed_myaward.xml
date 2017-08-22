@@ -30,6 +30,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginStart="@dimen/item_margin_side"
                 android:layout_marginTop="@dimen/item_field_margin_top"
+                android:layout_marginBottom="2dp"
                 android:textSize="12sp"
                 android:paddingLeft="3sp"
                 android:paddingRight="3sp"

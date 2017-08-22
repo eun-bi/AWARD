@@ -67,7 +67,8 @@
                     android:layout_marginBottom="5dp"
                     android:textColor="#da9a7a"
                     android:textSize="16sp"
-                    android:text="뱃지 이름"
+                    android:text="뱃지명"
+                    android:fontFamily=""
                     android:textStyle="bold"
                     android:id="@+id/txtBadge_name" />
 

@@ -8,11 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 public class SplashActivity extends AppCompatActivity {
 
     Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +23,7 @@ public class SplashActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 finish();
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
@@ -36,24 +39,22 @@ public class SplashActivity extends AppCompatActivity {
                         try {
 
                             // 최초 실행 시 -> login activity / 자동 로그인 -> main activity
-                            SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(SplashActivity.this);
 
-//                            if(prefereneUtil.getLoginchk("login_chk",true)){
-//
-//                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                                startActivity(intent);
-//
-//                            }else{
+                            if(new SharedPrefereneUtil(getApplicationContext()).getLoginchk()){
+
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+
+                            }else{
 
                                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                 startActivity(intent);
 
-//                            }
+                            }
 
                         }catch (Exception e){
 
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(intent);
+                            Log.d("error",e.toString());
 
                         }
 
@@ -61,12 +62,12 @@ public class SplashActivity extends AppCompatActivity {
 
                     else{
                         // offline
-                        Toast.makeText(getApplicationContext(),"네트워크 연결을 확인해주세요.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),R.string.network_chk,Toast.LENGTH_LONG).show();
 
                     }
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),"네트워크 연결을 확인해주세요.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),R.string.network_chk,Toast.LENGTH_LONG).show();
                 }
 
 

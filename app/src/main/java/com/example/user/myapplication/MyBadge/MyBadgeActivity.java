@@ -72,8 +72,8 @@ public class MyBadgeActivity extends AppCompatActivity {
 
     private void makeList() {
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
+        user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
+        Log.d("user_id",user_id);
 
 
         try {

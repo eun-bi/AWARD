@@ -94,9 +94,6 @@
             android:name=".MyBadge.BadgeDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Setting.setAccountActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".MyAward.AwardsDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -124,7 +121,9 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Setting.InfoActivity"></activity>
+        <activity
+            android:name=".Setting.InfoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

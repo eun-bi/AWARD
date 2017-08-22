@@ -23,7 +23,7 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 public class SettingActivity extends AppCompatActivity {
 
     Button btnCancel;
-    TextView setAccount,setProfile,setNotice, ask, info, logout;
+    TextView setProfile, ask, info, logout;
 
     private String user_id;
 
@@ -35,8 +35,8 @@ public class SettingActivity extends AppCompatActivity {
 
         initView();
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id", user_id);
+        user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
+        Log.d("user_id",user_id);
 
         setEvent();
 
@@ -51,14 +51,6 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        setAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SettingActivity.this, setAccountActivity.class);
-                startActivity(intent);
-            }
-        });
-
         setProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +59,7 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+        /* 메일로 문의하기*/
         ask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +140,6 @@ public class SettingActivity extends AppCompatActivity {
     private void initView() {
 
         btnCancel = (Button)findViewById(R.id.btnCancel);
-        setAccount = (TextView)findViewById(R.id.setAccount);
         setProfile = (TextView)findViewById(R.id.setProfile);
         ask = (TextView)findViewById(R.id.ask);
         info = (TextView)findViewById(R.id.info);

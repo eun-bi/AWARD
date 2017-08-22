@@ -41,29 +41,19 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp">
+        android:layout_marginTop="32dp">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:text="연결계정"
-            android:textSize="14sp"
-            android:textColor="#ffffff"
-            android:clickable="true"
-            android:id="@+id/setAccount" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="프로필 관리"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="@string/setting_profile"
             android:textSize="14sp"
             android:textColor="#ffffff"
             android:clickable="true"
             android:id="@+id/setProfile" />
+
     </LinearLayout>
 
 
@@ -71,24 +61,24 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp">
+        android:layout_marginTop="32dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="12dp"
             android:layout_marginLeft="16dp"
             android:textSize="10sp"
-            android:text="문의"
+            android:text="@string/setting_txt_ask"
             android:textColor="#80ffffff" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
             android:text="메일로 문의"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="16dp"
+            android:paddingLeft="16dp"
             android:textSize="14sp"
             android:textColor="#ffffff"
             android:clickable="true"
@@ -96,22 +86,32 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="개인정보 처리방침"
-            android:layout_marginLeft="16dp"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:text="@string/setting_info"
+            android:paddingLeft="16dp"
             android:textColor="#ffffff"
             android:textSize="14sp"
             android:clickable="true"
             android:id="@+id/info" />
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="16dp"
-        android:text="로그아웃"
-        android:textColor="#80ffffff"
-        android:clickable="true"
-        android:id="@+id/logout" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:layout_gravity="bottom"
+            android:paddingLeft="16dp"
+            android:text="@string/logout"
+            android:textColor="#80ffffff"
+            android:clickable="true"
+            android:id="@+id/logout" />
+
+    </LinearLayout>
+
 </LinearLayout>

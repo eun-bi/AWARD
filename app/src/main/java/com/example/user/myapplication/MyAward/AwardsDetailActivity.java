@@ -81,9 +81,8 @@ public class AwardsDetailActivity extends AppCompatActivity {
         field = intent.getStringExtra("field");
         txtAward_name.setText(field + " 어워드");
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
-
+        user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
+        Log.d("user_id",user_id);
 
         if(field.equalsIgnoreCase("영화")){
             field = "movie";

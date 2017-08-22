@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -59,24 +60,28 @@ public class MyPageFragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
+        user_name = prefereneUtil.getUser_name();
+        user_img_path = prefereneUtil.getUser_img_path();
 
-        try {
-            profile_json = new GetProfile().execute(user_id).get();
-            user_name = profile_json.getString("user_name");
-            user_img_path = profile_json.getString("user_img_path");
+        Log.d("user_info",user_name + user_img_path);
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            profile_json = new GetProfile().execute(user_id).get();
+//            user_name = profile_json.getString("user_name");
+//            user_img_path = profile_json.getString("user_img_path");
+//
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
 
     }
 
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(savedInstanceState == null) {
@@ -111,6 +116,12 @@ public class MyPageFragment extends Fragment{
         txtAward_myname.setText(user_name);
 
         setEvent();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //refreshItems();
     }
 
 

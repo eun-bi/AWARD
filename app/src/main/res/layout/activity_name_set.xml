@@ -31,7 +31,7 @@
             android:background="#00000000"
             android:onClick="onBtnMenu"
             android:text="확인"
-            android:textColor="#FFFFFFFF"
+            android:textColor="#40ffffff"
             android:textSize="12sp" />
 
     </RelativeLayout>

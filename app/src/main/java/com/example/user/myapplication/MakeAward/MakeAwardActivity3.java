@@ -77,8 +77,8 @@ public class MakeAwardActivity3 extends AppCompatActivity {
 
         initView();
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
+        user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
+        Log.d("user_id",user_id);
 
         Intent intent = getIntent();
         title = intent.getStringExtra("Award_Name");

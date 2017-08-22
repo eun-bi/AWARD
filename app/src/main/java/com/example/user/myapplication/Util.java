@@ -16,7 +16,7 @@ public class Util {
 
     public static void setGlobalFont(Context context,View view){
 
-        mTypeface = Typeface.createFromAsset(context.getAssets(),"fonts/NanumBarunGothic.otf");
+        mTypeface = Typeface.createFromAsset(context.getAssets(),"fonts/NanumBarunGothicLight.otf");
 
         if(view != null){
             if(view instanceof ViewGroup){

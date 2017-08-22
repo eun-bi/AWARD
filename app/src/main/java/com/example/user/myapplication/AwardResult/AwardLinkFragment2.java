@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.example.user.myapplication.Award;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.SharedPrefereneUtil;
+import com.example.user.myapplication.Util;
 import com.example.user.myapplication.network.JSONParser;
 import com.google.gson.Gson;
 
@@ -68,8 +69,8 @@ public class AwardLinkFragment2 extends Fragment {
 
         awardLinks = new ArrayList<>();
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
+        user_id = new SharedPrefereneUtil(getContext()).getUser_id();
+        Log.d("user_id",user_id);
 
         Intent intent = getActivity().getIntent();
         awardResultBundle = intent.getBundleExtra("awardResultBundle");
@@ -260,6 +261,9 @@ public class AwardLinkFragment2 extends Fragment {
             mContext = parent.getContext();
 
             final View view = LayoutInflater.from(mContext).inflate(R.layout.list_link_item, parent, false);
+
+            Util.setGlobalFont(mContext, view); // font 적용
+
             return new LinkViewHolder(view);
         }
 

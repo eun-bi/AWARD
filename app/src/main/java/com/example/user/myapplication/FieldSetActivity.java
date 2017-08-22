@@ -264,13 +264,7 @@ public class FieldSetActivity extends AppCompatActivity {
         protected void onPostExecute (JSONObject jsonObject){
             loadingDialog.dismiss();
 
-            Toast.makeText(FieldSetActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
-
             Intent intent = new Intent(FieldSetActivity.this, MainActivity.class);
-          //  intent.putExtra("user_id",user_id);
-           // intent.putExtra("user_img_path",user_img_path);
-          //  intent.putExtra("user_name_a", user_name_a);
-
             startActivity(intent);
             FieldSetActivity.this.finish();
         }

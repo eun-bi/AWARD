@@ -85,8 +85,8 @@ public class AddLinkActivity extends AppCompatActivity {
 
         initView();
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
+        user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
+        Log.d("user_id",user_id);
 
         Intent intent = getIntent();
         award_id = intent.getStringExtra("award_id");
@@ -266,7 +266,7 @@ public class AddLinkActivity extends AppCompatActivity {
 
             LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.item_searchlist,null);
-          //  Util.setGlobalFont(context,v);
+            Util.setGlobalFont(context, v); // font 적용
 
 
             ImageView youtube_img = (ImageView)v.findViewById(R.id.youtube_img);

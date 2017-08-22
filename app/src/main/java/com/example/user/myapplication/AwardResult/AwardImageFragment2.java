@@ -98,8 +98,8 @@ public class AwardImageFragment2 extends Fragment {
 
         imagesPathList = new ArrayList<String>();
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
+        user_id = new SharedPrefereneUtil(getContext()).getUser_id();
+        Log.d("user_id",user_id);
 
         Intent intent = getActivity().getIntent();
         awardResultBundle = intent.getBundleExtra("awardResultBundle");

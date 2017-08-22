@@ -17,4 +17,13 @@
     <string name="award_result_tab_caption">시상평</string>
     <string name="award_result_tab_pic">앨범</string>
     <string name="award_result_tab_link">링크</string>
+
+    <!--setting -->
+    <string name="setting_profile">프로필 관리</string>
+    <string name="setting_txt_ask">문의</string>
+    <string name="setting_info">개인정보 처리방침</string>
+    <string name="setting_ask">메일로 문의</string>
+    <string name="logout">로그아웃</string>
+
+    <string name="network_chk"> 네트워크 연결을 확인해주세요</string>
 </resources>

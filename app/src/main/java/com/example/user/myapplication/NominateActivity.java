@@ -75,8 +75,8 @@ public class NominateActivity extends AppCompatActivity {
 
         initView();
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id", user_id);
+        user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
+        Log.d("user_id",user_id);
 
         makeList();
         setEvent();
@@ -187,15 +187,6 @@ public class NominateActivity extends AppCompatActivity {
                 nominateListAdapter.notifyDataSetChanged();
 
                 nominate = nominateListAdapter.getTitle(position);
-//                nominate = nominate_title_list.get(position);
-//                // todo test
-//                // 시상하기로 바로 넘어갈 경우
-//                Intent intent = new Intent(NominateActivity.this, MakeAwardActivity1.class);
-//                intent.putExtra("nominate", nominate);
-//                intent.putExtra("Award_field",field);
-//                Log.d("nominate_test_name", nominate);
-//                Log.d("nominate_test_field",field);
-//                startActivity(intent);
             }
         });
 

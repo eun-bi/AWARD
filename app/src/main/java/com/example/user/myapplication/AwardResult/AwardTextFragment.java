@@ -69,9 +69,8 @@ public class AwardTextFragment extends Fragment {
 
     private void loadView() {
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id", user_id);
-
+        user_id = new SharedPrefereneUtil(getContext()).getUser_id();
+        Log.d("user_id",user_id);
         Intent intent = getActivity().getIntent();
         awardResultBundle = intent.getBundleExtra("awardResultBundle");
         award_id = awardResultBundle.getString("award_id");

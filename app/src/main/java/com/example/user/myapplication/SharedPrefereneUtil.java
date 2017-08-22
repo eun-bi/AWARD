@@ -2,63 +2,68 @@ package com.example.user.myapplication;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 /**
  * Created by User on 2017-05-09.
  */
 public class SharedPrefereneUtil {
 
-    private final String Pref_name = "login_pref";
-    static Context mContext;
+    private static final String Pref_name = "login_pref";
+
+    private SharedPreferences sharedPreferences;
+    private Editor editor;
+
 
     public SharedPrefereneUtil(Context context){
 
-        mContext = context;
+        this.sharedPreferences = context.getSharedPreferences(Pref_name,Context.MODE_PRIVATE);
+        this.editor = sharedPreferences.edit();
 
     }
 
     /* 자동로그인을 위한 로그인여부 체크 */
-    public void putLoginchk(String key, boolean b){
+    public void putLoginchk(boolean b){
 
-        SharedPreferences pref = mContext.getSharedPreferences(Pref_name,Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean(key,b);
+        editor.putBoolean("login_chk",b);
         editor.commit();
 
     }
 
-    public boolean getLoginchk(String key, boolean b){
+    public boolean getLoginchk(){
 
-        SharedPreferences pref = mContext.getSharedPreferences(Pref_name,Context.MODE_PRIVATE);
-        return pref.getBoolean(key, b);
-
+        // login_chk에 대한 값이 없을 경우 false 리턴
+        return sharedPreferences.getBoolean("login_chk",false);
     }
 
-    public void putSharedPreferences(String key, String value){
+    public void putSharedPreferences(String user_id,String user_name,String user_img_path){
 
-        SharedPreferences pref = mContext.getSharedPreferences(Pref_name,Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString(key,value);
+        editor.putString("user_id",user_id);
+        editor.putString("user_name",user_name);
+        editor.putString("user_img_path",user_img_path);
         editor.commit();
 
     }
 
-    public String getSharedPreferences(String key, String value) {
+    public String getUser_id(){
+        return sharedPreferences.getString("user_id","");
+    }
 
-        SharedPreferences pref = mContext.getSharedPreferences(Pref_name,Context.MODE_PRIVATE);
+    public String getUser_name(){
+        return sharedPreferences.getString("user_name","");
+    }
 
-        try{
-            return pref.getString(key, value);
-        }catch (Exception e){
-            return value;
-        }
+    public String getUser_img_path(){
+        return sharedPreferences.getString("user_img_path","");
+    }
 
+    public boolean isUserLogout(){
+        boolean isUserid = sharedPreferences.getString("user_id","").isEmpty();
+        return isUserid;
     }
 
     public void removeSharedPreferences(String key){
 
-        SharedPreferences pref = mContext.getSharedPreferences(Pref_name,Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
         editor.remove(key);
         editor.commit();
 

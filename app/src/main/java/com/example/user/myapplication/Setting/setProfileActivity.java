@@ -64,6 +64,7 @@ public class setProfileActivity extends AppCompatActivity {
     private TextView txtChk;
     private EditText editName;
 
+    private String user_id;
     private String user_img_path;
     private String user_name;
 
@@ -81,7 +82,7 @@ public class setProfileActivity extends AppCompatActivity {
 
     private JSONObject myprofile_json;
 
-    private String user_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,25 +98,26 @@ public class setProfileActivity extends AppCompatActivity {
     private void setView() {
 
         SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id", user_id);
+        user_id = prefereneUtil.getUser_id();
+        user_name = prefereneUtil.getUser_name();
+        user_img_path = prefereneUtil.getUser_img_path();
 
-        try {
-
-            // user_id로 내 어워드 리스트 가져오기
-            myprofile_json = new ShowMyProfile().execute(user_id).get();
-
-            user_img_path = myprofile_json.getString("user_img_path");
-            Log.d("user_img_path ? : ", user_img_path);
-            user_name = myprofile_json.getString("user_name");
-            Log.d("user_name ? : ", user_name);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+//            myprofile_json = new ShowMyProfile().execute(user_id).get();
+//
+//            user_img_path = myprofile_json.getString("user_img_path");
+//            Log.d("user_img_path ? : ", user_img_path);
+//            user_name = myprofile_json.getString("user_name");
+//            Log.d("user_name ? : ", user_name);
+//
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
         Glide
                 .with(setProfileActivity.this)
@@ -224,7 +226,7 @@ public class setProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 user_name = String.valueOf(editName.getText());
-                new chkAsync().execute(Award.user_id, user_name);
+                new chkAsync().execute(user_id, user_name);
 
             }
 

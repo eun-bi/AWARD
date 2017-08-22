@@ -79,8 +79,8 @@ public class BadgeDetailActivity extends AppCompatActivity {
         badge_name = intent.getStringExtra("badge_name");
         txtBadge_name.setText(badge_name);
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getApplicationContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
+        user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
+        Log.d("user_id",user_id);
 
         adapter = new AwardDetailAdapter();
         list_mybadge.setAdapter(adapter);

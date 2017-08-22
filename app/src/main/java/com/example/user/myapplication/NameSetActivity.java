@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -80,16 +81,11 @@ public class NameSetActivity extends AppCompatActivity {
     private static final int PICK_FROM_ALBUM = 1;
     private static final int CROP_FROM_CAMERA = 2;
 
-    private sqliteDBHelper sqliteDBHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_name_set);
         Util.setGlobalFont(this, getWindow().getDecorView()); // font 적용
-
-        // db 생성
-        sqliteDBHelper = new sqliteDBHelper(this, "user_info.db", null, 1);
 
         initView();
         setVIew();
@@ -116,13 +112,13 @@ public class NameSetActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(editName.getText())){
                     btnChk.setEnabled(false);
                     btn_register.setEnabled(false);
+                    btn_register.setTextColor(ContextCompat.getColorStateList(NameSetActivity.this,R.color.white_40));
                 }
 
                 else {
                     btnChk.setEnabled(true);
                     btn_register.setEnabled(true);
-                    // 중복확인 버튼 활성화
-                    //btnChk.setBackgroundResource(R.drawable.);
+                    btn_register.setTextColor(ContextCompat.getColorStateList(NameSetActivity.this,R.color.white));
                 }
             }
 
@@ -156,9 +152,6 @@ public class NameSetActivity extends AppCompatActivity {
 
 
                 new NameSetAsync().execute(user_id, user_name);
-
-                // 사용자 정보 저장
-             //   sqliteDBHelper.insert(user_id, user_name, user_img_path);
             }
         });
 
@@ -567,6 +560,11 @@ public class NameSetActivity extends AppCompatActivity {
                 loadingDialog.dismiss();
 
                 Toast.makeText(NameSetActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+
+                /* sharedpreferences 로그인 정보 저장 */
+                SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(getApplicationContext());
+                sharedPrefereneUtil.putSharedPreferences(user_id, user_name, user_img_path);
+                sharedPrefereneUtil.putLoginchk(true);
 
                 Intent intent = new Intent(NameSetActivity.this, FieldSetActivity.class);
                 startActivity(intent);

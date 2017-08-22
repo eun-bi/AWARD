@@ -66,8 +66,7 @@ public class MyFeedAwardFragment extends Fragment implements View.OnTouchListene
 
         awardsList = new ArrayList<>();
 
-        SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getContext());
-        user_id = prefereneUtil.getSharedPreferences("user_id",user_id);
+        user_id = new SharedPrefereneUtil(getContext()).getUser_id();
         Log.d("user_id",user_id);
 
         try {
@@ -295,7 +294,7 @@ public class MyFeedAwardFragment extends Fragment implements View.OnTouchListene
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        //todo 이거 다시 보자
+
         /* Header 와 listview 사이에 터치 중복 방지 */
 
         if (event.getAction() == MotionEvent.ACTION_UP){
