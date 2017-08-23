@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
 
                         try {
 
-                            // 최초 실행 시 -> login activity / 자동 로그인 -> main activity
+                         //    최초 실행 시 -> login activity / 자동 로그인 -> main activity
 
                             if(new SharedPrefereneUtil(getApplicationContext()).getLoginchk()){
 
@@ -49,8 +49,7 @@ public class SplashActivity extends AppCompatActivity {
 
                                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                 startActivity(intent);
-
-                            }
+                              }
 
                         }catch (Exception e){
 

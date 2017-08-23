@@ -74,7 +74,6 @@ public class ImageSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_select);
 
-
         initView();
 
         user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
@@ -204,7 +203,7 @@ public class ImageSelectActivity extends AppCompatActivity {
 
         protected void onPreExecute() {
             super.onPreExecute();
-            loadingDialog = ProgressDialog.show(ImageSelectActivity.this, "Please wait", "Loading...");
+//            loadingDialog = ProgressDialog.show(ImageSelectActivity.this, "Please wait", "Loading...");
         }
 
         @Override
@@ -316,7 +315,7 @@ public class ImageSelectActivity extends AppCompatActivity {
 
         protected void onPostExecute(JSONObject jsonObject) {
 
-            loadingDialog.dismiss();
+//            loadingDialog.dismiss();
 
             Toast.makeText(ImageSelectActivity.this, "파일 업로드 완료", Toast.LENGTH_SHORT).show();
             ImageSelectActivity.this.finish();

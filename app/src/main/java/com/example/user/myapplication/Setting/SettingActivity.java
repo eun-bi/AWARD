@@ -17,6 +17,7 @@ import com.example.user.myapplication.LoginActivity;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.SharedPrefereneUtil;
 import com.example.user.myapplication.Util;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -33,6 +34,8 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         Util.setGlobalFont(this, getWindow().getDecorView()); // font 적용
+
+        FacebookSdk.sdkInitialize(this.getApplicationContext());//Facebook sdk 초기화
 
         initView();
 
@@ -87,32 +90,28 @@ public class SettingActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                try {
                                     // 로그아웃
 
-                                    // kakao Logout
-                                    UserManagement.requestLogout(new LogoutResponseCallback() {
-                                        @Override
-                                        public void onCompleteLogout() {
-                                            Log.d("kakao", " logout");
-                                        }
-                                    });
+                                    if(new SharedPrefereneUtil(getApplicationContext()).getLoginfb()){
+                                        // facebook Logout
+                                        LoginManager.getInstance().logOut();
+                                        new SharedPrefereneUtil(getApplicationContext()).putLoginfb(false);
+                                    }
 
-                                    // facebook Logout
-                                    LoginManager.getInstance().logOut();
+                                    if(new SharedPrefereneUtil(getApplicationContext()).getLoginkt()){
+                                        // kakao Logout
+                                        UserManagement.requestLogout(new LogoutResponseCallback() {
+                                            @Override
+                                            public void onCompleteLogout() {
+                                                Log.d("kakao", " logout");
+                                                new SharedPrefereneUtil(getApplicationContext()).putLoginkt(false);
+                                            }
+                                        });
+                                    }
 
-                                    try {
-                                        new SharedPrefereneUtil(getApplicationContext()).isUserLogout(user_id);
                                         Toast.makeText(getApplicationContext(),"로그아웃되었습니다.",Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
                                         startActivity(intent);
-                                    }catch (Exception e) {
-                                        Log.d("error", e.toString());
-                                    }
-
-                                } catch (Exception e) {
-                                    Log.d("로그아웃", "실패");
-                                }
 
                             }
                         }).setNegativeButton("No", new DialogInterface.OnClickListener() {

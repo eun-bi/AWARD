@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.user.myapplication.Award;
 import com.example.user.myapplication.R;
+import com.example.user.myapplication.Util;
 import com.example.user.myapplication.network.JSONParser;
 
 import org.json.JSONException;
@@ -42,6 +43,7 @@ public class ImageDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
+        Util.setGlobalFont(this, getWindow().getDecorView()); // font 적용
         
         initView();
         setView();

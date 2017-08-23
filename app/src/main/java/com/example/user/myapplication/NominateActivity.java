@@ -3,14 +3,18 @@ package com.example.user.myapplication;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -86,6 +90,24 @@ public class NominateActivity extends AppCompatActivity {
 
 
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(),R.layout.item_spinner, fields);
+//        {
+//
+//            @Override
+//            public View getView(int position, View convertView,  ViewGroup parent) {
+//                View v = super.getView(position,convertView,parent);
+//                Context context = parent.getContext();
+//                Util.setGlobalFont(context, convertView); // font 적용
+//                return v;
+//            }
+//
+//            @Override
+//            public View getDropDownView(int position, View convertView,ViewGroup parent) {
+//                View v = super.getDropDownView(position,convertView,parent);
+//                Context context = parent.getContext();
+//                Util.setGlobalFont(context, convertView); // font 적용
+//                return v;
+//            }
+//        };
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinner_nominate.setAdapter(adapter);
 
@@ -190,13 +212,6 @@ public class NominateActivity extends AppCompatActivity {
             }
         });
 
-//        list_nominate.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                scrollView_nominate.requestDisallowInterceptTouchEvent(true);
-//                return false;
-//            }
-//        });
 
     }
 

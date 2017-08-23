@@ -156,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                                 try {
 
                                     user_id = object.getString("id");
-                                    user_img_path = "icture?type=largehttp://graph.facebook.com/\" + user_id + \"/p";
+                                    user_img_path = "http://graph.facebook.com/" + user_id + "/picture?type=large";
                                     user_name_a = object.getString("name");
 
                                     new LoginAsync().execute(user_id);
@@ -166,6 +166,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d("LoginTest", "사용자 id : " + object.getString("id"));
                                     Log.d("LoginTest", "사용자 프로필 : " + user_img_path);
 
+                                    new SharedPrefereneUtil(getApplicationContext()).putLoginfb(true);
+                                    new SharedPrefereneUtil(getApplicationContext()).putUser_id(user_id);
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -360,6 +362,9 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("UserProfile", userProfile.toString());
                     Log.d("LoginTest", "사용자 일련번호 : " + user_id);
                     Log.d("LoginTest", "프로필 경로 : " + user_img_path);
+
+                    new SharedPrefereneUtil(getApplicationContext()).putLoginkt(true);
+                    new SharedPrefereneUtil(getApplicationContext()).putUser_id(user_id);
                 }
             });
         }
@@ -422,7 +427,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }else{
                 Intent intent = new Intent(LoginActivity.this,NameSetActivity.class);
-                intent.putExtra("user_id",user_id);
                 intent.putExtra("user_img_path",user_img_path);
                 intent.putExtra("user_name_a", user_name_a);
                 startActivity(intent);

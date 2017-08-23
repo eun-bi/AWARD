@@ -166,12 +166,12 @@ public class AwardImageFragment2 extends Fragment {
 
         try {
 
-            subImageAdapter = new AwardSubImageAdapter2();
-            gridLayoutManager = new GridLayoutManager(getContext(),3);
-
-//        myImg_list_recycler.setHasFixedSize(true);
-            myImg_list_recycler.setLayoutManager(gridLayoutManager);
-            myImg_list_recycler.setAdapter(subImageAdapter);
+//            subImageAdapter = new AwardSubImageAdapter2();
+//            gridLayoutManager = new GridLayoutManager(getContext(),3);
+//
+////        myImg_list_recycler.setHasFixedSize(true);
+//            myImg_list_recycler.setLayoutManager(gridLayoutManager);
+//            myImg_list_recycler.setAdapter(subImageAdapter);
 
             Gson gson = new Gson();
 

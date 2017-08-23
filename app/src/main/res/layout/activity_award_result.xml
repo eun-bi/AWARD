@@ -7,9 +7,6 @@
     android:fitsSystemWindows="true"
     android:background="#0d0d0d">
 
-
-
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="360dp"
@@ -124,7 +121,7 @@
             <android.support.design.widget.TabLayout
                 android:id="@+id/award_result_content_tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:background="#0d0d0d"
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="fixed"
@@ -132,13 +129,13 @@
                 android:minHeight="?attr/actionBarSize">
 
                 <android.support.design.widget.TabItem
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:icon="@drawable/main_bottom_tabitem_home" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/result_tabitem_sisangpyung" />
 
                 <android.support.design.widget.TabItem
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:icon="@drawable/result_tabitem_album" />
 
                 <android.support.design.widget.TabItem

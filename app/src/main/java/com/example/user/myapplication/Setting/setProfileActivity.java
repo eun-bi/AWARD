@@ -104,7 +104,7 @@ public class setProfileActivity extends AppCompatActivity {
 
         Glide
                 .with(setProfileActivity.this)
-                .load(IMAGE_URL + user_img_path)
+                .load(user_img_path)
                 .fitCenter()
                 .centerCrop()
                 .crossFade() // 이미지 로딩 시 페이드 효과

@@ -59,9 +59,6 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class NameSetActivity extends AppCompatActivity {
 
-    InputStream is;
-    public FileInputStream mFileInputStream;
-
     TextView txtName, txtChk;
     EditText editName;
     Button btnChk, btn_register, btnImgSet, btnBack;
@@ -327,7 +324,7 @@ public class NameSetActivity extends AppCompatActivity {
     private void setVIew() {
 
         Intent intent = getIntent();
-        user_id = intent.getStringExtra("user_id");
+        user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
         user_img_path = intent.getStringExtra("user_img_path");
         user_name_a = intent.getStringExtra("user_name_a");
 
@@ -448,12 +445,15 @@ public class NameSetActivity extends AppCompatActivity {
                 try {
 
 //                    if(user_img_path.startsWith("http")){
-//                        is = new URL(user_img_path).openStream();
-//                    }else{ // 아닐 경우 비디오
+//                        new URL(user_img_path).openStream();
+//                    }else{
 //                        mFileInputStream = new FileInputStream(user_img_path);
 //                    }
 
+
                      FileInputStream mFileInputStream = new FileInputStream(user_img_path);
+
+
                     URL connectUrl = new URL(urlString1);
                     Log.d("Test", "mFileInputStream  is " + mFileInputStream);
 
@@ -572,15 +572,13 @@ public class NameSetActivity extends AppCompatActivity {
 
                 /* sharedpreferences 로그인 정보 저장 */
                 SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(getApplicationContext());
-                sharedPrefereneUtil.putSharedPreferences(user_id, user_name, user_img_path);
+                sharedPrefereneUtil.putSharedPreferences(user_name, user_img_path);
                 sharedPrefereneUtil.putLoginchk(true);
 
                 Intent intent = new Intent(NameSetActivity.this, FieldSetActivity.class);
                 startActivity(intent);
                 NameSetActivity.this.finish();
-                // Log.d("Test", "image byte is " + result);
 
             }
-
         }
     }

@@ -176,7 +176,8 @@ public class MyFeedAwardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             /* Header (viewpager) */
             final MyAwardHeaderViewHolder vh = (MyAwardHeaderViewHolder) viewHolder;
 
-            vh.viewPagerDot.setNumOfCircles(nominate_list.size(), mContext.getResources().getDimensionPixelSize(R.dimen.height_very_small));
+            // 일단 1개로 고정
+            vh.viewPagerDot.setNumOfCircles(1, mContext.getResources().getDimensionPixelSize(R.dimen.height_very_small));
 
             HeaderPagerAdapter headerPagerAdapter = new HeaderPagerAdapter();
             vh.viewPager.setAdapter(headerPagerAdapter);

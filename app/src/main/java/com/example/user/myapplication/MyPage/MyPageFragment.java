@@ -67,9 +67,6 @@ public class MyPageFragment extends Fragment{
 
         Log.d("user_info",user_name + user_img_path);
 
-
-
-
     }
 
     @Nullable
@@ -91,29 +88,18 @@ public class MyPageFragment extends Fragment{
         Util.setGlobalFont(getContext(), getActivity().getWindow().getDecorView()); // font 적용
 
         adapter = new MenuAdapter();
-        listView_menu.setAdapter(adapter);
         setProfile_Menu();
-        //        if(user_img_path.startsWith("http")){
-//            Glide
-//                    .with(this)
-//                    .load(user_img_path)
-//                    .fitCenter()
-//                    .centerCrop()
-//                    .crossFade() // 이미지 로딩 시 페이드 효과
-//                    .bitmapTransform(new CropCircleTransformation(getActivity()))  // image 원형
-//                    .override(200, 200)
-//                    .into(img_Profile);
-//        }else{
+        listView_menu.setAdapter(adapter);
+
         Glide
                 .with(this)
-                .load(IMAGE_URL + user_img_path)
+                .load(user_img_path)
                 .fitCenter()
                 .centerCrop()
                 .crossFade() // 이미지 로딩 시 페이드 효과
                 .bitmapTransform(new CropCircleTransformation(getActivity()))  // image 원형
                 .override(200, 200)
                 .into(img_Profile);
-//        }
 
         txtAward_myname.setText(user_name);
 
