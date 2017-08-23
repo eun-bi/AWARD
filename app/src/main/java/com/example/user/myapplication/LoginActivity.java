@@ -156,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                                 try {
 
                                     user_id = object.getString("id");
-                                    user_img_path = "http://graph.facebook.com/" + user_id + "/picture?type=large";
+                                    user_img_path = "icture?type=largehttp://graph.facebook.com/\" + user_id + \"/p";
                                     user_name_a = object.getString("name");
 
                                     new LoginAsync().execute(user_id);

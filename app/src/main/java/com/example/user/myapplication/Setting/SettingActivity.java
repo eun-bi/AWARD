@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.user.myapplication.Award;
 import com.example.user.myapplication.LoginActivity;
@@ -87,7 +88,6 @@ public class SettingActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 try {
-
                                     // 로그아웃
 
                                     // kakao Logout
@@ -95,17 +95,20 @@ public class SettingActivity extends AppCompatActivity {
                                         @Override
                                         public void onCompleteLogout() {
                                             Log.d("kakao", " logout");
-                                            Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
-                                            startActivity(intent);
                                         }
                                     });
 
                                     // facebook Logout
                                     LoginManager.getInstance().logOut();
 
-                                    new SharedPrefereneUtil(getApplicationContext()).isUserLogout();
-
-
+                                    try {
+                                        new SharedPrefereneUtil(getApplicationContext()).isUserLogout(user_id);
+                                        Toast.makeText(getApplicationContext(),"로그아웃되었습니다.",Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                                        startActivity(intent);
+                                    }catch (Exception e) {
+                                        Log.d("error", e.toString());
+                                    }
 
                                 } catch (Exception e) {
                                     Log.d("로그아웃", "실패");

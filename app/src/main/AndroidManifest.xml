@@ -103,6 +103,11 @@
             android:name=".AwardResult.AwardResultActivity"
             android:label="@string/title_activity_award_result"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+
         <activity
             android:name=".AwardResult.ImageSelectActivity"
             android:theme="@style/AppTheme.NoActionBar" />

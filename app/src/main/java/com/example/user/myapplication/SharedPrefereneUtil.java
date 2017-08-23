@@ -57,9 +57,10 @@ public class SharedPrefereneUtil {
         return sharedPreferences.getString("user_img_path","");
     }
 
-    public boolean isUserLogout(){
-        boolean isUserid = sharedPreferences.getString("user_id","").isEmpty();
-        return isUserid;
+    public void isUserLogout(String user_id){
+        editor.remove(user_id);
+//        boolean isUserid = sharedPreferences.getString("user_id","").isEmpty();
+        editor.commit();
     }
 
     public void removeSharedPreferences(String key){

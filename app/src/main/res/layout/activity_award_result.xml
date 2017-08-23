@@ -132,7 +132,7 @@
                 android:minHeight="?attr/actionBarSize">
 
                 <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:icon="@drawable/main_bottom_tabitem_home" />
 

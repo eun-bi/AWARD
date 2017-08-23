@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -99,6 +100,11 @@ public class AwardResultActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(" ");
+
+//        tabLayout.addTab(tabLayout.newTab().setText("시상평"));
+//        tabLayout.addTab(tabLayout.newTab().setText("앨범"));
+//        tabLayout.addTab(tabLayout.newTab().setText("링크"));
+//        tabLayout.setTabTextColors(ContextCompat.getColorStateList(AwardResultActivity.this, R.color.white));
 
 
         if (savedInstanceState == null) {

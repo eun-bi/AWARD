@@ -74,8 +74,8 @@ public class MyAwardsActivity extends AppCompatActivity {
         list_awards.setAdapter(myAwardsAdapter);
         list_n_awards.setAdapter(notMyAwardsAdapter);
 
-        setListViewHeightBaedOnChild(list_awards);
-        setListViewHeightBaedOnChild(list_n_awards);
+//        setListViewHeightBaedOnChild(list_awards);
+//        setListViewHeightBaedOnChild(list_n_awards);
 
 
 
@@ -245,23 +245,23 @@ public class MyAwardsActivity extends AppCompatActivity {
 
     private void setEvent() {
 
-        // listview 스크롤 문제 해결
-        list_awards.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                scrollView.requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-
-        // listview 스크롤 문제 해결
-        list_n_awards.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                scrollView.requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
+//        // listview 스크롤 문제 해결
+//        list_awards.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                scrollView.requestDisallowInterceptTouchEvent(true);
+//                return false;
+//            }
+//        });
+//
+//        // listview 스크롤 문제 해결
+//        list_n_awards.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                scrollView.requestDisallowInterceptTouchEvent(true);
+//                return false;
+//            }
+//        });
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

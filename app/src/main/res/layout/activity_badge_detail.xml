@@ -49,7 +49,7 @@
             android:paddingLeft="22dp">
 
             <ImageView
-                android:layout_width="50dp"
+                android:layout_width="60dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="27dp"
                 android:layout_marginRight="25dp"
@@ -99,7 +99,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="#db9a7a"
                             android:textSize="16sp"
-                            android:text="New Text"
+                            android:text="n"
                             android:id="@+id/txtAward_num" />
                 </LinearLayout>
             </LinearLayout>

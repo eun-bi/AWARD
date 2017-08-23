@@ -7,9 +7,10 @@
     android:background="#0d0d0d">
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="67dp"
         android:layout_height="67dp"
-        android:background="@drawable/btn_plus"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_plus_rectangle"
         android:id="@+id/btnLink" />
 
         <android.support.v7.widget.RecyclerView

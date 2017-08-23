@@ -266,7 +266,7 @@ public class AddLinkActivity extends AppCompatActivity {
 
             LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.item_searchlist,null);
-            Util.setGlobalFont(context, v); // font 적용
+//            Util.setGlobalFont(context, v); // font 적용
 
 
             ImageView youtube_img = (ImageView)v.findViewById(R.id.youtube_img);
