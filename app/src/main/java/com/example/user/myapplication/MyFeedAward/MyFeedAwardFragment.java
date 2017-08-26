@@ -103,9 +103,9 @@ public class MyFeedAwardFragment extends Fragment implements View.OnTouchListene
         super.onActivityCreated(savedInstanceState);
 
         recycler_adapter = new MyFeedAwardAdapter(getContext(), awardsList, nominates);
-        mLinearLayoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mLinearLayoutManager = new LinearLayoutManager(this.getContext());
         mRecyclerView.setAdapter(recycler_adapter);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
         loadList(firstAward);
         refreshItems();

@@ -386,11 +386,11 @@ public class LoginActivity extends AppCompatActivity {
         JSONParser jsonParser = new JSONParser();
         private static final String LOGIN_URL = Award.AWARD_URL + "Award_server/Award/login_user.jsp";
 
-        Dialog loadingDialog;
+//        Dialog loadingDialog;
 
         protected void onPreExecute() {
             super.onPreExecute();
-            loadingDialog = ProgressDialog.show(LoginActivity.this, "Please wait", "Loading...");
+//            loadingDialog = ProgressDialog.show(LoginActivity.this, "Please wait", "Loading...");
         }
 
         @Override
@@ -418,7 +418,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute (JSONObject jsonObject){
-            loadingDialog.dismiss();
+//            loadingDialog.dismiss();
 
             if(new SharedPrefereneUtil(getApplicationContext()).getLoginchk()){
 

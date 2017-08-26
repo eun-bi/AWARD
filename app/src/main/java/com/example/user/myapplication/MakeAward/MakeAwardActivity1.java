@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,9 +24,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.myapplication.MainActivity;
+import com.example.user.myapplication.NameSetActivity;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.Util;
 
@@ -59,14 +62,38 @@ public class MakeAwardActivity1 extends AppCompatActivity {
         setContentView(R.layout.activity_make_award1);
         Util.setGlobalFont(this, getWindow().getDecorView()); // font 적용
 
+        Thread thread = new Thread(runnable);
+        thread.start();
 
-        initView(); // 초기화
+
+        initView();
         makeList();
         Img_(); // 이미지
         setEvent();
+
+
+
     }
 
-
+    /* thread 안에서 ui 접근 가능*/
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (TextUtils.isEmpty(edit_title.getText()) || TextUtils.isEmpty(field)) {
+                        btnNext.setEnabled(false);
+                        btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity1.this,R.color.white_40));
+                    }
+                    else{
+                        btnNext.setEnabled(true);
+                        btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity1.this,R.color.white));
+                    }
+                }
+            });
+        }
+    };
 
     private void makeList() {
         awardFieldAdapter = new AwardFieldAdapter();
@@ -109,27 +136,30 @@ public class MakeAwardActivity1 extends AppCompatActivity {
 
     private void setEvent() {
 
-        edit_title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (TextUtils.isEmpty(edit_title.getText())) {
-                    btnNext.setEnabled(false);
-                }
-                else{
-                    btnNext.setEnabled(true);
-                    //todo 버튼 색
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        edit_title.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                // 텍스트뷰, 리스트뷰의 변화가 아닌 뷰 전체의 변화가 있을 시에 체크하도록
+//                if (TextUtils.isEmpty(edit_title.getText()) || TextUtils.isEmpty(field)) {
+//                    btnNext.setEnabled(false);
+//                    btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity1.this,R.color.white_40));
+//                }
+//                else{
+//                    btnNext.setEnabled(true);
+//                    btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity1.this,R.color.white));
+//                }
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
         list_field.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -175,6 +205,7 @@ public class MakeAwardActivity1 extends AppCompatActivity {
                 setBack();
             }
         });
+
 
 
         btnNext.setOnClickListener(new View.OnClickListener() {

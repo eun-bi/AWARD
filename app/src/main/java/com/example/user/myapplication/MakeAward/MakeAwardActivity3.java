@@ -9,8 +9,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -91,6 +93,9 @@ public class MakeAwardActivity3 extends AppCompatActivity {
 
         shareDialog = new ShareDialog(this);
 
+        Thread thread = new Thread(runnable);
+        thread.start();
+
         setEvent();
         
     }
@@ -101,6 +106,25 @@ public class MakeAwardActivity3 extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    /* thread 안에서 ui 접근 가능*/
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (TextUtils.isEmpty(edit_caption.toString())) {
+                        btnMakeAward.setEnabled(false);
+                        btnMakeAward.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity3.this,R.color.white_40));
+                    }
+                    else{
+                        btnMakeAward.setEnabled(true);
+                        btnMakeAward.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity3.this,R.color.white));
+                    }
+                }
+            });
+        }
+    };
 
     private void setEvent() {
 
@@ -154,18 +178,19 @@ public class MakeAwardActivity3 extends AppCompatActivity {
             }
         });
 
-        toggle_fbShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (toggle_fbShare.isChecked()) { // 페이스북 공유 기능
-                    facebook_share();
-                    Log.d("페북","공유");
-                    // toggleButton.setBackgroundDrawable(getDrawable(R.id.);
-                } else {
-                    //  toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.com_facebook_button_background));
-                }
-            }
-        });
+//  facebook share 기능 추후에 추가
+//        toggle_fbShare.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (toggle_fbShare.isChecked()) { // 페이스북 공유 기능
+//                    facebook_share();
+//                    Log.d("페북","공유");
+//                    // toggleButton.setBackgroundDrawable(getDrawable(R.id.);
+//                } else {
+//                    //  toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.com_facebook_button_background));
+//                }
+//            }
+//        });
 
         // 키보드 show/hide 기능
         toggle_keyboard.setOnClickListener(new View.OnClickListener() {
@@ -239,6 +264,8 @@ public class MakeAwardActivity3 extends AppCompatActivity {
 
             try {
 
+
+
                 Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null, null);
                 c.moveToNext();
                 String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
@@ -274,54 +301,12 @@ public class MakeAwardActivity3 extends AppCompatActivity {
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Connection", "Keep-Alive");
                 conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                //   conn.setRequestProperty("uploadedfile",absolutePath);
-                //    conn.setRequestProperty("caption",caption);
-                //   conn.setRequestProperty("title",title);
 
-                //  FileInputStream in = new FileInputStream(filePath);
                 DataOutputStream out = new DataOutputStream(new BufferedOutputStream(
                         conn.getOutputStream()));
 
                 // 위에서 작성한 메타데이터를 먼저 전송한다. (한글이 포함되어 있으므로 UTF-8 메소드 사용)
                 out.writeUTF(postDataBuilder.toString());
-
-/*                // open connection
-                HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.setUseCaches(false);
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Connection", "Keep-Alive");
-                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                conn.setRequestProperty("uploadedfile",absolutePath);
-                conn.setRequestProperty("caption",caption);
-                conn.setRequestProperty("title",title);
-
-                // conn.connect();
-
-                // write data
-                DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
-                //  writeFormField();
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"params\"" + lineEnd);
-                dos.writeBytes(args + lineEnd);
-                dos.writeBytes(lineEnd);
-
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + absolutePath +"\"" + lineEnd);
-                dos.writeBytes(lineEnd);
-
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"title\"" + lineEnd + lineEnd + title + lineEnd);
-                Log.e("title : ", title);
-
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"caption\"" + lineEnd + lineEnd + caption + lineEnd);
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes(delimiter);
-               Log.e("caption : ", caption);*/
-
-                //dos....아래 파일보는는곳에서 caption하고 구분이 지어지지 않고 바로 연결되어서 같이 보내지는것 같다. 어떻게 하면 없앨수 있을까.
 
 
                 int bytesAvailable = mFileInputStream.available();
@@ -365,9 +350,6 @@ public class MakeAwardActivity3 extends AppCompatActivity {
                 String s = b.toString();
                 Log.e("Test", "result = " + s);
 
-                //mEdityEntry.setText(s);
-                // out.close();
-                Log.e("Captionistolong", caption);
 
                 conn.getInputStream();
                 conn.disconnect();
@@ -406,8 +388,7 @@ public class MakeAwardActivity3 extends AppCompatActivity {
 
             loadingDialog.dismiss();
 
-            Toast.makeText(MakeAwardActivity3.this,"AWARD 업로드 완료",Toast.LENGTH_SHORT).show();
-            Log.e("Captionistolong", caption);
+            Toast.makeText(MakeAwardActivity3.this, R.string.award_upload,Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(MakeAwardActivity3.this,MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -24,7 +24,6 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                finish();
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
                 ConnectivityManager manager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
@@ -68,6 +67,8 @@ public class SplashActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(getApplicationContext(),R.string.network_chk,Toast.LENGTH_LONG).show();
                 }
+
+                finish();
 
 
             }

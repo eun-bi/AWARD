@@ -7,11 +7,10 @@
     android:orientation="vertical"
     tools:context="com.example.user.myapplication.AwardResult.ImageDetailActivity">
 
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1"
-        android:orientation="horizontal">
+        android:layout_height="48dp"
+        android:background="#131313">
 
         <Button
             android:id="@+id/btn_back"
@@ -22,19 +21,7 @@
             android:background="@drawable/back"
             android:onClick="onBtnMenu" />
 
-        <Button
-            android:id="@+id/btn_allAlbum"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginRight="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="#00000000"
-            android:onClick="onBtnMenu"
-            android:text="전체앨범"
-            android:textColor="#FFFFFFFF"
-            android:textSize="12sp" />
-    </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:orientation="vertical"
@@ -47,48 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:src="@drawable/drama_deact"
             android:id="@+id/img_sub_full" />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom">
-
-            <Button
-                android:id="@+id/btn_save"
-                android:textSize="12sp"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:layout_alignParentLeft="true"
-                android:text="저장"
-                android:background="#00000000"
-                android:textColor="#ffffff"/>
-
-            <Button
-                android:id="@+id/btn_delete"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:background="#00000000"
-                android:onClick="onBtnMenu"
-                android:text="삭제"
-                android:textColor="#FFFFFFFF"
-                android:textSize="12sp" />
-
-        </RelativeLayout>
-    </LinearLayout>
-
 
 </LinearLayout>

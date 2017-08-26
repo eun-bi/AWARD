@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -27,12 +26,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.user.myapplication.Award;
-import com.example.user.myapplication.FieldSetActivity;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.SharedPrefereneUtil;
 import com.example.user.myapplication.Util;
 import com.example.user.myapplication.network.JSONParser;
-import com.example.user.myapplication.sqliteDBHelper;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -46,18 +43,12 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
 
-import com.example.user.myapplication.sqliteDBHelper;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class setProfileActivity extends AppCompatActivity {
-
-    private static final String IMAGE_URL = Award.IMAGE_URL + "profile/";
 
     private Button btnCancel, btn_pic, btnChk, btn_register;
     private ImageView img_Profile;
@@ -78,11 +69,6 @@ public class setProfileActivity extends AppCompatActivity {
     private Uri selPhotoUri;
 
     private String absolutePath;
-
-
-    private JSONObject myprofile_json;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +104,6 @@ public class setProfileActivity extends AppCompatActivity {
 
     private void setEvent() {
 
-
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,14 +114,7 @@ public class setProfileActivity extends AppCompatActivity {
         editName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // 텍스트 입력 전
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // 입력되는 텍스트에 변화가 있을 때
-
-
+                // 텍스트 입력 전                // 입력이 끝났을 때
                 txtChk.setText(" ");
 
                 if(TextUtils.isEmpty(editName.getText())){
@@ -151,8 +129,15 @@ public class setProfileActivity extends AppCompatActivity {
             }
 
             @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 입력되는 텍스트에 변화가 있을 때
+
+
+            }
+
+            @Override
             public void afterTextChanged(Editable s) {
-                // 입력이 끝났을 때
+
             }
         });
 
@@ -160,19 +145,12 @@ public class setProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (TextUtils.isEmpty(editName.getText())) {
-                    btn_register.setEnabled(false);
-                    return;
-                }
-
-
                 // 중복체크를 안 했을 경우
                 if (TextUtils.isEmpty(getUser_name)) {
                     txtChk.setText("중복체크를 해주세요");
                     return;
                 }
 
-                // nameset test - 지우기
                 user_name = String.valueOf(editName.getText());
 
                 Log.i("일련번호", user_id);
@@ -186,8 +164,8 @@ public class setProfileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                // 서버에 변경된 값 저장
-                                new ProfileSetAsync().execute(user_id, user_name);
+                                new SharedPrefereneUtil(getApplicationContext()).putSharedPreferences(user_name, user_img_path);
+                                Toast.makeText(getApplicationContext(),"프로필을 변경하였습니다.",Toast.LENGTH_SHORT).show();
 
                             }
                         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -290,12 +268,6 @@ public class setProfileActivity extends AppCompatActivity {
 
                     selPhotoUri = data.getData();
 
-                    try {
-                        Bitmap selPhoto = MediaStore.Images.Media.getBitmap(getContentResolver(), selPhotoUri);
-//                        img_Profile.setImageBitmap(selPhoto);
-//                        absolutePath = user_img_path;
-                        Log.w("uri", selPhotoUri.toString()); // content://media/external/images/media/110
-
                         // 절대 경로로 변환
                         Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null, null);
                         c.moveToNext();
@@ -314,13 +286,6 @@ public class setProfileActivity extends AppCompatActivity {
                                 .bitmapTransform(new CropCircleTransformation(setProfileActivity.this))  // image 원형
                                 .override(200,200)
                                 .into(img_Profile);
-
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    // Bitmap photo = extras.getParcelable("data");
 
                 }
 
@@ -415,207 +380,19 @@ public class setProfileActivity extends AppCompatActivity {
             loadingDialog.dismiss();
 
             if(getUser_name.equalsIgnoreCase("1")) {
+                if(new SharedPrefereneUtil(getApplicationContext()).getUser_name() == user_name){
+                    txtChk.setText(user_name);
+                }
                 txtChk.setText("이미 존재하는 아이디입니다");
-                btnCancel.setEnabled(false);
+
             }
             else if (getUser_name.equalsIgnoreCase("0")){
-                txtChk.setText(user_name + "님, 환영합니다");
-                btnCancel.setEnabled(true);
+                txtChk.setText("닉네임이" + user_name + "로 변경되었습니다");
+
             }
-
-
-            // Log.d("Test", "image byte is " + result);
 
         }
     }
-
-    class ShowMyProfile extends AsyncTask<String, String, JSONObject> {
-
-        private static final String urlString = Award.AWARD_URL + "Award_server/Award/mypage_myprofile.jsp";
-        JSONParser jsonParser = new JSONParser();
-
-        private ProgressDialog pDialog;
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(setProfileActivity.this);
-            pDialog.setMessage("프로필을 가져오는 중입니다.");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
-        }
-
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-
-
-            JSONObject result = null;
-
-            try {
-
-                HashMap<String, String> params = new HashMap<>();
-                params.put("user_id", args[0]);
-                Log.d("test_log", args[0]);
-
-
-                result = jsonParser.makeHttpRequest(
-                        urlString, "POST", params);
-
-
-                if (result != null) {
-                    Log.d("test_log", "result : " + result);
-                    return result;
-                } else {
-                    Log.d("test_log", "result : null, doInBackground");
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-
-        protected void onPostExecute(JSONObject jObj) {
-
-            if (pDialog != null && pDialog.isShowing()) {
-                pDialog.dismiss();
-            }
-
-        } // AsyncTask 끝
-    }
-
-    public class ProfileSetAsync extends AsyncTask<String, String, JSONObject> {
-
-        JSONParser jsonParser = new JSONParser();
-        Dialog loadingDialog;
-        private static final String urlString1 = Award.AWARD_URL + "Award_server/Award/mypage_myprofileset.jsp";
-
-
-
-
-        protected void onPreExecute() {
-            super.onPreExecute();
-            loadingDialog = ProgressDialog.show(setProfileActivity.this, "Please wait", "프로필 저장 중...");
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-
-
-            String boundary = "*****";
-            String delimiter = "\r\n--" + boundary + "\r\n";
-
-            try {
-
-                FileInputStream mFileInputStream = new FileInputStream(user_img_path);
-                URL connectUrl = new URL(urlString1);
-                Log.d("Test", "mFileInputStream  is " + mFileInputStream);
-
-
-                StringBuffer postDataBuilder = new StringBuffer();
-
-                postDataBuilder.append(delimiter);
-                postDataBuilder.append(setValue("user_id", user_id));
-                postDataBuilder.append(delimiter);
-                postDataBuilder.append(setValue("user_name", user_name));
-                postDataBuilder.append(delimiter);
-                postDataBuilder.append(setFile("uploadFile", user_img_path));
-                postDataBuilder.append("\r\n");
-
-                // open connection
-                HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.setUseCaches(false);
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Connection", "Keep-Alive");
-                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-
-                //  FileInputStream in = new FileInputStream(filePath);
-                DataOutputStream out = new DataOutputStream(new BufferedOutputStream(
-                        conn.getOutputStream()));
-
-                // 위에서 작성한 메타데이터를 먼저 전송한다. (한글이 포함되어 있으므로 UTF-8 메소드 사용)
-                out.writeUTF(postDataBuilder.toString());
-
-                int bytesAvailable = mFileInputStream.available();
-                int maxBufferSize = 1024;
-                int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-
-                byte[] buffer = new byte[bufferSize];
-                int bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
-
-                Log.d("Test", "image byte is " + bytesRead);
-
-                // read image
-                while (bytesRead > 0) {
-                    // dos.write(buffer, 0, bufferSize);
-                    out.write(buffer);
-                    bytesAvailable = mFileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
-                }
-
-                out.writeBytes(delimiter);
-                out.flush();
-                out.close();
-
-                int ch;
-                InputStream is = conn.getInputStream();
-                StringBuffer b = new StringBuffer();
-                while ((ch = is.read()) != -1) {
-                    b.append((char) ch);
-                }
-                String s = b.toString();
-                Log.e("Test", "result = " + s);
-
-                conn.getInputStream();
-                conn.disconnect();
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        public String setValue(String key, String value) {
-            return "Content-Disposition: form-data; name=\"" + key + "\"r\n\r\n"
-                    + value;
-        }
-
-        /**
-         * 업로드할 파일에 대한 메타 데이터를 설정한다.
-         *
-         * @param key      : 서버에서 사용할 파일 변수명
-         * @param fileName : 서버에서 저장될 파일명
-         * @return
-         */
-        public String setFile(String key, String fileName) {
-            return "Content-Disposition: form-data; name=\"" + key
-                    + "\";filename=\"" + fileName + "\"\r\n";
-        }
-
-        protected void onPostExecute(JSONObject jsonObject) {
-
-            loadingDialog.dismiss();
-
-            Toast.makeText(setProfileActivity.this, "프로필 변경 성공", Toast.LENGTH_SHORT).show();
-            setProfileActivity.this.finish();
-
-        }
-
-    }
-
 
     private void initView() {
 

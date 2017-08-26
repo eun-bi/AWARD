@@ -1,6 +1,5 @@
 package com.example.user.myapplication;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -8,13 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
@@ -33,26 +27,20 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.user.myapplication.network.JSONParser;
-import com.example.user.myapplication.sqliteDBHelper;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -106,7 +94,6 @@ public class NameSetActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // 입력되는 텍스트에 변화가 있을 때
 
-
                 txtChk.setText(" ");
 
                 if(TextUtils.isEmpty(editName.getText())){
@@ -151,7 +138,14 @@ public class NameSetActivity extends AppCompatActivity {
                 Log.i("닉네임", user_name);
 
 
-                new NameSetAsync().execute(user_id, user_name);
+                 /* sharedpreferences 로그인 정보 저장 */
+                SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(getApplicationContext());
+                sharedPrefereneUtil.putSharedPreferences(user_name, user_img_path);
+                sharedPrefereneUtil.putLoginchk(true);
+
+                Intent intent = new Intent(NameSetActivity.this, FieldSetActivity.class);
+                startActivity(intent);
+                NameSetActivity.this.finish();
             }
         });
 
@@ -415,170 +409,6 @@ public class NameSetActivity extends AppCompatActivity {
                 btn_register.setEnabled(true);
             }
 
-
-            // Log.d("Test", "image byte is " + result);
-
         }
     }
-
-        public class NameSetAsync extends AsyncTask<String, String, JSONObject> {
-
-            JSONParser jsonParser = new JSONParser();
-            Dialog loadingDialog;
-            private static final String urlString1 = Award.AWARD_URL + "Award_server/Award/login_first.jsp";
-
-
-
-
-            protected void onPreExecute() {
-                super.onPreExecute();
-                loadingDialog = ProgressDialog.show(NameSetActivity.this, "Please wait", "Loading...");
-            }
-
-            @Override
-            protected JSONObject doInBackground(String... args) {
-
-
-                String boundary = "*****";
-                String delimiter = "\r\n--" + boundary + "\r\n";
-
-                try {
-
-//                    if(user_img_path.startsWith("http")){
-//                        new URL(user_img_path).openStream();
-//                    }else{
-//                        mFileInputStream = new FileInputStream(user_img_path);
-//                    }
-
-
-                     FileInputStream mFileInputStream = new FileInputStream(user_img_path);
-
-
-                    URL connectUrl = new URL(urlString1);
-                    Log.d("Test", "mFileInputStream  is " + mFileInputStream);
-
-
-                    StringBuffer postDataBuilder = new StringBuffer();
-
-                    postDataBuilder.append(delimiter);
-                    postDataBuilder.append(setValue("user_id", user_id));
-                    postDataBuilder.append(delimiter);
-                    postDataBuilder.append(setValue("user_name", user_name));
-                    postDataBuilder.append(delimiter);
-                    postDataBuilder.append(setFile("uploadFile", user_img_path));
-                    postDataBuilder.append("\r\n");
-
-                    // open connection
-                    HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
-                    conn.setDoInput(true);
-                    conn.setDoOutput(true);
-                    conn.setUseCaches(false);
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Connection", "Keep-Alive");
-                    conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                    //   conn.setRequestProperty("uploadedfile",absolutePath);
-                    //    conn.setRequestProperty("caption",caption);
-                    //   conn.setRequestProperty("title",title);
-
-                    //  FileInputStream in = new FileInputStream(filePath);
-                    DataOutputStream out = new DataOutputStream(new BufferedOutputStream(
-                            conn.getOutputStream()));
-
-                    // 위에서 작성한 메타데이터를 먼저 전송한다. (한글이 포함되어 있으므로 UTF-8 메소드 사용)
-                    out.writeUTF(postDataBuilder.toString());
-
-                    int bytesAvailable = mFileInputStream.available();
-                    int maxBufferSize = 1024;
-                    int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-
-                    byte[] buffer = new byte[bufferSize];
-                    int bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
-
-                    Log.d("Test", "image byte is " + bytesRead);
-
-                    // read image
-                    while (bytesRead > 0) {
-                        // dos.write(buffer, 0, bufferSize);
-                        out.write(buffer);
-                        bytesAvailable = mFileInputStream.available();
-                        bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                        bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
-                    }
-
-                    out.writeBytes(delimiter);
-                    out.flush();
-                    out.close();
-                    //in.close();
-
-            /*    dos.writeBytes(lineEnd);
-                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-                // close streams
-                Log.e("Test" , "File is written");
-                mFileInputStream.close();
-                dos.flush(); // finish upload...*/
-
-                    // get response
-                    int ch;
-                    InputStream is = conn.getInputStream();
-                    StringBuffer b = new StringBuffer();
-                    while ((ch = is.read()) != -1) {
-                        b.append((char) ch);
-                    }
-                    String s = b.toString();
-                    Log.e("Test", "result = " + s);
-
-                    //mEdityEntry.setText(s);
-                    // out.close();
-
-                    conn.getInputStream();
-                    conn.disconnect();
-
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            public String setValue(String key, String value) {
-                return "Content-Disposition: form-data; name=\"" + key + "\"r\n\r\n"
-                        + value;
-            }
-
-            /**
-             * 업로드할 파일에 대한 메타 데이터를 설정한다.
-             *
-             * @param key      : 서버에서 사용할 파일 변수명
-             * @param fileName : 서버에서 저장될 파일명
-             * @return
-             */
-            public String setFile(String key, String fileName) {
-                return "Content-Disposition: form-data; name=\"" + key
-                        + "\";filename=\"" + fileName + "\"\r\n";
-            }
-
-            protected void onPostExecute(JSONObject jsonObject) {
-
-                loadingDialog.dismiss();
-
-                Toast.makeText(NameSetActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
-
-                /* sharedpreferences 로그인 정보 저장 */
-                SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(getApplicationContext());
-                sharedPrefereneUtil.putSharedPreferences(user_name, user_img_path);
-                sharedPrefereneUtil.putLoginchk(true);
-
-                Intent intent = new Intent(NameSetActivity.this, FieldSetActivity.class);
-                startActivity(intent);
-                NameSetActivity.this.finish();
-
-            }
-        }
-    }
+}

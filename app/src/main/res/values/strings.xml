@@ -10,8 +10,10 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_award_result">AwardResultActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Award 업로드 -->
+    <string name="award_upload"> AWARD 업로드를 완료하였습니다.</string>
 
     <!-- Award Result Tab -->
     <string name="award_result_tab_caption">시상평</string>

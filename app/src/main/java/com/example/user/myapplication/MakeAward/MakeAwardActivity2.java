@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -66,7 +67,6 @@ public class MakeAwardActivity2 extends AppCompatActivity {
 
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-
         user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
         Log.d("user_id",user_id);
 
@@ -75,6 +75,8 @@ public class MakeAwardActivity2 extends AppCompatActivity {
         selPhotoUri = intent.getParcelableExtra("Award_img");
         field = intent.getStringExtra("Award_field");
 
+        Thread thread = new Thread(runnable);
+        thread.start();
 
         initView();
         makeList();
@@ -84,6 +86,26 @@ public class MakeAwardActivity2 extends AppCompatActivity {
         Toast.makeText(MakeAwardActivity2.this,"이미지: " + selPhotoUri ,Toast.LENGTH_SHORT).show();
 
     }
+
+    /* thread 안에서 ui 접근 가능*/
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (TextUtils.isEmpty(badge_id)) {
+                        btnNext.setEnabled(false);
+                        btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity2.this,R.color.white_40));
+                    }
+                    else{
+                        btnNext.setEnabled(true);
+                        btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity2.this,R.color.white));
+                    }
+                }
+            });
+        }
+    };
 
     private void makeList() {
 
@@ -151,7 +173,6 @@ public class MakeAwardActivity2 extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//                btnNext.setTextColor(Color.parseColor("#da9a7aC"));
                 badge_id = badgeList.get(position).getBadge_id();
                 adapter.notifyDataSetChanged();
 
@@ -162,12 +183,7 @@ public class MakeAwardActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(TextUtils.isEmpty(badge_id)){
-                    btnNext.setEnabled(false);
-//                    btnNext.setTextColor(Color.parseColor("#3dffffff"));
-                }
 
-                else{
                     Intent intent = new Intent(MakeAwardActivity2.this, MakeAwardActivity3.class);
                     intent.putExtra("Award_Name",Award_Name);
                     intent.putExtra("Award_img",selPhotoUri);
@@ -177,7 +193,6 @@ public class MakeAwardActivity2 extends AppCompatActivity {
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
-                }
 
             }
         });

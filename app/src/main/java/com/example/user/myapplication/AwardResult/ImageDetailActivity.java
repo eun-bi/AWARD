@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,7 +32,7 @@ public class ImageDetailActivity extends AppCompatActivity {
 
     private static final String URL_ = Award.AWARD_URL + "Award_server/Award/delete_SubImg.jsp";
 
-    private Button btn_back,btn_allAlbum,btn_save,btn_delete;
+    private Button btn_back;
     private ImageView img_sub_full;
 
     private String img_path;
@@ -49,6 +51,28 @@ public class ImageDetailActivity extends AppCompatActivity {
         setView();
         setEvent();
         
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_award_result, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_delete) {
+            new imgDelAsync().execute(award_id, img_path);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void setView() {
@@ -79,34 +103,10 @@ public class ImageDetailActivity extends AppCompatActivity {
             }
         });
 
-        btn_allAlbum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // sdcard에 저장하는 기능 구현
-                // 서버 상관 x
-            }
-        });
-
-        btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new imgDelAsync().execute(award_id, img_path);
-            }
-        });
     }
 
     private void initView() {
         btn_back = (Button)findViewById(R.id.btn_back);
-        btn_allAlbum = (Button)findViewById(R.id.btn_allAlbum);
-        btn_save = (Button)findViewById(R.id.btn_save);
-        btn_delete = (Button)findViewById(R.id.btn_delete);
         img_sub_full = (ImageView)findViewById(R.id.img_sub_full);
     }
 
@@ -170,9 +170,6 @@ public class ImageDetailActivity extends AppCompatActivity {
             else if (delete_chk.equalsIgnoreCase("0")){
                 Toast.makeText(getApplicationContext(), "삭제 실패", Toast.LENGTH_SHORT).show();
             }
-//            if (pDialog != null && pDialog.isShowing()) {
-//                pDialog.dismiss();
-//            }
 
         } // AsyncTask 끝
     }
