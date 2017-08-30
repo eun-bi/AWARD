@@ -20,10 +20,5 @@
         android:button="@android:color/transparent"
         android:clickable="false"
         android:focusable="false"
-        android:visibility="visible"
         android:text=""/>
-
-
-
-
-    </FrameLayout>
+</FrameLayout>

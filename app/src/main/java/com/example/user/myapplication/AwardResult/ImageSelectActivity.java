@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.example.user.myapplication.Award;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.SharedPrefereneUtil;
+import com.example.user.myapplication.Util;
 import com.example.user.myapplication.network.JSONParser;
 
 import org.json.JSONObject;
@@ -54,6 +55,8 @@ public class ImageSelectActivity extends AppCompatActivity {
 
     private int count;
     private String[] arrPath;
+    private String[] arrPath_;
+
   //  private String[] abso
     private int ids[];
     private boolean[] thumbnailsselection;
@@ -73,6 +76,7 @@ public class ImageSelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_select);
+        Util.setGlobalFont(this, getWindow().getDecorView()); // font 적용
 
         initView();
 
@@ -108,6 +112,10 @@ public class ImageSelectActivity extends AppCompatActivity {
         this.arrPath = new String[this.count];
         ids = new int[count];
         this.thumbnailsselection = new boolean[this.count];
+
+        len = thumbnailsselection.length;
+        this.arrPath_ = new String[this.len];
+
         for (int i = 0; i < this.count; i++) {
             cursor.moveToPosition(i);
             ids[i] = cursor.getInt(image_column_index);
@@ -160,17 +168,19 @@ public class ImageSelectActivity extends AppCompatActivity {
                 len = thumbnailsselection.length;
 
                 cnt = 0;
+
+
                 String selectImages = "";
                 for (int i = 0; i < len; i++) {
                     if (thumbnailsselection[i]) {
                         cnt++;
 //                        selectImages = selectImages + arrPath[i] + " |";
                         Log.d("개별 url ", arrPath[i]);
-                        absolutePath = arrPath[i];
-                        new imageUploadAsync().execute(user_id, award_id);
+                    //    absolutePath = arrPath[i];
+
                     }
                 }
-
+                new imageUploadAsync().execute(user_id, award_id);
                 Log.d("선택한 사진 갯수", "" + cnt);
 
                 if (cnt == 0) {
@@ -203,7 +213,7 @@ public class ImageSelectActivity extends AppCompatActivity {
 
         protected void onPreExecute() {
             super.onPreExecute();
-//            loadingDialog = ProgressDialog.show(ImageSelectActivity.this, "Please wait", "Loading...");
+            loadingDialog = ProgressDialog.show(ImageSelectActivity.this, "Please wait", "Loading...");
         }
 
         @Override
@@ -214,76 +224,79 @@ public class ImageSelectActivity extends AppCompatActivity {
             String delimiter = "\r\n--" + boundary + "\r\n";
 
             try {
+                len = thumbnailsselection.length;
 
-//                for(int i=0; i<cnt;i++) {
-                    FileInputStream mFileInputStream = new FileInputStream(absolutePath);
-                    Log.d("이미지 테스트ㅡ", absolutePath);
-                    URL connectUrl = new URL(urlString1);
-                    Log.d("Test", "mFileInputStream  is " + mFileInputStream);
+                for(int i=0; i<len;i++) {
+                    if (thumbnailsselection[i]) {
+                        FileInputStream mFileInputStream = new FileInputStream(arrPath[i]);
+                        Log.d("이미지 테스트ㅡ", arrPath[i]);
+                        URL connectUrl = new URL(urlString1);
+                        Log.d("Test", "mFileInputStream  is " + mFileInputStream);
 
-                    StringBuffer postDataBuilder = new StringBuffer();
+                        StringBuffer postDataBuilder = new StringBuffer();
 
-                    postDataBuilder.append(delimiter);
-                    postDataBuilder.append(setValue("user_id", user_id));
-                    postDataBuilder.append(delimiter);
-                    postDataBuilder.append(setValue("award_id", award_id));
-                    postDataBuilder.append(delimiter);
-                    postDataBuilder.append(setFile("uploadFile", absolutePath));
-                    postDataBuilder.append("\r\n");
+                        postDataBuilder.append(delimiter);
+                        postDataBuilder.append(setValue("user_id", user_id));
+                        postDataBuilder.append(delimiter);
+                        postDataBuilder.append(setValue("award_id", award_id));
+                        postDataBuilder.append(delimiter);
+                        postDataBuilder.append(setFile("uploadFile", arrPath[i]));
+                        postDataBuilder.append("\r\n");
 
 
-                    // open connection
-                    HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
-                    conn.setDoInput(true);
-                    conn.setDoOutput(true);
-                    conn.setUseCaches(false);
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Connection", "Keep-Alive");
-                    conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                        // open connection
+                        HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
+                        conn.setDoInput(true);
+                        conn.setDoOutput(true);
+                        conn.setUseCaches(false);
+                        conn.setRequestMethod("POST");
+                        conn.setRequestProperty("Connection", "Keep-Alive");
+                        conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
 
-                    //  FileInputStream in = new FileInputStream(filePath);
-                    DataOutputStream out = new DataOutputStream(new BufferedOutputStream(
-                            conn.getOutputStream()));
+                        //  FileInputStream in = new FileInputStream(filePath);
+                        DataOutputStream out = new DataOutputStream(new BufferedOutputStream(
+                                conn.getOutputStream()));
 
-                    // 위에서 작성한 메타데이터를 먼저 전송한다. (한글이 포함되어 있으므로 UTF-8 메소드 사용)
-                    out.writeUTF(postDataBuilder.toString());
+                        // 위에서 작성한 메타데이터를 먼저 전송한다. (한글이 포함되어 있으므로 UTF-8 메소드 사용)
+                        out.writeUTF(postDataBuilder.toString());
 
-                    int bytesAvailable = mFileInputStream.available();
-                    int maxBufferSize = 1024;
-                    int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                        int bytesAvailable = mFileInputStream.available();
+                        int maxBufferSize = 1024;
+                        int bufferSize = Math.min(bytesAvailable, maxBufferSize);
 
-                    byte[] buffer = new byte[bufferSize];
-                    int bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+                        byte[] buffer = new byte[bufferSize];
+                        int bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
 
-                    Log.d("Test", "image byte is " + bytesRead);
+                        Log.d("Test", "image byte is " + bytesRead);
 
-                    // read image
-                    while (bytesRead > 0) {
-                        // dos.write(buffer, 0, bufferSize);
-                        out.write(buffer);
-                        bytesAvailable = mFileInputStream.available();
-                        bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                        bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+                        // read image
+                        while (bytesRead > 0) {
+                            // dos.write(buffer, 0, bufferSize);
+                            out.write(buffer);
+                            bytesAvailable = mFileInputStream.available();
+                            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                            bytesRead = mFileInputStream.read(buffer, 0, bufferSize);
+                        }
+
+                        out.writeBytes(delimiter);
+                        out.flush();
+                        out.close();
+
+                        int ch;
+                        InputStream is = conn.getInputStream();
+                        StringBuffer b = new StringBuffer();
+                        while ((ch = is.read()) != -1) {
+                            b.append((char) ch);
+                        }
+                        String s = b.toString();
+                        Log.e("Test", "result = " + s);
+
+
+                        conn.getInputStream();
+                        conn.disconnect();
                     }
 
-                    out.writeBytes(delimiter);
-                    out.flush();
-                    out.close();
-
-                    int ch;
-                    InputStream is = conn.getInputStream();
-                    StringBuffer b = new StringBuffer();
-                    while ((ch = is.read()) != -1) {
-                        b.append((char) ch);
-                    }
-                    String s = b.toString();
-                    Log.e("Test", "result = " + s);
-
-
-                    conn.getInputStream();
-                    conn.disconnect();
-
-//                }
+                }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (MalformedURLException e) {
@@ -315,9 +328,9 @@ public class ImageSelectActivity extends AppCompatActivity {
 
         protected void onPostExecute(JSONObject jsonObject) {
 
-//            loadingDialog.dismiss();
+            loadingDialog.dismiss();
 
-            Toast.makeText(ImageSelectActivity.this, "파일 업로드 완료", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ImageSelectActivity.this, "이미지를 추가하였습니다", Toast.LENGTH_SHORT).show();
             ImageSelectActivity.this.finish();
         }
 

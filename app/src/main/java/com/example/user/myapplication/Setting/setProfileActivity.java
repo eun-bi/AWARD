@@ -1,5 +1,6 @@
 package com.example.user.myapplication.Setting;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -30,6 +31,8 @@ import com.example.user.myapplication.R;
 import com.example.user.myapplication.SharedPrefereneUtil;
 import com.example.user.myapplication.Util;
 import com.example.user.myapplication.network.JSONParser;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -42,6 +45,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONObject;
@@ -166,6 +170,7 @@ public class setProfileActivity extends AppCompatActivity {
 
                                 new SharedPrefereneUtil(getApplicationContext()).putSharedPreferences(user_name, user_img_path);
                                 Toast.makeText(getApplicationContext(),"프로필을 변경하였습니다.",Toast.LENGTH_SHORT).show();
+                                setProfileActivity.this.finish();
 
                             }
                         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -196,37 +201,68 @@ public class setProfileActivity extends AppCompatActivity {
         btn_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+
+
+                PermissionListener permissionlistenr = new PermissionListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doTakePhotoAction();
+                    public void onPermissionGranted() {
+                        Log.d("permission","granted");
+                        readAlbum();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                        Log.d("permission","denied");
                     }
                 };
 
-                DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doTakeAlbumAction();
-                    }
-                };
+                TedPermission.with(getApplicationContext())
+                        .setPermissionListener(permissionlistenr)
+                        .setRationaleMessage("AWARD는 저장공간과 카메라 접근이 필요합니다")
+                        .setDeniedMessage("[설정] > [권한]에서 권한을 허용할 수 있습니다")
+                        .setGotoSettingButton(true)
+                        .setGotoSettingButtonText("설정")
+                        .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                        .check();
 
-                DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                };
-
-                new AlertDialog.Builder(setProfileActivity.this)
-                        .setTitle("프로필 이미지 선택")
-                        .setPositiveButton("사진촬영", cameraListener)
-                        .setNeutralButton("앨범선택", albumListener)
-                        .setNegativeButton("취소", cancelListener)
-                        .show();
             }
         });
     }
+    public void readAlbum() {
 
+
+        DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                doTakePhotoAction();
+            }
+        };
+
+        DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                doTakeAlbumAction();
+            }
+        };
+
+        DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        };
+
+
+        new android.app.AlertDialog.Builder(this)
+                .setTitle(" + ")
+                .setPositiveButton("촬영", cameraListener)
+                .setNeutralButton("카메라롤에서 선택", albumListener)
+                .setNegativeButton("취소", cancelListener)
+                .show();
+
+
+    }
     /* 카메라에서 이미지 */
     private void doTakePhotoAction() {
 

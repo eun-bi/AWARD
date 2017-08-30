@@ -45,6 +45,7 @@ public class MakeAwardActivity2 extends AppCompatActivity {
     private String Award_Name;
     private Uri selPhotoUri;
     private String field;
+    private String absolutePath;
 
     private BadgeListAdapter adapter;
     private ArrayList<AwardBadge> badgeList = null;
@@ -72,40 +73,14 @@ public class MakeAwardActivity2 extends AppCompatActivity {
 
         Intent intent = getIntent();
         Award_Name = intent.getStringExtra("Award_Name");
-        selPhotoUri = intent.getParcelableExtra("Award_img");
+        absolutePath = intent.getStringExtra("Award_img");
         field = intent.getStringExtra("Award_field");
-
-        Thread thread = new Thread(runnable);
-        thread.start();
 
         initView();
         makeList();
         setEvent();
 
-        Toast.makeText(MakeAwardActivity2.this,"작품명: " + Award_Name ,Toast.LENGTH_SHORT).show();
-        Toast.makeText(MakeAwardActivity2.this,"이미지: " + selPhotoUri ,Toast.LENGTH_SHORT).show();
-
     }
-
-    /* thread 안에서 ui 접근 가능*/
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (TextUtils.isEmpty(badge_id)) {
-                        btnNext.setEnabled(false);
-                        btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity2.this,R.color.white_40));
-                    }
-                    else{
-                        btnNext.setEnabled(true);
-                        btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity2.this,R.color.white));
-                    }
-                }
-            });
-        }
-    };
 
     private void makeList() {
 
@@ -183,16 +158,20 @@ public class MakeAwardActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if (TextUtils.isEmpty(badge_id)) {
+                    Toast.makeText(getApplicationContext(), "뱃지를 선택해주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                    Intent intent = new Intent(MakeAwardActivity2.this, MakeAwardActivity3.class);
-                    intent.putExtra("Award_Name",Award_Name);
-                    intent.putExtra("Award_img",selPhotoUri);
-                    intent.putExtra("Award_field", field);
-                    intent.putExtra("Award_badge", badge_id);
-                    Log.d("badge_id", badge_id);
+                Intent intent = new Intent(MakeAwardActivity2.this, MakeAwardActivity3.class);
+                intent.putExtra("Award_Name",Award_Name);
+                intent.putExtra("Award_img",absolutePath);
+                intent.putExtra("Award_field", field);
+                intent.putExtra("Award_badge", badge_id);
+                Log.d("badge_id", badge_id);
 
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(intent);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
 
             }
         });

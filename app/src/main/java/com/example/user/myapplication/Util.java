@@ -13,7 +13,7 @@ public class Util {
 
     public static Typeface mTypeface = null;
 
-
+    // 폰트 일괄 적용
     public static void setGlobalFont(Context context,View view){
 
         mTypeface = Typeface.createFromAsset(context.getAssets(),"fonts/NanumBarunGothicLight.otf");
@@ -34,4 +34,5 @@ public class Util {
         }
 
     }
+
 }

@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/sub_img"
         android:scaleType="centerCrop"
-        android:elevation="4dp"
+        android:layout_margin="2dp"
         android:adjustViewBounds="true"
         android:layout_width="120dp"
         android:layout_height="120dp" />

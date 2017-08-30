@@ -42,8 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
-        android:dividerHeight="1dp"
-        android:divider="#1affffff"
+        android:dividerHeight="0.5dp"
+        android:divider="#19ffffff"
         android:id="@+id/listView_menu" />
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.user.myapplication;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -36,6 +37,8 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ErrorCode;
 import com.kakao.auth.ISessionCallback;
@@ -98,7 +101,29 @@ public class LoginActivity extends AppCompatActivity {
 
         initView();
         PagerView();
-        setEvent();
+
+        PermissionListener permissionlistenr = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Log.d("permission","granted");
+                setEvent();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                Log.d("permission","denied");
+                finish();
+            }
+        };
+
+        TedPermission.with(this)
+                .setPermissionListener(permissionlistenr)
+                .setRationaleMessage("AWARD는 저장공간과 카메라 접근이 필요합니다")
+                .setDeniedMessage("[설정] > [권한]에서 권한을 허용할 수 있습니다")
+                .setGotoSettingButton(true)
+                .setGotoSettingButtonText("설정")
+                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .check();
 
         /**카카오톡 로그아웃 요청**/
         // 한번 로그인이 성공하면 세션 정보가 남아있어서 로그인창이 뜨지 않고 바로 onSuccess()메서드를 호출

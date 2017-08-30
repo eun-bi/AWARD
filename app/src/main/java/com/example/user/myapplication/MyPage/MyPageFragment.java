@@ -110,6 +110,7 @@ public class MyPageFragment extends Fragment{
     public void onResume() {
         super.onResume();
         //refreshItems();
+        txtAward_myname.setText(user_name);
     }
 
 

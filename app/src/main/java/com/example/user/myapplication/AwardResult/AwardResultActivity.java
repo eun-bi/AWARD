@@ -101,11 +101,6 @@ public class AwardResultActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(" ");
 
-//        tabLayout.addTab(tabLayout.newTab().setText("시상평"));
-//        tabLayout.addTab(tabLayout.newTab().setText("앨범"));
-//        tabLayout.addTab(tabLayout.newTab().setText("링크"));
-//        tabLayout.setTabTextColors(ContextCompat.getColorStateList(AwardResultActivity.this, R.color.white));
-
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -297,15 +292,14 @@ public class AwardResultActivity extends AppCompatActivity {
 
         protected void onPostExecute(JSONObject jObj) {
 
-            if(delete_chk.equalsIgnoreCase("1"))
+            if(delete_chk.equalsIgnoreCase("1")) {
                 Toast.makeText(getApplicationContext(), "어워드 삭제 완료", Toast.LENGTH_SHORT).show();
+                AwardResultActivity.this.finish();
+            }
             else if (delete_chk.equalsIgnoreCase("0")){
                 Toast.makeText(getApplicationContext(), "삭제 실패", Toast.LENGTH_SHORT).show();
             }
-//            if (pDialog != null && pDialog.isShowing()) {
-//                pDialog.dismiss();
-//            }
 
-        } // AsyncTask 끝
+        }
     }
 }

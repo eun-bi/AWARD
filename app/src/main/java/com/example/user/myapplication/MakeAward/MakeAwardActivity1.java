@@ -1,8 +1,10 @@
 package com.example.user.myapplication.MakeAward;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -31,6 +33,9 @@ import com.example.user.myapplication.MainActivity;
 import com.example.user.myapplication.NameSetActivity;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.Util;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
+import com.sun.jna.platform.win32.WinNT;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +51,7 @@ public class MakeAwardActivity1 extends AppCompatActivity {
     String field;
 
     String nominate;
+    String absolutePath;
 
     private Uri mImageCaptureUri;
     private Uri selPhotoUri;
@@ -62,38 +68,12 @@ public class MakeAwardActivity1 extends AppCompatActivity {
         setContentView(R.layout.activity_make_award1);
         Util.setGlobalFont(this, getWindow().getDecorView()); // font 적용
 
-        Thread thread = new Thread(runnable);
-        thread.start();
-
-
         initView();
         makeList();
         Img_(); // 이미지
         setEvent();
-
-
-
     }
 
-    /* thread 안에서 ui 접근 가능*/
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (TextUtils.isEmpty(edit_title.getText()) || TextUtils.isEmpty(field)) {
-                        btnNext.setEnabled(false);
-                        btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity1.this,R.color.white_40));
-                    }
-                    else{
-                        btnNext.setEnabled(true);
-                        btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity1.this,R.color.white));
-                    }
-                }
-            });
-        }
-    };
 
     private void makeList() {
         awardFieldAdapter = new AwardFieldAdapter();
@@ -136,30 +116,30 @@ public class MakeAwardActivity1 extends AppCompatActivity {
 
     private void setEvent() {
 
-//        edit_title.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                // 텍스트뷰, 리스트뷰의 변화가 아닌 뷰 전체의 변화가 있을 시에 체크하도록
-//                if (TextUtils.isEmpty(edit_title.getText()) || TextUtils.isEmpty(field)) {
-//                    btnNext.setEnabled(false);
-//                    btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity1.this,R.color.white_40));
-//                }
-//                else{
-//                    btnNext.setEnabled(true);
-//                    btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity1.this,R.color.white));
-//                }
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
+        edit_title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 텍스트뷰, 리스트뷰의 변화가 아닌 뷰 전체의 변화가 있을 시에 체크하도록
+                if (TextUtils.isEmpty(edit_title.getText())) {
+                    btnNext.setEnabled(false);
+                    btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity1.this,R.color.white_40));
+                }
+                else{
+                    btnNext.setEnabled(true);
+                    btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity1.this,R.color.white));
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         list_field.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -206,15 +186,18 @@ public class MakeAwardActivity1 extends AppCompatActivity {
             }
         });
 
-
-
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                if(TextUtils.isEmpty(field)){
+                    Toast.makeText(getApplicationContext(),"분야를 선택해주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Intent intent = new Intent(getApplicationContext(), MakeAwardActivity2.class);
                 intent.putExtra("Award_Name", edit_title.getText().toString());
-                intent.putExtra("Award_img", selPhotoUri);
+                intent.putExtra("Award_img", absolutePath);
                 intent.putExtra("Award_field", field);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
@@ -229,37 +212,70 @@ public class MakeAwardActivity1 extends AppCompatActivity {
         btnImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+
+
+                PermissionListener permissionlistenr = new PermissionListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doTakePhotoAction();
+                    public void onPermissionGranted() {
+                        Log.d("permission","granted");
+                        readAlbum();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                        Log.d("permission","denied");
                     }
                 };
 
-                DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doTakeAlbumAction();
-                    }
-                };
+                TedPermission.with(getApplicationContext())
+                        .setPermissionListener(permissionlistenr)
+                        .setRationaleMessage("AWARD는 저장공간과 카메라 접근이 필요합니다")
+                        .setDeniedMessage("[설정] > [권한]에서 권한을 허용할 수 있습니다")
+                        .setGotoSettingButton(true)
+                        .setGotoSettingButtonText("설정")
+                        .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                        .check();
 
-                DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                };
-
-
-                new AlertDialog.Builder(MakeAwardActivity1.this)
-                        .setTitle("업로드할 이미지 선택")
-                        .setPositiveButton("사진촬영", cameraListener)
-                        .setNeutralButton("앨범선택", albumListener)
-                        .setNegativeButton("취소", cancelListener)
-                        .show();
             }
         });
     }
+
+    public void readAlbum() {
+
+
+        DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                doTakePhotoAction();
+            }
+        };
+
+        DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                doTakeAlbumAction();
+            }
+        };
+
+        DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        };
+
+
+        new android.app.AlertDialog.Builder(this)
+                .setTitle(" + ")
+                .setPositiveButton("촬영", cameraListener)
+                .setNeutralButton("카메라롤에서 선택", albumListener)
+                .setNegativeButton("취소", cancelListener)
+                .show();
+
+
+    }
+
 
     /* 카메라에서 이미지 */
     private void doTakePhotoAction() {
@@ -304,6 +320,11 @@ public class MakeAwardActivity1 extends AppCompatActivity {
                   try {
                       Bitmap selPhoto = MediaStore.Images.Media.getBitmap(getContentResolver(),selPhotoUri);
                       btnImg.setImageBitmap(selPhoto);
+
+                      Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null, null);
+                      c.moveToFirst();
+                      absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+                      Log.d("absoltePath 실제 경로", absolutePath);
 
                     } catch (IOException e) {
                       e.printStackTrace();

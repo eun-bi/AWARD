@@ -47,9 +47,8 @@
             android:layout_alignParentTop="true"
             android:background="#00000000"
             android:onClick="onBtnMenu"
-            android:enabled="false"
             android:text="확인"
-            android:textColor="#3dFFFFFF"
+            android:textColor="#FFFFFF"
             android:textSize="12sp" />
 
     </RelativeLayout>

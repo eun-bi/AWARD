@@ -36,13 +36,17 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.user.myapplication.Award;
+import com.example.user.myapplication.LoginActivity;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.SharedPrefereneUtil;
 import com.example.user.myapplication.network.JSONParser;
 import com.google.gson.Gson;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -200,50 +204,59 @@ public class AwardImageFragment2 extends Fragment {
     }
 
 
-    private boolean checkPermission() {
-
-        int currentAPIVersion = Build.VERSION.SDK_INT;
-        if(currentAPIVersion >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.READ_EXTERNAL_STORAGE)){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setCancelable(true);
-                    builder.setTitle("Permission necessary");
-                    builder.setMessage("Write storage permission is necessary to write picture!!!");
-                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_STORAGE);
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
-
-                }else{
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_STORAGE);
-                }
-                return false;
-            }else{
-                return true;
-            }
-        }else{
-            return true;
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-        switch (requestCode){
-            case MY_PERMISSION_STORAGE :
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    readAlbum();
-                }else{
-
-                }
-                break;
-        }
-    }
+//    private boolean checkPermission() {
+//
+//        int currentAPIVersion = Build.VERSION.SDK_INT;
+//        if(currentAPIVersion >= Build.VERSION_CODES.M) {
+//            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.READ_EXTERNAL_STORAGE)){
+//                    // 권한을 한 번이라도 거부한 적이 있는 경우
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                    builder.setCancelable(true);
+//                    builder.setTitle("Permission necessary");
+//                    builder.setMessage("이 기능을 사용하기 위해서는 단말기의 \"저장공간\"사용권한이 필요합니다");
+//                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_STORAGE);
+//                            }
+//                        }
+//                    });
+//                    AlertDialog alertDialog = builder.create();
+//                    alertDialog.show();
+//
+//                }else{
+//                    // 권한 거부한 적이 없는 경우
+//                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_STORAGE);
+//                }
+//                return false;
+//            }else{
+//                // 권한이 있는 경우
+//                readAlbum();
+//                return true;
+//            }
+//        }else{
+//            // 마시멜로우 미만 버전일 경우
+//            readAlbum();
+//            return true;
+//        }
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//
+//        switch (requestCode){
+//            case MY_PERMISSION_STORAGE :
+//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//                    // 요청 권한 허용 시
+//                    readAlbum();
+//                }else{
+//                    Toast.makeText(getContext().getApplicationContext(),"요청 권한 거부",Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//        }
+//    }
 
     public void readAlbum() {
 
@@ -251,6 +264,7 @@ public class AwardImageFragment2 extends Fragment {
         DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 doTakePhotoAction();
             }
         };
@@ -648,8 +662,6 @@ public class AwardImageFragment2 extends Fragment {
                         .load(IMAGE_URL + subImageData.getSub_img())
                         .fitCenter()
                         .centerCrop()
-                        .override(100,100)
-                        .thumbnail(0.1f)
                         .into(vi.sub_img);
             }
 
@@ -658,7 +670,28 @@ public class AwardImageFragment2 extends Fragment {
                 public void onClick(View v) {
 
                     if (position == 0){
-                        readAlbum();
+
+                        PermissionListener permissionlistenr = new PermissionListener() {
+                            @Override
+                            public void onPermissionGranted() {
+                                Log.d("permission","granted");
+                                readAlbum();
+                            }
+
+                            @Override
+                            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                                Log.d("permission","denied");
+                            }
+                        };
+
+                        TedPermission.with(getContext())
+                                .setPermissionListener(permissionlistenr)
+                                .setRationaleMessage("AWARD는 저장공간과 카메라 접근이 필요합니다")
+                                .setDeniedMessage("[설정] > [권한]에서 권한을 허용할 수 있습니다")
+                                .setGotoSettingButton(true)
+                                .setGotoSettingButtonText("설정")
+                                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                                .check();
 
                     }else if(position > 0){
 

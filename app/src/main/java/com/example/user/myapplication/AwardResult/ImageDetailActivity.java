@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,7 +47,11 @@ public class ImageDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
         Util.setGlobalFont(this, getWindow().getDecorView()); // font 적용
-        
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(" ");
+
         initView();
         setView();
         setEvent();
@@ -86,10 +91,7 @@ public class ImageDetailActivity extends AppCompatActivity {
         Glide
                 .with(this)
                 .load(IMAGE_URL + img_path)
-                .fitCenter()
                 .crossFade()
-                .centerCrop()
-                .thumbnail(0.1f)
                 .into(img_sub_full);
 
     }

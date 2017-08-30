@@ -38,6 +38,7 @@ import com.facebook.share.widget.AppInviteDialog;
 import com.facebook.share.widget.ShareDialog;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -67,6 +68,8 @@ public class MakeAwardActivity3 extends AppCompatActivity {
     String badge_id;
     String user_id;
 
+    String absolutePath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,17 +87,14 @@ public class MakeAwardActivity3 extends AppCompatActivity {
 
         Intent intent = getIntent();
         title = intent.getStringExtra("Award_Name");
-        selPhotoUri = getIntent().getParcelableExtra("Award_img");
+        absolutePath = getIntent().getStringExtra("Award_img");
         field = intent.getStringExtra("Award_field");
         badge_id = intent.getStringExtra("Award_badge");
 
         Toast.makeText(MakeAwardActivity3.this,"작품명: " + title ,Toast.LENGTH_SHORT).show();
-        Toast.makeText(MakeAwardActivity3.this,"이미지: " + selPhotoUri ,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MakeAwardActivity3.this,"이미지: " + selPhotoUri ,Toast.LENGTH_SHORT).show();
 
         shareDialog = new ShareDialog(this);
-
-        Thread thread = new Thread(runnable);
-        thread.start();
 
         setEvent();
         
@@ -105,26 +105,6 @@ public class MakeAwardActivity3 extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-
-    /* thread 안에서 ui 접근 가능*/
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (TextUtils.isEmpty(edit_caption.toString())) {
-                        btnMakeAward.setEnabled(false);
-                        btnMakeAward.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity3.this,R.color.white_40));
-                    }
-                    else{
-                        btnMakeAward.setEnabled(true);
-                        btnMakeAward.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity3.this,R.color.white));
-                    }
-                }
-            });
-        }
-    };
 
     private void setEvent() {
 
@@ -155,10 +135,25 @@ public class MakeAwardActivity3 extends AppCompatActivity {
         btnMakeAward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 caption = edit_caption.getText().toString();
-                Log.e("captiontest", caption + "//" + edit_caption.getText().toString());
-                Log.e("AWARD", "업로드 시작" + title + "/" + caption + "/" + field + "/" + badge_id);
-                new MakeAward().execute(title, caption, field, badge_id);
+
+                if (TextUtils.isEmpty(caption)) {
+                    caption = " ";
+
+
+                    Log.e("captiontest", caption + "//" + edit_caption.getText().toString());
+                    Log.e("AWARD", "업로드 시작" + title + "/" + caption + "/" + field + "/" + badge_id);
+                    new MakeAward().execute(title, caption, field, badge_id);
+
+                }else{
+                    Log.e("captiontest", caption + "//" + edit_caption.getText().toString());
+                    Log.e("AWARD", "업로드 시작" + title + "/" + caption + "/" + field + "/" + badge_id);
+                    new MakeAward().execute(title, caption, field, badge_id);
+                }
+
+
+
             }
         });
 
@@ -264,11 +259,15 @@ public class MakeAwardActivity3 extends AppCompatActivity {
 
             try {
 
+//
+//
+//                Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null, null);
+//                c.moveToNext();
+//                String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
 
-
-                Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null, null);
-                c.moveToNext();
-                String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+                if(TextUtils.isEmpty(absolutePath)){
+                    absolutePath = " ";
+                }
 
                 Log.d("absoltePath 실제 경로", absolutePath);
 
