@@ -41,10 +41,6 @@ public class MyBadgeActivity extends AppCompatActivity {
     private Button btnBack;
     private ScrollView scrollView;
 
-    public ArrayList<String> parentList, parentList2;
-    public ArrayList<ArrayList<String>> childList, childList2;
-    private ArrayList<String> childContent1,childContent2;
-
     private String field;
     private String badges;
     private String badge_name;
@@ -116,10 +112,6 @@ public class MyBadgeActivity extends AppCompatActivity {
 
                 for (int i = 0; i < interested_array.length(); i++) {
 
-//                    parentList = new ArrayList<String>(); // 어워드 목록
-//                    childContent1 = new ArrayList<String>();
-//                    childList = new ArrayList<ArrayList<String>>(); // 어워드에 맞는 뱃지 목록
-
                     Group group = new Group();
                     JSONObject jo = interested_array.getJSONObject(i);
                     field = jo.getString("field");
@@ -170,38 +162,23 @@ public class MyBadgeActivity extends AppCompatActivity {
 
                         child.setBadge_name(badge_name);
                         children.add(child);
-//                        if(TextUtils.isEmpty(badge_name)){
-//                            badge_name = " ";
-//                        }
-//                        childContent1.add(j, badge_name);
 
-//                        childList.get(i).add(badge_name);
-                       // childContent.add(j,badge_name);
                     }
                     group.setItems(children);
                     groups.add(group);
-//                    childList.add(i, childContent1);
-//                    Log.i("content", childList.toString());
-                }
 
-//                Log.i("parent", parentList.toString());
-//                Log.i("child" , childList.toString());
+                }
 
 
                 ///////////////////////* uninterested *//////////////////////////
 
                 Log.d("loadList_uninterested", "func : " + uninterested_list);
                 JSONArray uninterested_array = new JSONArray(uninterested_list);
-//                parentList2 = new ArrayList<String>();
+
                 ungroups = new ArrayList<Group>();
                 ArrayList<Child> unchildren = null;
 
                 for(int i=0; i<uninterested_array.length(); i++){
-
-                    // notinterest
-//
-//                    childList2 = new ArrayList<ArrayList<String>>();
-//                    childContent2 = new ArrayList<String>();
 
                     Group ungroup = new Group();
                     JSONObject jo1 = uninterested_array.getJSONObject(i);
@@ -252,26 +229,14 @@ public class MyBadgeActivity extends AppCompatActivity {
                         JSONObject jsonObject = ja2.getJSONObject(j);
                         badge_name = jsonObject.getString("badge_name");
 
-//                        if(TextUtils.isEmpty(badge_name)){
-//                            badge_name = "뱃지가 없습니다.";
-//                        }
-
                         Log.i("뱃지 이름:  ", badge_name);
                         unchild.setBadge_name(badge_name);
                         unchildren.add(unchild);
-//                        childContent2.add(j,badge_name);
-//                        Log.i("content", childContent2.toString());
 
                     }
 
                     ungroup.setItems(unchildren);
                     ungroups.add(ungroup);
-
-//                    childList2.add(i, childContent2);
-//                    Log.i("content", childList2.toString());
-//
-//                    Log.i("parent", parentList2.toString());
-//                    Log.i("child" , childList2.toString());
 
                 }
 
@@ -320,7 +285,6 @@ public class MyBadgeActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-//                String badge_name = (String)parent.getExpandableListAdapter().getChild(groupPosition,childPosition);
 
                 Child child_badge = (Child)parent.getExpandableListAdapter().getChild(groupPosition,childPosition);
 
@@ -377,7 +341,7 @@ public class MyBadgeActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(MyBadgeActivity.this);
-            pDialog.setMessage("Getting your data... Please wait...");
+            pDialog.setMessage("뱃지를 불러오는중입니다");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();

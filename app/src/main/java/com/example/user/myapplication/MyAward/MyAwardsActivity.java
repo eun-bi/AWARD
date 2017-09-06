@@ -74,10 +74,6 @@ public class MyAwardsActivity extends AppCompatActivity {
         list_awards.setAdapter(myAwardsAdapter);
         list_n_awards.setAdapter(notMyAwardsAdapter);
 
-//        setListViewHeightBaedOnChild(list_awards);
-//        setListViewHeightBaedOnChild(list_n_awards);
-
-
 
         try {
 
@@ -100,29 +96,6 @@ public class MyAwardsActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void setListViewHeightBaedOnChild(ListView listview) {
-
-        ListAdapter listAdapter = listview.getAdapter();
-
-        if(listAdapter == null)
-            return;
-
-        int numberOfItems = listAdapter.getCount();
-        int totalItemsHeight = 0;
-        for(int itemPos = 0; itemPos < numberOfItems; itemPos++){
-            View item = listAdapter.getView(itemPos, null, listview);
-            item.measure(0, 0);
-            totalItemsHeight += item.getMeasuredHeight();
-        }
-
-        int  totalDividersHeight = listview.getDividerHeight() * (numberOfItems-1);
-
-        ViewGroup.LayoutParams params = listview.getLayoutParams();
-        params.height = totalItemsHeight + totalDividersHeight;
-        listview.setLayoutParams(params);
-        listview.requestLayout();
     }
 
     class loadList extends AsyncTask<String,String,JSONObject>{
@@ -245,24 +218,6 @@ public class MyAwardsActivity extends AppCompatActivity {
 
     private void setEvent() {
 
-//        // listview 스크롤 문제 해결
-//        list_awards.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                scrollView.requestDisallowInterceptTouchEvent(true);
-//                return false;
-//            }
-//        });
-//
-//        // listview 스크롤 문제 해결
-//        list_n_awards.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                scrollView.requestDisallowInterceptTouchEvent(true);
-//                return false;
-//            }
-//        });
-
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -282,7 +237,7 @@ public class MyAwardsActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(MyAwardsActivity.this);
-            pDialog.setMessage("Getting your data... Please wait...");
+            pDialog.setMessage("내 어워드를 불러오는중입니다");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();

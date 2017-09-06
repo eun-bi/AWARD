@@ -55,11 +55,10 @@ public class MakeAwardActivity3 extends AppCompatActivity {
     
     EditText edit_caption;
     Button btnMakeAward, btnCancel;
-    ToggleButton toggle_align,toggle_fbShare,toggle_keyboard;
+    ToggleButton toggle_keyboard;
 
     InputMethodManager inputMethodManager;
     CallbackManager callbackManager;
-    ShareDialog shareDialog;
 
     String title;
     Uri selPhotoUri;
@@ -76,10 +75,6 @@ public class MakeAwardActivity3 extends AppCompatActivity {
         setContentView(R.layout.activity_make_award3);
         Util.setGlobalFont(this, getWindow().getDecorView()); // font 적용
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-      //  AppEventsLogger.activateApp(this); // facebook 공유기능
-
         initView();
 
         user_id = new SharedPrefereneUtil(getApplicationContext()).getUser_id();
@@ -91,19 +86,8 @@ public class MakeAwardActivity3 extends AppCompatActivity {
         field = intent.getStringExtra("Award_field");
         badge_id = intent.getStringExtra("Award_badge");
 
-        Toast.makeText(MakeAwardActivity3.this,"작품명: " + title ,Toast.LENGTH_SHORT).show();
-//        Toast.makeText(MakeAwardActivity3.this,"이미지: " + selPhotoUri ,Toast.LENGTH_SHORT).show();
-
-        shareDialog = new ShareDialog(this);
-
         setEvent();
         
-    }
-
-    @Override
-     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void setEvent() {
@@ -157,36 +141,6 @@ public class MakeAwardActivity3 extends AppCompatActivity {
             }
         });
 
-        // 왼쪽/가운데 정렬 기능
-        toggle_align.setOnClickListener(new View.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View v) {
-                if(toggle_align.isChecked()){
-                    toggle_align.setBackground(getDrawable(R.drawable.middlesided));
-                    edit_caption.setGravity(Gravity.CENTER_HORIZONTAL);
-                }
-                else{
-                    toggle_align.setBackground(getDrawable(R.drawable.leftsided));
-                    edit_caption.setGravity(Gravity.NO_GRAVITY);
-                }
-            }
-        });
-
-//  facebook share 기능 추후에 추가
-//        toggle_fbShare.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (toggle_fbShare.isChecked()) { // 페이스북 공유 기능
-//                    facebook_share();
-//                    Log.d("페북","공유");
-//                    // toggleButton.setBackgroundDrawable(getDrawable(R.id.);
-//                } else {
-//                    //  toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.com_facebook_button_background));
-//                }
-//            }
-//        });
-
         // 키보드 show/hide 기능
         toggle_keyboard.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -216,25 +170,10 @@ public class MakeAwardActivity3 extends AppCompatActivity {
         inputMethodManager.hideSoftInputFromWindow(toggle_keyboard.getWindowToken(),0);
     }
 
-    private void facebook_share() {
-
-        ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentTitle("AWARD"+title)
-                .setContentDescription(edit_caption.toString())
-                .setImageUrl(selPhotoUri)
-                .build();
-
-
-
-        shareDialog.show(content,ShareDialog.Mode.AUTOMATIC);
-    }
-
     private void initView() {
         edit_caption = (EditText) findViewById(R.id.edit_caption);
         btnCancel = (Button) findViewById(R.id.btnCancel);
         btnMakeAward = (Button) findViewById(R.id.btnMakeAward);
-        toggle_align = (ToggleButton)findViewById(R.id.toggle_align);
-        toggle_fbShare = (ToggleButton)findViewById(R.id.toggle_fbShare);
         toggle_keyboard = (ToggleButton)findViewById(R.id.toggle_keyboard);
         inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
@@ -259,15 +198,6 @@ public class MakeAwardActivity3 extends AppCompatActivity {
 
             try {
 
-//
-//
-//                Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null, null);
-//                c.moveToNext();
-//                String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-
-                if(TextUtils.isEmpty(absolutePath)){
-                    absolutePath = " ";
-                }
 
                 Log.d("absoltePath 실제 경로", absolutePath);
 

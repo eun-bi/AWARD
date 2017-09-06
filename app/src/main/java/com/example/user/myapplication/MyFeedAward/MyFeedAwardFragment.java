@@ -64,7 +64,8 @@ public class MyFeedAwardFragment extends Fragment implements View.OnTouchListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        awardsList = new ArrayList<>();
+
+//        awardsList = new ArrayList<>();
 
         user_id = new SharedPrefereneUtil(getContext()).getUser_id();
         Log.d("user_id",user_id);
@@ -102,6 +103,7 @@ public class MyFeedAwardFragment extends Fragment implements View.OnTouchListene
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        awardsList = new ArrayList<>();
         recycler_adapter = new MyFeedAwardAdapter(getContext(), awardsList, nominates);
         mLinearLayoutManager = new LinearLayoutManager(this.getContext());
         mRecyclerView.setAdapter(recycler_adapter);
@@ -260,11 +262,8 @@ public class MyFeedAwardFragment extends Fragment implements View.OnTouchListene
                 scroll_num --;
                 Log.d("loadList", "func : 비었다");
 
-                // todo 작품등록 안 했을 시 default image 보여주는 fragment 연결
                 mSwipeRefreshLayout.setBackgroundResource(R.drawable.default_feed_img);
 
-//                ListView listView = (ListView) findViewById(R.id.list_myAward);
-                //listView.removeFooterView(listFooter);
                 loadingMore = false;
             }
 //            else if (awardListObj.length() < result_length) {
@@ -280,8 +279,6 @@ public class MyFeedAwardFragment extends Fragment implements View.OnTouchListene
                     MyFeedAward myFeedAward = gson.fromJson(awardInfo, MyFeedAward.class);
                     awardsList.add(myFeedAward);
 
-////                    todo 리사이클러 뷰에 아이템이 늘어나지 않으면 풀어보자
-//                    recycler_adapter.add(myAward);
                 }
                 recycler_adapter.notifyDataSetChanged();
             }

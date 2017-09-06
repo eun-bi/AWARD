@@ -1,5 +1,6 @@
 package com.example.user.myapplication;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.user.myapplication.network.JSONParser;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import org.json.JSONObject;
 
@@ -41,6 +44,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -146,6 +150,7 @@ public class NameSetActivity extends AppCompatActivity {
                 Intent intent = new Intent(NameSetActivity.this, FieldSetActivity.class);
                 startActivity(intent);
                 NameSetActivity.this.finish();
+
             }
         });
 
@@ -159,33 +164,28 @@ public class NameSetActivity extends AppCompatActivity {
         btnImgSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+
+                PermissionListener permissionlistenr = new PermissionListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doTakePhotoAction();
+                    public void onPermissionGranted() {
+                        Log.d("permission","granted");
+                        readAlbum();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                        Log.d("permission","denied");
                     }
                 };
 
-                DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doTakeAlbumAction();
-                    }
-                };
-
-                DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                };
-
-                new AlertDialog.Builder(NameSetActivity.this)
-                        .setTitle("프로필 이미지 선택")
-                        .setPositiveButton("사진촬영", cameraListener)
-                        .setNeutralButton("앨범선택", albumListener)
-                        .setNegativeButton("취소", cancelListener)
-                        .show();
+                TedPermission.with(getApplicationContext())
+                        .setPermissionListener(permissionlistenr)
+                        .setRationaleMessage("AWARD는 저장공간 접근이 필요합니다")
+                        .setDeniedMessage("[설정] > [권한]에서 권한을 허용할 수 있습니다")
+                        .setGotoSettingButton(true)
+                        .setGotoSettingButtonText("설정")
+                        .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .check();
             }
         });
 
@@ -201,18 +201,32 @@ public class NameSetActivity extends AppCompatActivity {
         });
     }
 
-    /* 카메라에서 이미지 */
-    private void doTakePhotoAction() {
+    public void readAlbum() {
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-        mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
+        DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                doTakeAlbumAction();
+            }
+        };
 
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, PICK_FROM_CAMERA);
+        DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        };
+
+
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("이미지 선택")
+                .setNeutralButton("카메라롤에서 선택", albumListener)
+                .setNegativeButton("취소", cancelListener)
+                .show();
+
 
     }
+
 
     /* 앨범에서 이미지 */
     private void doTakeAlbumAction() {

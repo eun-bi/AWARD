@@ -74,8 +74,6 @@ public class LoginActivity extends AppCompatActivity {
     private String user_img_path;
     private String user_name_a;
 
-    private Uri profileUri;
-
     private ViewPager pager;
     private ViewPageDotView viewPageDot;
 
@@ -102,10 +100,13 @@ public class LoginActivity extends AppCompatActivity {
         initView();
         PagerView();
 
+
+        /* permission */
         PermissionListener permissionlistenr = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
                 Log.d("permission","granted");
+                // permisstion이 허용되어야 로그인 가능
                 setEvent();
             }
 
@@ -118,11 +119,11 @@ public class LoginActivity extends AppCompatActivity {
 
         TedPermission.with(this)
                 .setPermissionListener(permissionlistenr)
-                .setRationaleMessage("AWARD는 저장공간과 카메라 접근이 필요합니다")
+                .setRationaleMessage("AWARD는 저장공간 접근이 필요합니다")
                 .setDeniedMessage("[설정] > [권한]에서 권한을 허용할 수 있습니다")
                 .setGotoSettingButton(true)
                 .setGotoSettingButtonText("설정")
-                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
                 .check();
 
         /**카카오톡 로그아웃 요청**/
@@ -411,11 +412,8 @@ public class LoginActivity extends AppCompatActivity {
         JSONParser jsonParser = new JSONParser();
         private static final String LOGIN_URL = Award.AWARD_URL + "Award_server/Award/login_user.jsp";
 
-//        Dialog loadingDialog;
-
         protected void onPreExecute() {
             super.onPreExecute();
-//            loadingDialog = ProgressDialog.show(LoginActivity.this, "Please wait", "Loading...");
         }
 
         @Override
@@ -443,7 +441,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute (JSONObject jsonObject){
-//            loadingDialog.dismiss();
 
             if(new SharedPrefereneUtil(getApplicationContext()).getLoginchk()){
 
@@ -456,7 +453,6 @@ public class LoginActivity extends AppCompatActivity {
                 intent.putExtra("user_name_a", user_name_a);
                 startActivity(intent);
             }
-
 
             LoginActivity.this.finish();
         }

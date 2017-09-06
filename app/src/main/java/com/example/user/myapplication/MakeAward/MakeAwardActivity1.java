@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -76,6 +77,7 @@ public class MakeAwardActivity1 extends AppCompatActivity {
 
 
     private void makeList() {
+
         awardFieldAdapter = new AwardFieldAdapter();
         list_field.setAdapter(awardFieldAdapter);
         list_field.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -123,7 +125,6 @@ public class MakeAwardActivity1 extends AppCompatActivity {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // 텍스트뷰, 리스트뷰의 변화가 아닌 뷰 전체의 변화가 있을 시에 체크하도록
                 if (TextUtils.isEmpty(edit_title.getText())) {
                     btnNext.setEnabled(false);
                     btnNext.setTextColor(ContextCompat.getColorStateList(MakeAwardActivity1.this,R.color.white_40));
@@ -195,6 +196,11 @@ public class MakeAwardActivity1 extends AppCompatActivity {
                     return;
                 }
 
+                if(TextUtils.isEmpty(absolutePath)){
+                    Toast.makeText(getApplicationContext(),"대표 이미지를 등록해주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Intent intent = new Intent(getApplicationContext(), MakeAwardActivity2.class);
                 intent.putExtra("Award_Name", edit_title.getText().toString());
                 intent.putExtra("Award_img", absolutePath);
@@ -229,11 +235,11 @@ public class MakeAwardActivity1 extends AppCompatActivity {
 
                 TedPermission.with(getApplicationContext())
                         .setPermissionListener(permissionlistenr)
-                        .setRationaleMessage("AWARD는 저장공간과 카메라 접근이 필요합니다")
+                        .setRationaleMessage("AWARD는 저장공간 접근이 필요합니다")
                         .setDeniedMessage("[설정] > [권한]에서 권한을 허용할 수 있습니다")
                         .setGotoSettingButton(true)
                         .setGotoSettingButtonText("설정")
-                        .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                        .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
                         .check();
 
             }
@@ -241,15 +247,6 @@ public class MakeAwardActivity1 extends AppCompatActivity {
     }
 
     public void readAlbum() {
-
-
-        DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                doTakePhotoAction();
-            }
-        };
 
         DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
             @Override
@@ -267,26 +264,11 @@ public class MakeAwardActivity1 extends AppCompatActivity {
 
 
         new android.app.AlertDialog.Builder(this)
-                .setTitle(" + ")
-                .setPositiveButton("촬영", cameraListener)
+                .setTitle("이미지 선택")
                 .setNeutralButton("카메라롤에서 선택", albumListener)
                 .setNegativeButton("취소", cancelListener)
                 .show();
 
-
-    }
-
-
-    /* 카메라에서 이미지 */
-    private void doTakePhotoAction() {
-
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-        mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
-
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, PICK_FROM_CAMERA);
 
     }
 
@@ -315,16 +297,24 @@ public class MakeAwardActivity1 extends AppCompatActivity {
 
               if (extras != null) {
 
-                  selPhotoUri = data.getData();
+                  mImageCaptureUri = data.getData();
+                  Log.d("path", mImageCaptureUri.toString());
+
 
                   try {
-                      Bitmap selPhoto = MediaStore.Images.Media.getBitmap(getContentResolver(),selPhotoUri);
-                      btnImg.setImageBitmap(selPhoto);
 
-                      Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null, null);
+
+                      String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                      Cursor c = getContentResolver().query(Uri.parse(mImageCaptureUri.toString()), filePathColumn, null, null, null);
                       c.moveToFirst();
                       absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
                       Log.d("absoltePath 실제 경로", absolutePath);
+
+
+                      Bitmap selPhoto = MediaStore.Images.Media.getBitmap(getContentResolver(),mImageCaptureUri);
+                      btnImg.setImageBitmap(selPhoto);
+
+                      c.close();
 
                     } catch (IOException e) {
                       e.printStackTrace();
@@ -334,11 +324,6 @@ public class MakeAwardActivity1 extends AppCompatActivity {
 
                }
 
-                // 임시 파일 삭제
-                File f = new File(mImageCaptureUri.getPath());
-                if (f.exists()) {
-                    f.delete();
-                }
 
                 break;
             }

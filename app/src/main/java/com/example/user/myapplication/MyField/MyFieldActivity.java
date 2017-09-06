@@ -168,7 +168,7 @@ public class MyFieldActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(MyFieldActivity.this);
-            pDialog.setMessage("Getting your data... Please wait...");
+            pDialog.setMessage("변경 값을 저장중입니다");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();

@@ -166,11 +166,11 @@ public class ImageDetailActivity extends AppCompatActivity {
         protected void onPostExecute(JSONObject jObj) {
 
             if(delete_chk.equalsIgnoreCase("1")) {
-                Toast.makeText(getApplicationContext(), "이미지 삭제 완료", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "이미지 삭제가 완료되었습니다", Toast.LENGTH_SHORT).show();
                 ImageDetailActivity.this.finish();
             }
             else if (delete_chk.equalsIgnoreCase("0")){
-                Toast.makeText(getApplicationContext(), "삭제 실패", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "이미지 삭제가 실패되었습니다", Toast.LENGTH_SHORT).show();
             }
 
         } // AsyncTask 끝

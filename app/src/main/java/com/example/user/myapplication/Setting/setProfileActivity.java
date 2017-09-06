@@ -122,12 +122,12 @@ public class setProfileActivity extends AppCompatActivity {
                 txtChk.setText(" ");
 
                 if(TextUtils.isEmpty(editName.getText())){
-                    btnChk.setEnabled(false);
+//                    btnChk.setEnabled(false);
                     btn_register.setEnabled(false);
                 }
 
                 else {
-                    btnChk.setEnabled(true);
+//                    btnChk.setEnabled(true);
                     btn_register.setEnabled(true);
                 }
             }
@@ -218,7 +218,7 @@ public class setProfileActivity extends AppCompatActivity {
 
                 TedPermission.with(getApplicationContext())
                         .setPermissionListener(permissionlistenr)
-                        .setRationaleMessage("AWARD는 저장공간과 카메라 접근이 필요합니다")
+                        .setRationaleMessage("AWARD는 저장공간 접근이 필요합니다")
                         .setDeniedMessage("[설정] > [권한]에서 권한을 허용할 수 있습니다")
                         .setGotoSettingButton(true)
                         .setGotoSettingButtonText("설정")
@@ -229,15 +229,6 @@ public class setProfileActivity extends AppCompatActivity {
         });
     }
     public void readAlbum() {
-
-
-        DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                doTakePhotoAction();
-            }
-        };
 
         DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
             @Override
@@ -255,26 +246,14 @@ public class setProfileActivity extends AppCompatActivity {
 
 
         new android.app.AlertDialog.Builder(this)
-                .setTitle(" + ")
-                .setPositiveButton("촬영", cameraListener)
+                .setTitle("이미지 선택")
                 .setNeutralButton("카메라롤에서 선택", albumListener)
                 .setNegativeButton("취소", cancelListener)
                 .show();
 
 
     }
-    /* 카메라에서 이미지 */
-    private void doTakePhotoAction() {
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-        mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
-
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, PICK_FROM_CAMERA);
-
-    }
 
     /* 앨범에서 이미지 */
     private void doTakeAlbumAction() {
@@ -416,14 +395,15 @@ public class setProfileActivity extends AppCompatActivity {
             loadingDialog.dismiss();
 
             if(getUser_name.equalsIgnoreCase("1")) {
-                if(new SharedPrefereneUtil(getApplicationContext()).getUser_name() == user_name){
-                    txtChk.setText(user_name);
+                if(new SharedPrefereneUtil(getApplicationContext()).getUser_name().equals(user_name)){
+                    txtChk.setText("닉네임을 그대로 사용합니다");
+                }else{
+                    txtChk.setText("이미 존재하는 닉네임입니다");
                 }
-                txtChk.setText("이미 존재하는 아이디입니다");
 
             }
             else if (getUser_name.equalsIgnoreCase("0")){
-                txtChk.setText("닉네임이" + user_name + "로 변경되었습니다");
+                txtChk.setText("닉네임이" + user_name + " 로 변경되었습니다");
 
             }
 

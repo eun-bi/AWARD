@@ -70,7 +70,8 @@
         <activity
             android:name=".MakeAward.MakeAwardActivity1"
             android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".MakeAward.MakeAwardActivity2"
             android:theme="@style/AppTheme.NoActionBar"

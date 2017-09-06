@@ -11,6 +11,7 @@
         android:layout_height="46dp"
         android:layout_marginRight="19.5dp"
         android:layout_gravity="center_vertical"
+        android:background="@drawable/btn_badge_selector"
         android:id="@+id/imgBadge" />
 
     <LinearLayout
@@ -19,8 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="8"
         android:paddingTop="8dp"
-        android:gravity="center_vertical"
->
+        android:gravity="center_vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,6 +45,7 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_weight="0"
+        android:layout_marginRight="16dp"
         android:layout_gravity="center_vertical"
         android:focusable="false"
         android:clickable="false"

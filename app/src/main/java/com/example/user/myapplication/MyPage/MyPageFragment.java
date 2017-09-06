@@ -44,14 +44,10 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class MyPageFragment extends Fragment{
 
-    private static final String PROFILE_URL = Award.AWARD_URL + "Award_server/Award/mypage.jsp";
-    private static final String IMAGE_URL = Award.IMAGE_URL + "profile";
     private ImageView img_Profile;
     private TextView txtAward_myname;
     private ListView listView_menu;
     private MenuAdapter adapter;
-
-    private JSONObject profile_json;
 
     private String user_name;
     private String user_img_path;
@@ -64,8 +60,6 @@ public class MyPageFragment extends Fragment{
         SharedPrefereneUtil prefereneUtil = new SharedPrefereneUtil(getContext());
         user_name = prefereneUtil.getUser_name();
         user_img_path = prefereneUtil.getUser_img_path();
-
-        Log.d("user_info",user_name + user_img_path);
 
     }
 
@@ -88,8 +82,9 @@ public class MyPageFragment extends Fragment{
         Util.setGlobalFont(getContext(), getActivity().getWindow().getDecorView()); // font 적용
 
         adapter = new MenuAdapter();
-        setProfile_Menu();
         listView_menu.setAdapter(adapter);
+
+        setProfile_Menu();
 
         Glide
                 .with(this)

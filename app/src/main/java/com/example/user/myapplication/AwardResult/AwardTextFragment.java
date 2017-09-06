@@ -89,15 +89,6 @@ public class AwardTextFragment extends Fragment {
 
         txtBadge_name.setText(badge_name);
 
-        Glide
-                .with(this)
-                .load(IMAGE_URL + badge_img_path)
-                .override(100, 100)
-                .fitCenter()
-                .centerCrop()
-                .thumbnail(0.1f)
-                .into(img_badge);
-
     }
 
     private void initView(View rootView) {

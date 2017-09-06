@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -40,9 +41,6 @@ import java.util.concurrent.ExecutionException;
 
 public class NominateActivity extends AppCompatActivity {
 
-    private ScrollView scrollView_nominate;
-    private LinearLayout linear_nominate;
-
     private Button btn_sisang;
     private Button btnBack;
     private Spinner spinner_nominate;
@@ -59,11 +57,10 @@ public class NominateActivity extends AppCompatActivity {
 
     private String nominate_name;
 
-    private ArrayList<String> nominate_title_list;
+
     String nomi_description;
 
     private static final String URL_ = Award.AWARD_URL + "Award_server/Award/nominate.jsp";
-    private static final int NOMINATE = 100;
 
     private final String[] fields = {"영화","드라마","애니메이션","웹툰",
                                     "만화","소설","음악","연극","뮤지컬"};
@@ -89,25 +86,26 @@ public class NominateActivity extends AppCompatActivity {
     private void makeList() {
 
 
-        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(),R.layout.item_spinner, fields);
-//        {
-//
-//            @Override
-//            public View getView(int position, View convertView,  ViewGroup parent) {
-//                View v = super.getView(position,convertView,parent);
-//                Context context = parent.getContext();
-//                Util.setGlobalFont(context, convertView); // font 적용
-//                return v;
-//            }
-//
-//            @Override
-//            public View getDropDownView(int position, View convertView,ViewGroup parent) {
-//                View v = super.getDropDownView(position,convertView,parent);
-//                Context context = parent.getContext();
-//                Util.setGlobalFont(context, convertView); // font 적용
-//                return v;
-//            }
-//        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.item_spinner, fields)
+        {
+
+            @Override
+            public View getView(int position, View convertView,  ViewGroup parent) {
+                View v = super.getView(position,convertView,parent);
+                Typeface mTypeface = Typeface.createFromAsset(getAssets(),"fonts/NanumBarunGothicLight.otf");
+                ((TextView)v).setTypeface(mTypeface);
+                return v;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,ViewGroup parent) {
+                View v = super.getDropDownView(position,convertView,parent);
+                Typeface mTypeface = Typeface.createFromAsset(getAssets(),"fonts/NanumBarunGothicLight.otf");
+                ((TextView)v).setTypeface(mTypeface);
+                return v;
+            }
+        };
+
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinner_nominate.setAdapter(adapter);
 
@@ -260,11 +258,9 @@ public class NominateActivity extends AppCompatActivity {
         spinner_nominate = (Spinner)findViewById(R.id.spinner_nominate);
         list_nominate = (ListView)findViewById(R.id.list_nominate);
         txtNominate_tag = (TextView)findViewById(R.id.txtNominate_tag);
-//        scrollView_nominate = (ScrollView)findViewById(R.id.scrollView_nominate);
 
     }
 
-    // badgelist를 불러옴
     class GetNominate extends AsyncTask<String, String, JSONObject> {
 
         JSONParser jsonParser = new JSONParser();

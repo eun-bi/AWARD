@@ -213,7 +213,7 @@ public class ImageSelectActivity extends AppCompatActivity {
 
         protected void onPreExecute() {
             super.onPreExecute();
-            loadingDialog = ProgressDialog.show(ImageSelectActivity.this, "Please wait", "Loading...");
+            loadingDialog = ProgressDialog.show(ImageSelectActivity.this, "AWARD", "이미지 추가중");
         }
 
         @Override
@@ -249,6 +249,7 @@ public class ImageSelectActivity extends AppCompatActivity {
                         conn.setDoInput(true);
                         conn.setDoOutput(true);
                         conn.setUseCaches(false);
+                        conn.setConnectTimeout(500000);
                         conn.setRequestMethod("POST");
                         conn.setRequestProperty("Connection", "Keep-Alive");
                         conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);

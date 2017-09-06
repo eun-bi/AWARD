@@ -23,6 +23,7 @@
                 android:layout_width="85dp"
                 android:layout_height="85dp"
                 android:layout_marginBottom="30dp"
+                android:background="@drawable/profile_default"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/img_Profile" />
 
@@ -30,7 +31,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#ffffff"
-                android:text="__userId"
                 android:textSize="20.3sp"
                 android:id="@+id/txtAward_myname" />
 

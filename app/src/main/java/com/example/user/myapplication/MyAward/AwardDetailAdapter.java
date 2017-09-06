@@ -71,23 +71,12 @@ public class AwardDetailAdapter extends BaseAdapter {
                 .fitCenter()
                 .centerCrop()
                 .crossFade()
-                .thumbnail(0.1f)
                 .into(img_award);
 
         txtAward_title.setText(awardDetail.getTxtAward_title());
         txtAward_date.setText(awardDetail.getTxtAward_date());
 
         convertView.setTag(position);
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(context, AwardResultActivity.class);
-//                intent.putExtra("award_id", awardDetail.getAward_id());
-//                intent.putExtra("award_next","0");
-//                Log.d("award_id", awardDetaillist.get(position).getAward_id());
-//                context.startActivity(intent);
-            }
-        });
 
         return convertView;
     }

@@ -295,8 +295,6 @@ public class MyFeedAwardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             view.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                    Toast.makeText(mContext, str, Toast.LENGTH_LONG).show();
-
                     Intent intent = new Intent(mContext, NominateActivity.class);
                     mContext.startActivity(intent);
                 }

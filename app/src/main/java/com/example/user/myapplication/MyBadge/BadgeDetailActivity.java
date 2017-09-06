@@ -59,8 +59,6 @@ public class BadgeDetailActivity extends AppCompatActivity {
     private JSONObject badges_detail_json;
     private String badges_item_list;
 
-    private static final String badge_icon_url = Award.IMAGE_URL + "badge_icon/";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +66,6 @@ public class BadgeDetailActivity extends AppCompatActivity {
         Util.setGlobalFont(this, getWindow().getDecorView()); // font 적용
 
         initView();
-        //       new BadgeDetailAsync().execute();
         makeList();
         setEvent();
     }
@@ -157,15 +154,6 @@ public class BadgeDetailActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(JSONObject jObj) {
-
-            Glide
-                    .with(BadgeDetailActivity.this)
-                    .load(badge_icon_url + badge_icon)
-                    .override(100, 100)
-                    .fitCenter()
-                    .centerCrop()
-                    .thumbnail(0.1f)
-                    .into(img_badge);
 
             txtBadge_explain.setText(badge_tag);
             txtAward_num.setText(award_num);

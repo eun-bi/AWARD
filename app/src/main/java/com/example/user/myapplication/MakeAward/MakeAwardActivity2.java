@@ -204,7 +204,7 @@ public class MakeAwardActivity2 extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(MakeAwardActivity2.this);
-            pDialog.setMessage("Getting your data... Please wait...");
+            pDialog.setMessage("뱃지 목록을 불러오는중입니다");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();

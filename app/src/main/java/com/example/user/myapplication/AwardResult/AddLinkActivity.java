@@ -26,7 +26,6 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.example.user.myapplication.Award;
-import com.example.user.myapplication.BaseActivity;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.SharedPrefereneUtil;
 import com.example.user.myapplication.Util;

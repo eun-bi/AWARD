@@ -27,12 +27,10 @@ public class FieldSetActivity extends AppCompatActivity {
 
     Button btnFieldSet, btnBack;
     ToggleButton btnMovie, btnAni, btnDrama, btnNovel, btnMusical,btnPlay, btnComic, btnWebtoon;
-    boolean flag = false;
 
     String user_id;
     String user_img_path;
     String user_name;
-    String field_name;
 
    ArrayList<String> fieldList = new ArrayList<String>();
 
@@ -54,7 +52,6 @@ public class FieldSetActivity extends AppCompatActivity {
         user_img_path = prefereneUtil.getUser_img_path();
         user_id = prefereneUtil.getUser_id();
 
-        Log.d("imgpath",user_img_path);
     }
 
     private void setEvent() {
@@ -215,11 +212,8 @@ public class FieldSetActivity extends AppCompatActivity {
         JSONParser jsonParser = new JSONParser();
         private static final String URL = Award.AWARD_URL + "Award_server/Award/login_interested.jsp";
 
-        Dialog loadingDialog;
-
         protected void onPreExecute() {
             super.onPreExecute();
-            loadingDialog = ProgressDialog.show(FieldSetActivity.this, "Please wait", "Loading...");
         }
 
         @Override
@@ -264,7 +258,6 @@ public class FieldSetActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute (JSONObject jsonObject){
-            loadingDialog.dismiss();
 
             Intent intent = new Intent(FieldSetActivity.this, MainActivity.class);
             startActivity(intent);

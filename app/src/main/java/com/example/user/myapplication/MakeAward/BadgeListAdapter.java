@@ -23,7 +23,6 @@ import java.util.ArrayList;
  */
 public class BadgeListAdapter extends ArrayAdapter<AwardBadge> {
 
-    private final static String IMAGE_URL = Award.IMAGE_URL + "badge_icon/";
     private ArrayList<AwardBadge> badge = null;
     Context mContext;
     LayoutInflater mlayoutinflater;
@@ -71,18 +70,8 @@ public class BadgeListAdapter extends ArrayAdapter<AwardBadge> {
         CheckBox chkBadge = (CheckBox)convertView.findViewById(R.id.chkBadge);
         AwardBadge mybadge = this.badge.get(position);
 
-        Glide
-                .with(mContext)
-                .load(IMAGE_URL + mybadge.getBadge_icon())
-                .override(100, 100)
-                .fitCenter()
-                .centerCrop()
-                .thumbnail(0.1f)
-                .into(viewHolder.imgBadge);
-
         viewHolder.txtBadge.setText(mybadge.getBadge_name());
         viewHolder.txtBadge_explain.setText(mybadge.getBadge_tag());
-
 
         chkBadge.setChecked(((ListView) parent).isItemChecked(position));
         chkBadge.setFocusable(false);

@@ -23,14 +23,14 @@
             android:fitsSystemWindows="true">
             <Button
                 android:id="@+id/btn_back"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:fitsSystemWindows="true"
                 android:background="@drawable/back" />
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:layout_height="54dp">
 
             </android.support.v7.widget.Toolbar>
 

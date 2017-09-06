@@ -83,48 +83,24 @@
     </LinearLayout>
 
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="bottom"
         android:background="#131313">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="8">
-
-            <ToggleButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="2dp"
-                android:textOn=""
-                android:textOff=""
-                android:background="@drawable/leftsided"
-                android:id="@+id/toggle_align" />
-        </LinearLayout>
 
         <ToggleButton
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_weight="0"
-            android:textOn=""
-            android:textOff=""
-            android:background="@drawable/facebook"
-            android:id="@+id/toggle_fbShare" />
-
-        <ToggleButton
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_weight="0"
+            android:layout_alignParentRight="true"
             android:textOn=""
             android:textOff=""
             android:background="@drawable/typeshowdown"
             android:id="@+id/toggle_keyboard" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>
